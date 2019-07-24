@@ -6,6 +6,9 @@
 
 1) https://visualgo.net/en  : 자료구조와 알고리즘을 간단한 그림과 영상으로 보여줌. -> 교육용으로 나쁘지 않음.
 2) https://github.com/algorithm-visualizer/algorithm-visualizer
+![2019-07-22T18_01_19](https://user-images.githubusercontent.com/31847834/61766437-cf7df800-ae1b-11e9-9901-b405475e20c0.png)
+
+예시 이미지
 3) https://www.slideshare.net/Sn0wLe0pard/ipytracer
 
 ## - 팀프로젝트 관리 서비스
