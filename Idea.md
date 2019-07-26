@@ -20,5 +20,16 @@
 
 (직접 타이핑으로 팀구성을 하는 것은 이 서비스의 메인 기능으로서 중요도 없어보인다.)
 
+`참고자료`
+
+1) https://taskworld.com/ko/project-management/?utm_source=Google&utm_medium=Search&utm_campaign=Korean%20PM&gclid=Cj0KCQjwyerpBRD9ARIsAH-ITn8t1AbSEiH_IqojA05fMkIqhlsKUbRDV3s-mfKZ-Aa-xnwIRI59PNUaAgOeEALw_wcB : 테스크월드
+
+
 ### - 와이파이 리마인더
+
 - 와이파이 연결되면 리마인더 표기
+
+Ex) 학교와이파이 주소, 집 와이파이 주소, 카페 와이파이 주소 등 현재 연결 중이 와이파이로 구분지어 다음에 할일을 메모.
+집 와이파이에서 -> '과제를 한다', '빨래를 한다' 등 그 후 집에 도착하고 와이파이 연결하자마자 리마인더 알림이 뜬다. **시간에 구애받지않고 반자동적으로** 알림을 받을 수 있음.
+<-> 기존 갤럭시 리마인더는 본인이 직접 시간을 택하거나 장소를 택해야함.
+
