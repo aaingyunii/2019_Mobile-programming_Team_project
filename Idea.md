@@ -21,7 +21,7 @@
 ### - 팀프로젝트 관리 서비스
  - nfc 모여서 출결, 관리자&팀 소통
 각자 역할로 팀구성 가능 (파티)
- - 화면 공유 시스템(ppt 공유해서 동시 필기)
+ - 화면 공유 시스템(ppt 공유해서 동시 필기) or **주체자 컴퓨터 화면을 나머지에게 공유**
 
  - 모임 1시간 전부터 GPS로 현재 위치 표기해서 위치 파악 가능
 
@@ -35,6 +35,8 @@
 
 1) https://taskworld.com/ko/project-management/?utm_source=Google&utm_medium=Search&utm_campaign=Korean%20PM&gclid=Cj0KCQjwyerpBRD9ARIsAH-ITn8t1AbSEiH_IqojA05fMkIqhlsKUbRDV3s-mfKZ-Aa-xnwIRI59PNUaAgOeEALw_wcB : 테스크월드
 
+2) https://www.hanium.or.kr/portal/project/awardView.do 
+: 2017 한이음 공모전 금상 수상작, SNS와 클라우드를 이용해 실시간 협업스터디 어플리케이션, **협업스터디** 라는 점을 고려
 
 ### - 와이파이 리마인더
 
