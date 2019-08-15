@@ -103,6 +103,9 @@ But , 이용자들의 노력이 필요하고 다수가 목적지 입력없이 �
 - 컴파일 기능에 대해서는 차후 고려
 
 `참고자료`
+
 https://play.google.com/store/apps/details?id=com.duy.compiler.javanide&hl=ko
+
+: 기존 아이디어와 매우 흡사 
 
 https://play.google.com/store/apps/details?id=com.aor.droidedit&hl=ko
