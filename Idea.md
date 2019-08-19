@@ -109,3 +109,9 @@ https://play.google.com/store/apps/details?id=com.duy.compiler.javanide&hl=ko
 : 기존 아이디어와 매우 흡사 
 
 https://play.google.com/store/apps/details?id=com.aor.droidedit&hl=ko
+
+## - 공동 결제를 도와주는 앱
+
+- 넷플릭스 계정 공유 플랫폼처럼 월정액으로 프리미엄 구매를 통해 여러 사람들과 나눠 쓰는 것의 금액 결제를 도와주는 어플
+
+- 더치페이와 비슷한 유형, 그러나 월정액으로 결제된다는 것에서 결제일에 자동으로 알림과 출금이 
