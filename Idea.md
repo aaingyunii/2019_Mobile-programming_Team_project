@@ -130,3 +130,14 @@ https://play.google.com/store/apps/details?id=com.aor.droidedit&hl=ko
 
 - 지니, 멜론, 유튜브 등과 같이 정기권 구입이 필요한 경우 혼자 구매할 때 부담될 때,
 다른 사람과 같이 구매 후 ID 공유 : 결제 공유 앱 사용
+
+`참고 자료`
+
+https://play.google.com/store/apps/details?id=com.enoo.godutch&hl=ko
+
+: 총무 더치페이 앱. 회식 같은 자리에서 사용할 수 있음. 결제내역(월,일,시간 표기 + 금액)과 계좌 정보를 입력 후
+
+클립보드로 복사 후 공유하는 시스템. 앱 자체내의 공유보다는 외부 앱을 이용해 공유. `아래 이미지 참고`
+
+
+![KakaoTalk_20190824_160746184](https://user-images.githubusercontent.com/31847834/63633864-00a34f80-c68a-11e9-8706-c766dfa25f9d.jpg)
