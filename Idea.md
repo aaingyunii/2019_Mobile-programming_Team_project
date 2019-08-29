@@ -144,4 +144,4 @@ https://play.google.com/store/apps/details?id=com.enoo.godutch&hl=ko
 
 - 결제일 되면 구성원한테 메세지 폼전송
 
-- 
+- 현황알림
