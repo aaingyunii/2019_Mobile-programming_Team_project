@@ -141,3 +141,7 @@ https://play.google.com/store/apps/details?id=com.enoo.godutch&hl=ko
 
 
 ![KakaoTalk_20190824_160746184](https://user-images.githubusercontent.com/31847834/63633864-00a34f80-c68a-11e9-8706-c766dfa25f9d.jpg)
+
+- 결제일 되면 구성원한테 메세지 폼전송
+
+- 
