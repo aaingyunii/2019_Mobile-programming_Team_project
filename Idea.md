@@ -2,7 +2,7 @@
 ### - 메세지 통합 앱
 - 카카오톡, 페이스북 메신저, 인스타그램, Slack 등 각 메신저 앱의 알림을 한번에 받아 읽고 답장할 수 있는 앱
 
-####오픈소스
+#### 오픈소스
 ##### floating view
 - https://kmshack.github.io/AndroidUICollection/2019/02/07/FloatingView/
 ##### floating action
