@@ -1,7 +1,15 @@
 # 확정 아이디어
 ### - 메세지 통합 앱
 - 카카오톡, 페이스북 메신저, 인스타그램, Slack 등 각 메신저 앱의 알림을 한번에 받아 읽고 답장할 수 있는 앱
-
+####오픈소스
+##### floating view
+- https://kmshack.github.io/AndroidUICollection/2019/02/07/FloatingView/
+##### floating action
+-https://github.com/SaeedMasoumi/FAB-Loading
+##### floating animation
+-https://github.com/txusballesteros/bubbles-for-android
+##### notification listner code
+-https://codechacha.com/ko/notification-listener/
 # 초기 아이디어 탑3
 ### - 알고리즘 분석기
 
