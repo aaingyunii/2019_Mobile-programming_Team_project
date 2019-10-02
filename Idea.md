@@ -5,11 +5,11 @@
 ##### floating view
 - https://kmshack.github.io/AndroidUICollection/2019/02/07/FloatingView/
 ##### floating action
--https://github.com/SaeedMasoumi/FAB-Loading
+- https://github.com/SaeedMasoumi/FAB-Loading
 ##### floating animation
--https://github.com/txusballesteros/bubbles-for-android
+- https://github.com/txusballesteros/bubbles-for-android
 ##### notification listner code
--https://codechacha.com/ko/notification-listener/
+- https://codechacha.com/ko/notification-listener/
 # 초기 아이디어 탑3
 ### - 알고리즘 분석기
 
