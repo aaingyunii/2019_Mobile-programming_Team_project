@@ -6,7 +6,7 @@
     <string name="mail_content_title">Demo Customize: active</string>
     <string name="chathead_click_message">Click</string>
     <string name="delete_demo">Delete Demo</string>
-    <string name="show_demo">Show Simple FloatingView</string>
+    <string name="start">Start!</string>
     <string name="show_customized_demo">Show Customized FloatingView</string>
     <string name="show_settings">Initial Settings</string>
     <string name="permission_denied">Overlay permission not granted.</string>

@@ -68,7 +68,7 @@ public class FloatingViewControlFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_floating_view_control, container, false);
         // デモの表示
-        rootView.findViewById(R.id.show_demo).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.float_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFloatingView(getActivity(), true, false);
