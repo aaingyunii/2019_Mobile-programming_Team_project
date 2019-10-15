@@ -1,4 +1,0 @@
-<manifest package="com.example.munmo.android.floatingview"
-          xmlns:tools="http://schemas.android.com/tools">
-    <uses-sdk tools:overrideLibrary="android.support.dynamicanimation" />
-</manifest>
