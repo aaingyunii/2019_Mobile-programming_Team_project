@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
-    private FloatingActionButton fab, fab1, fab2;
+    private FloatingActionButton fab, facebook, kakao, instagram;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +26,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
-        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        facebook = (FloatingActionButton) findViewById(R.id.fab1);
+        kakao = (FloatingActionButton) findViewById(R.id.fab2);
+        instagram = (FloatingActionButton) findViewById(R.id.fab3);
 
         fab.setOnClickListener(this);
-        fab1.setOnClickListener(this);
-        fab2.setOnClickListener(this);
+        facebook.setOnClickListener(this);
+        kakao.setOnClickListener(this);
+        instagram.setOnClickListener(this);
     }
 
 
@@ -44,12 +46,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Floating Action Button", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.fab1:
-                anim();
-                Toast.makeText(this, "Button1", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "facebook", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.fab2:
-                anim();
-                Toast.makeText(this, "Button2", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "kakao", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.fab3:
+                Toast.makeText(this,"instagram",Toast.LENGTH_SHORT).show();
                 break;
         }
 
@@ -59,16 +62,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void anim() {
 
         if (isFabOpen) {
-            fab1.startAnimation(fab_close);
-            fab2.startAnimation(fab_close);
-            fab1.setClickable(false);
-            fab2.setClickable(false);
+            facebook.startAnimation(fab_close);
+            kakao.startAnimation(fab_close);
+            instagram.startAnimation(fab_close);
+
+            facebook.setClickable(false);
+            kakao.setClickable(false);
+            instagram.setClickable(false);
+
             isFabOpen = false;
         } else {
-            fab1.startAnimation(fab_open);
-            fab2.startAnimation(fab_open);
-            fab1.setClickable(true);
-            fab2.setClickable(true);
+            facebook.startAnimation(fab_open);
+            kakao.startAnimation(fab_open);
+            instagram.startAnimation(fab_open);
+
+            facebook.setClickable(true);
+            kakao.setClickable(true);
+            instagram.setClickable(true);
+
             isFabOpen = true;
         }
     }
