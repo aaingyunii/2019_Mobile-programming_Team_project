@@ -7,12 +7,12 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import com.example.munmo.floatingview.R;
 
 /**
- * FloatingViewの設定を行います。
+ * Configure FloatingView Settings。
  */
 public class FloatingViewSettingsFragment extends PreferenceFragmentCompat {
 
     /**
-     * FloatingViewSettingsFragmentを生成します。
+     * Generate FloatingViewSettingsFragment。
      *
      * @return FloatingViewSettingsFragment
      */
@@ -22,7 +22,7 @@ public class FloatingViewSettingsFragment extends PreferenceFragmentCompat {
     }
 
     /**
-     * コンストラクタ
+     * construct
      */
     public FloatingViewSettingsFragment() {
         // Required empty public constructor

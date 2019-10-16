@@ -54,29 +54,29 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 
 /**
- * フローティングViewを表すクラスです。
+ * Classes that represent floating views。
  * http://stackoverflow.com/questions/18503050/how-to-create-draggabble-system-alert-in-android
  * FIXME:Nexus5＋YouTubeアプリの場合にナビゲーションバーよりも前面に出てきてしまう
  */
 class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawListener {
 
     /**
-     * 押下時の拡大率
+     Pressing Scaling Rate
      */
     private static final float SCALE_PRESSED = 0.9f;
 
     /**
-     * 通常時の拡大率
+     * normal expansion rate
      */
     private static final float SCALE_NORMAL = 1.0f;
 
     /**
-     * 画面端移動アニメーションの時間
+     * end-of-screen animation time
      */
     private static final long MOVE_TO_EDGE_DURATION = 450L;
 
     /**
-     * 画面端移動アニメーションの係数
+     * edge-motion animation coefficient
      */
     private static final float MOVE_TO_EDGE_OVERSHOOT_TENSION = 1.25f;
 
@@ -106,17 +106,17 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
     private static final int CURRENT_VELOCITY_UNITS = 1000;
 
     /**
-     * 通常状態
+     * normal state
      */
     static final int STATE_NORMAL = 0;
 
     /**
-     * 重なり状態
+     * overlapping state
      */
     static final int STATE_INTERSECTING = 1;
 
     /**
-     * 終了状態
+     * termination state
      */
     static final int STATE_FINISHING = 2;
 
@@ -129,7 +129,8 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
     }
 
     /**
-     * 長押し判定とする時間(移動操作も考慮して通常の1.5倍)
+     * Time to make a long press decision
+     * (one and a half times more than usual considering moving operation)
      */
     private static final int LONG_PRESS_TIMEOUT = (int) (1.5f * ViewConfiguration.getLongPressTimeout());
 
@@ -149,12 +150,12 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
     private static final float THROW_THRESHOLD_SCALE_DOWN_VALUE = 9;
 
     /**
-     * デフォルトのX座標を表す値
+     * Default X-coordinate value
      */
     static final int DEFAULT_X = Integer.MIN_VALUE;
 
     /**
-     * デフォルトのY座標を表す値
+     * Default Y-coordinate value
      */
     static final int DEFAULT_Y = Integer.MIN_VALUE;
 
@@ -224,45 +225,45 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
     private final DisplayMetrics mMetrics;
 
     /**
-     * 押下処理を通過しているかチェックするための時間
+     * Time to check if the press process has passed
      */
     private long mTouchDownTime;
 
     /**
-     * スクリーン押下X座標(移動量判定用)
+     * Screen press X coordinates (for determining the amount of movement)
      */
     private float mScreenTouchDownX;
     /**
-     * スクリーン押下Y座標(移動量判定用)
+     * Screen press Y coordinates (for determining the amount of movement)
      */
     private float mScreenTouchDownY;
     /**
-     * 一度移動を始めたフラグ
+     * a flag that has started moving
      */
     private boolean mIsMoveAccept;
 
     /**
-     * スクリーンのタッチX座標
+     * screen touch X coordinates
      */
     private float mScreenTouchX;
     /**
-     * スクリーンのタッチY座標
+     * screen touch Y coordinates
      */
     private float mScreenTouchY;
     /**
-     * ローカルのタッチX座標
+     * Local Touch X-coordinate
      */
     private float mLocalTouchX;
     /**
-     * ローカルのタッチY座標
+     * Local Touch Y-coordinate
      */
     private float mLocalTouchY;
     /**
-     * 初期表示のX座標
+     * initial X-coordinate
      */
     private int mInitX;
     /**
-     * 初期表示のY座標
+     * initial Y-coordinate
      */
     private int mInitY;
 
@@ -657,9 +658,11 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
 
         if (!isHideNavigationBar) {
             // auto hide navigation bar
-            // 他デバイスとの矛盾をもとに推測する
-            // 1.デバイスに組み込まれたナビゲーションバー（mBaseNavigationBarHeight == 0）はシステムの状態によって高さに差が発生しない
-            // 2.デバイスに組み込まれたナビゲーションバー(!hasSoftNavigationBar)は意図的にBaseを0にしているので、矛盾している
+            // Estimate based on conflicts with other devices
+            // 1. The navigation bar (mBaseNavigationBarHeight = = 0) built into
+            // the device does not vary in height depending on the state of the system.
+            // 2. The navigation bar built into the device.(!hasSoftNavigationBar)
+            // It is contradictory because deliberately zeroes the base.
             if (navigationBarVerticalDiff != 0 && mBaseNavigationBarHeight == 0 ||
                     !hasSoftNavigationBar && mBaseNavigationBarHeight != 0) {
                 if (hasSoftNavigationBar) {
