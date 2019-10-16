@@ -1,6 +1,11 @@
 package com.example.floattest;
 
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -16,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
     private FloatingActionButton fab, facebook, kakao, instagram;
+    private Boolean isPopupOpen = false;
+    private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +51,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.fab:
                 anim();
                 Toast.makeText(this, "Floating Action Button", Toast.LENGTH_SHORT).show();
+                checkPermission();
                 break;
             case R.id.fab1:
                 Toast.makeText(this, "facebook", Toast.LENGTH_SHORT).show();
+                showPopup();
                 break;
             case R.id.fab2:
                 Toast.makeText(this, "kakao", Toast.LENGTH_SHORT).show();
+                showPopup();
                 break;
             case R.id.fab3:
                 Toast.makeText(this,"instagram",Toast.LENGTH_SHORT).show();
+                showPopup();
                 break;
         }
 
@@ -83,4 +94,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             isFabOpen = true;
         }
     }
+    //check permission
+    public void checkPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   // 마시멜로우 이상일 경우
+            if (!Settings.canDrawOverlays(this)) {              // 체크
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
+            }
+        }
+    }
+
+    //show popup window
+    public void showPopup(){
+        if(isPopupOpen == false){
+            startService(new Intent(MainActivity.this,PopupWindow.class));
+            isPopupOpen = true;
+        }else{
+            stopService(new Intent(MainActivity.this,PopupWindow.class));
+            isPopupOpen = false;
+        }
+
+    }
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
+            if (!Settings.canDrawOverlays(this)) {
+                // TODO 동의를 얻지 못했을 경우의 처리
+            }
+            else {
+                startService(new Intent(MainActivity.this, PopupWindow.class));
+            }
+        }
+    }
+
 }
