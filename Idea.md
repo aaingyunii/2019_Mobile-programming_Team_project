@@ -11,6 +11,9 @@
 - https://github.com/txusballesteros/bubbles-for-android
 ##### notification listner code
 - https://codechacha.com/ko/notification-listener/
+##### app icon badge
+- http://son10001.blogspot.com/2016/02/android-studio-android-viewbadger-jar.html
+
 # 초기 아이디어 탑3
 ### - 알고리즘 분석기
 
