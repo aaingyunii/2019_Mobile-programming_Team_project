@@ -23,7 +23,7 @@ import android.view.WindowManager;
 import com.example.munmo.floatingview.R;
 import com.example.munmo.android.floatingview.FloatingViewManager;
 import com.example.munmo.sample.service.ChatHeadService;
-import com.example.munmo.sample.service.CustomFloatingViewService;
+
 
 
 /**
@@ -74,14 +74,7 @@ public class FloatingViewControlFragment extends Fragment {
                 showFloatingView(getActivity(), true, false);
             }
         });
-        // View Customized Demos
-       /* rootView.findViewById(R.id.show_customized_demo).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFloatingView(getActivity(), true, true);
-            }
-        });
-        */
+
         // Displaying the Configuration Screen
         rootView.findViewById(R.id.show_settings).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,19 +107,18 @@ public class FloatingViewControlFragment extends Fragment {
      *
      * @param context                 Context
      * @param isShowOverlayPermission Flag that displays screen permissions when it cannot be displayed
-     * @param isCustomFloatingView    If true, it launches CustomFloatingViewService.
      */
     @SuppressLint("NewApi")
     private void showFloatingView(Context context, boolean isShowOverlayPermission, boolean isCustomFloatingView) {
         // Check for API22 or lower
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            startFloatingViewService(getActivity(), isCustomFloatingView);
+            startFloatingViewService(getActivity());
             return;
         }
 
         // Check if it can be displayed on top of other apps
         if (Settings.canDrawOverlays(context)) {
-            startFloatingViewService(getActivity(), isCustomFloatingView);
+            startFloatingViewService(getActivity());
             return;
         }
 
@@ -140,11 +132,11 @@ public class FloatingViewControlFragment extends Fragment {
     /**
      * Start floating view service
      *
-     * @param activity             {@link Activity}
-     * @param isCustomFloatingView If true, it launches CustomFloatingViewService.
+     * @param activity  {@link Activity}
      */
-    private static void startFloatingViewService(Activity activity, boolean isCustomFloatingView) {
+    private static void startFloatingViewService(Activity activity) {
         // *** You must follow these rules when obtain the cutout(FloatingViewManager.findCutoutSafeArea) ***
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             // 1. 'windowLayoutInDisplayCutoutMode' do not be set to 'never'
             if (activity.getWindow().getAttributes().layoutInDisplayCutoutMode == WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER) {
@@ -159,13 +151,9 @@ public class FloatingViewControlFragment extends Fragment {
         // launch service
         final Class<? extends Service> service;
         final String key;
-        if (isCustomFloatingView) {
-            service = CustomFloatingViewService.class;
-            key = CustomFloatingViewService.EXTRA_CUTOUT_SAFE_AREA;
-        } else {
-            service = ChatHeadService.class;
-            key = ChatHeadService.EXTRA_CUTOUT_SAFE_AREA;
-        }
+        service = ChatHeadService.class;
+        key = ChatHeadService.EXTRA_CUTOUT_SAFE_AREA;
+
         final Intent intent = new Intent(activity, service);
         intent.putExtra(key, FloatingViewManager.findCutoutSafeArea(activity));
         ContextCompat.startForegroundService(activity, intent);

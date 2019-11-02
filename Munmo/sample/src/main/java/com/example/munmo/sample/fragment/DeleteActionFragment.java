@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.munmo.floatingview.R;
-import com.example.munmo.sample.service.CustomFloatingViewService;
+import com.example.munmo.sample.service.ChatHeadService;
 
 
 /**
@@ -48,7 +48,7 @@ public class DeleteActionFragment extends Fragment {
             public void onClick(View v) {
                 // Easy way to delete a service
                 final Activity activity = getActivity();
-                activity.stopService(new Intent(activity, CustomFloatingViewService.class));
+                activity.stopService(new Intent(activity, ChatHeadService.class));
             }
         });
         return rootView;
