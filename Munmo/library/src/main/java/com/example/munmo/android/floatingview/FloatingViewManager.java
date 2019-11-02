@@ -520,7 +520,6 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         final FloatingView floatingView = new FloatingView(mContext);
         floatingView.setInitCoords(options.floatingViewX, options.floatingViewY);
         floatingView.setOnTouchListener(this);
-//        floatingView.setShape(options.shape);
         floatingView.setOverMargin(options.overMargin);
         floatingView.setMoveDirection(options.moveDirection);
         floatingView.usePhysics(options.usePhysics);
@@ -649,7 +648,7 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         public int overMargin;
 
         /**
-         * 画面左下を原点とするFloatingViewのX座標
+         * X-coordinate of FloatingView from the bottom left corner of the screen
          */
         public int floatingViewX;
 
@@ -689,7 +688,6 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
          * Set optional default values
          */
         public Options() {
-//            shape = SHAPE_CIRCLE;
             overMargin = 0;
             floatingViewX = FloatingView.DEFAULT_X;
             floatingViewY = FloatingView.DEFAULT_Y;

@@ -570,6 +570,7 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
      * @param isPortrait          If true, the device orientation is portrait
      * @param windowRect          {@link Rect} of system window
      */
+
     void onUpdateSystemLayout(boolean isHideStatusBar, boolean isHideNavigationBar, boolean isPortrait, Rect windowRect) {
         // status bar
         updateStatusBarHeight(isHideStatusBar, isPortrait);
@@ -645,6 +646,7 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
         int currentNavigationBarWidth = 0;
         int navigationBarVerticalDiff = 0;
         final boolean hasSoftNavigationBar = hasSoftNavigationBar();
+
         // auto hide navigation bar(Galaxy S8, S9 and so on.)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             final DisplayMetrics realDisplayMetrics = new DisplayMetrics();
@@ -700,12 +702,12 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
         } else {
             mNavigationBarVerticalOffset = 0;
             // auto hide navigation bar
-            // 他デバイスとの矛盾をもとに推測する
-            // 1.デバイスに組み込まれたナビゲーションバー(!hasSoftNavigationBar)は、意図的にBaseを0にしているので、矛盾している
+            // guess from inconsistencies with other devices
+            // 1.navigation bar built into the device(!hasSoftNavigationBar)is contradictory because deliberately zeroes the base.
             if (!hasSoftNavigationBar && mBaseNavigationBarRotatedHeight != 0) {
                 mNavigationBarHorizontalOffset = 0;
             } else if (hasSoftNavigationBar && mBaseNavigationBarRotatedHeight == 0) {
-                // 2.ソフトナビゲーションバーの場合、Baseが設定されるため矛盾している
+                // 2.Soft Navigation Bar, Conflicting due to Base Configuration
                 mNavigationBarHorizontalOffset = currentNavigationBarWidth;
             } else {
                 mNavigationBarHorizontalOffset = mBaseNavigationBarRotatedHeight;
@@ -731,18 +733,18 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
     private void refreshLimitRect() {
         cancelAnimation();
 
-        // 前の画面座標を保存
+        // Save previous screen coordinates
         final int oldPositionLimitWidth = mPositionLimitRect.width();
         final int oldPositionLimitHeight = mPositionLimitRect.height();
 
-        // 新しい座標情報に切替
+        // Switch to new coordinate information
         mWindowManager.getDefaultDisplay().getMetrics(mMetrics);
         final int width = getMeasuredWidth();
         final int height = getMeasuredHeight();
         final int newScreenWidth = mMetrics.widthPixels;
         final int newScreenHeight = mMetrics.heightPixels;
 
-        // 移動範囲の設定
+        // Configuring the Range of Movements
         mMoveLimitRect.set(-width, -height * 2, newScreenWidth + width + mNavigationBarHorizontalOffset, newScreenHeight + height + mNavigationBarVerticalOffset);
         mPositionLimitRect.set(-mOverMargin, 0, newScreenWidth - width + mOverMargin + mNavigationBarHorizontalOffset, newScreenHeight - mStatusBarHeight - height + mNavigationBarVerticalOffset);
 
@@ -936,7 +938,7 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
      */
     private void onLongClick() {
         mIsLongPressed = true;
-        // 長押し処理
+        // long-press treatment
         final int size = getChildCount();
         for (int i = 0; i < size; i++) {
             getChildAt(i).performLongClick();
