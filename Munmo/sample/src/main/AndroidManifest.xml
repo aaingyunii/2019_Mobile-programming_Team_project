@@ -32,10 +32,7 @@
         <service
             android:name="com.example.munmo.sample.service.ChatHeadService"
             android:exported="false" />
-        <!-- Custom Demo Viewing Service -->
-        <service
-            android:name="com.example.munmo.sample.service.CustomFloatingViewService"
-            android:exported="false" />
+
 
     </application>
 
