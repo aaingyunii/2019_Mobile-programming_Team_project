@@ -74,7 +74,7 @@ public class ChatHeadService extends Service implements FloatingViewListener {
         options.overMargin = (int) (16 * metrics.density);
         mFloatingViewManager.addViewToWindow(iconView, options);
 
-        // 常駐起動
+        // resident start
         startForeground(NOTIFICATION_ID, createNotification(this));
 
         return START_REDELIVER_INTENT;
@@ -132,6 +132,7 @@ public class ChatHeadService extends Service implements FloatingViewListener {
      * Displays notifications.
      * There is no click action.
      */
+
     private static Notification createNotification(Context context) {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, context.getString(R.string.default_floatingview_channel_id));
         builder.setWhen(System.currentTimeMillis());
