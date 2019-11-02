@@ -1,20 +1,20 @@
 <resources>
-    <string name="app_name">MunMo</string>
-    <string name="chathead_content_title">Demo Chat: Active</string>
-    <string name="content_text">Demo running.</string>
-    <string name="mail_content_title">Demo Customize: active</string>
-    <string name="chathead_click_message">Click</string>
-    <string name="delete_demo">Delete Demo</string>
+    <string name="app_name" translatable="false">MunMo</string>
+    <string name="chathead_content_title" translatable="false">Demo Chat: Active</string>
+    <string name="content_text" translatable="false">Demo running.</string>
+    <string name="mail_content_title" translatable="false">Demo Customize: active</string>
+    <string name="chathead_click_message" translatable="false">Click</string>
+    <string name="delete_demo" translatable="false">Delete Demo</string>
     <string name="start" translatable="false">Start!</string>
-    <string name="show_customized_demo">Show Customized FloatingView</string>
-    <string name="show_settings">Initial Settings</string>
-    <string name="permission_denied">Overlay permission not granted.</string>
-    <string name="mail_address">example@example.com</string>
-    <string name="mail_title">Title</string>
-    <string name="mail_content">Message</string>
-    <string name="touch_finished_position" formatted="false">Current position (%d,%d)</string>
-    <string name="deleted_soon">FloatingView will be deleted soon.</string>
-    <string name="finish_deleted">FloatingView has been deleted.</string>
+    <string name="show_customized_demo" translatable="false">Show Customized FloatingView</string>
+    <string name="show_settings" translatable="false">Initial Settings</string>
+    <string name="permission_denied" translatable="false">Overlay permission not granted.</string>
+    <string name="mail_address" translatable="false">example@example.com</string>
+    <string name="mail_title" translatable="false">Title</string>
+    <string name="mail_content" translatable="false">Message</string>
+    <string name="touch_finished_position" formatted="false" translatable="false">Current position (%d,%d)</string>
+    <string name="deleted_soon" translatable="false">FloatingView will be deleted soon.</string>
+    <string name="finish_deleted" translatable="false">FloatingView has been deleted.</string>
     <string name="default_floatingview_channel_id" translatable="false">default_floatingview_channel</string>
     <string name="default_floatingview_channel_name" translatable="false">Default Channel</string>
 </resources>

@@ -19,11 +19,11 @@ package com.example.munmo.android.floatingview;
 import android.graphics.Rect;
 
 /**
- * スクリーンの変化を扱うリスナです。
+ * It's a listener that deals with screen changes.
  */
 interface ScreenChangedListener {
     /**
-     * スクリーンが変化した時に呼び出されます。
+     * It's called when the screen changes.
      *
      * @param windowRect System window rect
      * @param visibility System UI Mode

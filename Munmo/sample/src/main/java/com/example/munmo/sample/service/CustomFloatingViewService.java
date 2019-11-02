@@ -60,7 +60,7 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // 既にManagerが存在していたら何もしない
+        // Do nothing if the Manager already exists
         if (mFloatingViewManager != null) {
             return START_STICKY;
         }
@@ -73,7 +73,7 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
         iconView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // メールアプリの起動
+                // Launch Mail App
                 final Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.mail_address), null));
                 intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_title));
                 intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_content));
@@ -92,7 +92,7 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
         final FloatingViewManager.Options options = loadOptions(metrics);
         mFloatingViewManager.addViewToWindow(iconView, options);
 
-        // 常駐起動
+        // resident start
         startForeground(NOTIFICATION_ID, createNotification(this));
 
         return START_REDELIVER_INTENT;
@@ -139,7 +139,7 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
     }
 
     /**
-     * Viewを破棄します。
+     * Destroy View
      */
     private void destroy() {
         if (mFloatingViewManager != null) {
@@ -149,7 +149,7 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
     }
 
     /**
-     * 通知を表示します。
+     * Show notification.
      */
     private static Notification createNotification(Context context) {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, context.getString(R.string.default_floatingview_channel_id));
@@ -161,7 +161,7 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
         builder.setPriority(NotificationCompat.PRIORITY_MIN);
         builder.setCategory(NotificationCompat.CATEGORY_SERVICE);
 
-        // PendingIntent作成
+        // Create PendingIntent
         final Intent notifyIntent = new Intent(context, DeleteActionActivity.class);
         PendingIntent notifyPendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(notifyPendingIntent);
@@ -170,7 +170,7 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
     }
 
     /**
-     * 動的に変更可能なオプションを読み込みます。
+     * Load dynamically variable options
      */
     private void loadDynamicOptions() {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -187,9 +187,9 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
     }
 
     /**
-     * FloatingViewのオプションを読み込みます。
+     * Load FloatingView Options。
      *
-     * @param metrics X/Y座標の設定に利用するDisplayMetrics
+     * @param metrics Display Metrics Used to Set X/Y Coordinates
      * @return Options
      */
     private FloatingViewManager.Options loadOptions(DisplayMetrics metrics) {
@@ -198,11 +198,11 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
 
         // Shape
         final String shapeSettings = sharedPref.getString("settings_shape", "");
-        if ("Circle".equals(shapeSettings)) {
-            options.shape = FloatingViewManager.SHAPE_CIRCLE;
-        } else if ("Rectangle".equals(shapeSettings)) {
-            options.shape = FloatingViewManager.SHAPE_RECTANGLE;
-        }
+//        if ("Circle".equals(shapeSettings)) {
+//            options.shape = FloatingViewManager.SHAPE_CIRCLE;
+//        } else if ("Rectangle".equals(shapeSettings)) {
+//            options.shape = FloatingViewManager.SHAPE_RECTANGLE;
+//        }
 
         // Margin
         final String marginSettings = sharedPref.getString("settings_margin", String.valueOf(options.overMargin));

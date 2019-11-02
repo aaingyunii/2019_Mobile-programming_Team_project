@@ -40,29 +40,29 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 /**
- * FloatingViewを扱うクラスです。
- * TODO:動作がカクカクなので原因を探す
- * TODO:移動を追従する複数表示サポートは第2弾で対応
+ * FloatingViewManager.
+ *TODO: Look for the cause because the operation is quick.
+ *TODO: Second multi-display support for follow-up movement
  */
 public class FloatingViewManager implements ScreenChangedListener, View.OnTouchListener, TrashViewListener {
 
     /**
-     * 常に表示するモード
+     * Always visible mode
      */
     public static final int DISPLAY_MODE_SHOW_ALWAYS = 1;
 
     /**
-     * 常に非表示にするモード
+     * Always hidden mode
      */
     public static final int DISPLAY_MODE_HIDE_ALWAYS = 2;
 
     /**
-     * フルスクリーン時に非表示にするモード
+     * Mode to hide at full screen
      */
     public static final int DISPLAY_MODE_HIDE_FULLSCREEN = 3;
 
     /**
-     * 表示モード
+     * display mode
      */
     @IntDef({DISPLAY_MODE_SHOW_ALWAYS, DISPLAY_MODE_HIDE_ALWAYS, DISPLAY_MODE_HIDE_FULLSCREEN})
     @Retention(RetentionPolicy.SOURCE)
@@ -70,11 +70,11 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * 左右の近い方向に移動
+     * Moves left and right
      */
     public static final int MOVE_DIRECTION_DEFAULT = 0;
     /**
-     * 常に左に移動
+     * Always move to the left
      */
     public static final int MOVE_DIRECTION_LEFT = 1;
     /**
@@ -83,12 +83,12 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     public static final int MOVE_DIRECTION_RIGHT = 2;
 
     /**
-     * 移動しない
+     * immigrate
      */
     public static final int MOVE_DIRECTION_NONE = 3;
 
     /**
-     * 側に近づく方向に移動します
+     * It moves in a direction that's close to the side.
      */
     public static final int MOVE_DIRECTION_NEAREST = 4;
 
@@ -106,15 +106,15 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     public @interface MoveDirection {
     }
 
-    /**
-     * Viewの形が円形の場合
-     */
-    public static final float SHAPE_CIRCLE = 1.0f;
-
-    /**
-     * Viewの形が四角形の場合
-     */
-    public static final float SHAPE_RECTANGLE = 1.4142f;
+//    /**
+//     * View is circular
+//     */
+//    public static final float SHAPE_CIRCLE = 1.0f;
+//
+//    /**
+//     * Viewの形が四角形の場合
+//     */
+//    public static final float SHAPE_RECTANGLE = 1.4142f;
 
     /**
      * {@link Context}
@@ -137,17 +137,17 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     private final DisplayMetrics mDisplayMetrics;
 
     /**
-     * 操作状態のFloatingView
+     * Working FloatingView
      */
     private FloatingView mTargetFloatingView;
 
     /**
-     * フルスクリーンを監視するViewです。
+     * This is a full-screen view.
      */
     private final FullscreenObserverView mFullscreenObserverView;
 
     /**
-     * FloatingViewを削除するViewです。
+     * This is the View to delete the FloatingView.。
      */
     private final TrashView mTrashView;
 
@@ -157,23 +157,23 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     private final FloatingViewListener mFloatingViewListener;
 
     /**
-     * FloatingViewの当たり判定用矩形
+     * FloatingView Remarkable rectangle
      */
     private final Rect mFloatingViewRect;
 
     /**
-     * TrashViewの当たり判定用矩形
+     * TrashView hit detection rectangle
      */
     private final Rect mTrashViewRect;
 
     /**
-     * タッチの移動を許可するフラグ
-     * 画面回転時にタッチ処理を受け付けないようにするためのフラグです
+     * Flag that allows touch movement
+     * Flag that prevents touch processing from being accepted when the screen is rotated
      */
     private boolean mIsMoveAccept;
 
     /**
-     * 現在の表示モード
+     * Current Display Mode
      */
     @DisplayMode
     private int mDisplayMode;
@@ -184,13 +184,13 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     private final Rect mSafeInsetRect;
 
     /**
-     * Windowに貼り付けられたFloatingViewのリスト
-     * TODO:第2弾のFloatingViewの複数表示で意味を発揮する予定
+     * List of FloatingViews pasted into Window
+     *TODO: Will demonstrate meaning in multiple views of the second FloatingView
      */
     private final ArrayList<FloatingView> mFloatingViewList;
 
     /**
-     * コンストラクタ
+     * constructor
      *
      * @param context  Context
      * @param listener FloatingViewListener
@@ -207,30 +207,30 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         mDisplayMode = DISPLAY_MODE_HIDE_FULLSCREEN;
         mSafeInsetRect = new Rect();
 
-        // FloatingViewと連携するViewの構築
+        // Building Views with FloatingViews
         mFloatingViewList = new ArrayList<>();
         mFullscreenObserverView = new FullscreenObserverView(context, this);
         mTrashView = new TrashView(context);
     }
 
     /**
-     * 削除Viewと重なっているかチェックします。
+     * Check if it overlaps with the Deleted View。
      *
-     * @return 削除Viewと重なっている場合はtrue
+     * @return True if the deleted View overlaps
      */
     private boolean isIntersectWithTrash() {
-        // 無効の場合は重なり判定を行わない
+        // Invalid case, no overlap is determined.
         if (!mTrashView.isTrashEnabled()) {
             return false;
         }
-        // INFO:TrashViewとFloatingViewは同じGravityにする必要があります
+        // INFO:TrashView and FloatingView must be the same Gravity
         mTrashView.getWindowDrawingRect(mTrashViewRect);
         mTargetFloatingView.getWindowDrawingRect(mFloatingViewRect);
         return Rect.intersects(mTrashViewRect, mFloatingViewRect);
     }
 
     /**
-     * 画面がフルスクリーンになった場合はViewを非表示にします。
+     * Hide View if the Screen Is Full。
      */
     @Override
     public void onScreenChanged(Rect windowRect, int visibility) {
@@ -263,14 +263,14 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         // update FloatingView layout
         mTargetFloatingView.onUpdateSystemLayout(isHideStatusBar, isHideNavigationBar, isPortrait, windowRect);
 
-        // フルスクリーンでの非表示モードでない場合は何もしない
+        // Do nothing if not in full screen hidden mode
         if (mDisplayMode != DISPLAY_MODE_HIDE_FULLSCREEN) {
             return;
         }
 
         mIsMoveAccept = false;
         final int state = mTargetFloatingView.getState();
-        // 重なっていない場合は全て非表示処理
+        // Hide all non-overlapping
         if (state == FloatingView.STATE_NORMAL) {
             final int size = mFloatingViewList.size();
             for (int i = 0; i < size; i++) {
@@ -279,7 +279,7 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
             }
             mTrashView.dismiss();
         }
-        // 重なっている場合は削除
+        // Delete overlapping
         else if (state == FloatingView.STATE_INTERSECTING) {
             mTargetFloatingView.setFinishing();
             mTrashView.dismiss();
@@ -295,11 +295,11 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * FloatingViewのタッチをロックします。
+     * Lock the FloatingView Touch
      */
     @Override
     public void onTrashAnimationStarted(@TrashView.AnimationState int animationCode) {
-        // クローズまたは強制クローズの場合はすべてのFloatingViewをタッチさせない
+        // Do not touch all FloatingViews when closed or forced.
         if (animationCode == TrashView.ANIMATION_CLOSE || animationCode == TrashView.ANIMATION_FORCE_CLOSE) {
             final int size = mFloatingViewList.size();
             for (int i = 0; i < size; i++) {
@@ -310,18 +310,18 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * FloatingViewのタッチロックの解除を行います。
+     * Unlock the FloatingView Touch Lock
      */
     @Override
     public void onTrashAnimationEnd(@TrashView.AnimationState int animationCode) {
 
         final int state = mTargetFloatingView.getState();
-        // 終了していたらViewを削除する
+        // Delete Views When Exit
         if (state == FloatingView.STATE_FINISHING) {
             removeViewToWindow(mTargetFloatingView);
         }
 
-        // すべてのFloatingViewのタッチ状態を戻す
+        // Restore all FloatingView Touch States
         final int size = mFloatingViewList.size();
         for (int i = 0; i < size; i++) {
             final FloatingView floatingView = mFloatingViewList.get(i);
@@ -331,13 +331,15 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * 削除ボタンの表示・非表示を処理します。
+     * Process the display/hide of the delete button.
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         final int action = event.getAction();
 
-        // 押下状態でないのに移動許可が出ていない場合はなにもしない(回転直後にACTION_MOVEが来て、FloatingViewが消えてしまう現象に対応)
+        // Do nothing if you don't have permission to move while you're not in a pressed state.
+        // (Responds to the phenomenon that an ACTION_MOVE arrives shortly after rotation and the FloatingView disappears)
+
         if (action != MotionEvent.ACTION_DOWN && !mIsMoveAccept) {
             return false;
         }
@@ -345,38 +347,38 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         final int state = mTargetFloatingView.getState();
         mTargetFloatingView = (FloatingView) v;
 
-        // 押下
+        // depression
         if (action == MotionEvent.ACTION_DOWN) {
-            // 処理なし
+            // No action
             mIsMoveAccept = true;
         }
-        // 移動
+        // migration
         else if (action == MotionEvent.ACTION_MOVE) {
-            // 今回の状態
+            // current state
             final boolean isIntersecting = isIntersectWithTrash();
-            // これまでの状態
+            // state of affairs
             final boolean isIntersect = state == FloatingView.STATE_INTERSECTING;
-            // 重なっている場合は、FloatingViewをTrashViewに追従させる
+            // If so, FloatingView follows TrashView
             if (isIntersecting) {
                 mTargetFloatingView.setIntersecting((int) mTrashView.getTrashIconCenterX(), (int) mTrashView.getTrashIconCenterY());
             }
-            // 重なり始めの場合
+            // in the case of beginning to overlap
             if (isIntersecting && !isIntersect) {
                 mTargetFloatingView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 mTrashView.setScaleTrashIcon(true);
             }
-            // 重なり終わりの場合
+            // at the end of the overlap
             else if (!isIntersecting && isIntersect) {
                 mTargetFloatingView.setNormal();
                 mTrashView.setScaleTrashIcon(false);
             }
 
         }
-        // 押上、キャンセル
+        // push up, cancel
         else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
-            // 重なっている場合
+            // overlapping case
             if (state == FloatingView.STATE_INTERSECTING) {
-                // FloatingViewを削除し、拡大状態を解除
+            // Delete FloatingView and remove expansion
                 mTargetFloatingView.setFinishing();
                 mTrashView.setScaleTrashIcon(false);
             }
@@ -390,9 +392,9 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
             }
         }
 
-        // TrashViewにイベントを通知
-        // 通常状態の場合は指の位置を渡す
-        // 重なっている場合はTrashViewの位置を渡す
+        // Notify the event to the TrashView
+        // Pass finger position in normal state
+        // Pass the TrashView location if it overlaps
         if (state == FloatingView.STATE_INTERSECTING) {
             mTrashView.onTouchFloatingView(event, mFloatingViewRect.left, mFloatingViewRect.top);
         } else {
@@ -404,7 +406,7 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * 固定削除アイコンの画像を設定します。
+     * Set the fixed delete icon image
      *
      * @param resId drawable ID
      */
@@ -413,7 +415,7 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * アクションする削除アイコンの画像を設定します。
+     * Set the image of the delete icon you want to act on
      *
      * @param resId drawable ID
      */
@@ -422,7 +424,7 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * 固定削除アイコンを設定します。
+     * Configure the persistent delete icon.
      *
      * @param drawable Drawable
      */
@@ -431,7 +433,7 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * アクション用削除アイコンを設定します。
+     * Set the action delete icon
      *
      * @param drawable Drawable
      */
@@ -440,19 +442,19 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * 表示モードを変更します。
+     * Change the Display Mode
      *
      * @param displayMode {@link #DISPLAY_MODE_SHOW_ALWAYS} or {@link #DISPLAY_MODE_HIDE_ALWAYS} or {@link #DISPLAY_MODE_HIDE_FULLSCREEN}
      */
     public void setDisplayMode(@DisplayMode int displayMode) {
         mDisplayMode = displayMode;
-        // 常に表示/フルスクリーン時に非表示にするモードの場合
+        // For modes that always show/hide at full screen
         if (mDisplayMode == DISPLAY_MODE_SHOW_ALWAYS || mDisplayMode == DISPLAY_MODE_HIDE_FULLSCREEN) {
             for (FloatingView floatingView : mFloatingViewList) {
                 floatingView.setVisibility(View.VISIBLE);
             }
         }
-        // 常に非表示にするモードの場合
+        // Always Hidden Mode
         else if (mDisplayMode == DISPLAY_MODE_HIDE_ALWAYS) {
             for (FloatingView floatingView : mFloatingViewList) {
                 floatingView.setVisibility(View.GONE);
@@ -462,18 +464,18 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * TrashViewの表示・非表示を設定します。
+     * Configure to display or hide the TrashView.
      *
-     * @param enabled trueの場合は表示
+     * @param enabled Display if true
      */
     public void setTrashViewEnabled(boolean enabled) {
         mTrashView.setTrashEnabled(enabled);
     }
 
     /**
-     * TrashViewの表示非表示状態を取得します。
+     * Retrieve the hidden state of the TrashView。
      *
-     * @return trueの場合は表示状態（重なり判定が有効の状態）
+     * @return If true, the display state (enabled state of overlap determination)
      */
     public boolean isTrashViewEnabled() {
         return mTrashView.isTrashEnabled();
@@ -507,9 +509,9 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * ViewをWindowに貼り付けます。
+     * Paste View into Window。
      *
-     * @param view    フローティングさせるView
+     * @param view    Views to Float
      * @param options Options
      */
     public void addViewToWindow(View view, Options options) {
@@ -518,7 +520,7 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         final FloatingView floatingView = new FloatingView(mContext);
         floatingView.setInitCoords(options.floatingViewX, options.floatingViewY);
         floatingView.setOnTouchListener(this);
-        floatingView.setShape(options.shape);
+//        floatingView.setShape(options.shape);
         floatingView.setOverMargin(options.overMargin);
         floatingView.setMoveDirection(options.moveDirection);
         floatingView.usePhysics(options.usePhysics);
@@ -530,7 +532,7 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         view.setLayoutParams(targetParams);
         floatingView.addView(view);
 
-        // 非表示モードの場合
+        // in hidden mode
         if (mDisplayMode == DISPLAY_MODE_HIDE_ALWAYS) {
             floatingView.setVisibility(View.GONE);
         }
@@ -538,35 +540,35 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         // TrashView
         mTrashView.setTrashViewListener(this);
 
-        // Viewの貼り付け
+        // Paste View
         mWindowManager.addView(floatingView, floatingView.getWindowLayoutParams());
-        // 最初の貼り付け時の場合のみ、フルスクリーン監視Viewと削除Viewを貼り付け
+        // Paste Full Screen Monitor View and Delete View only when first pasting
         if (isFirstAttach) {
             mWindowManager.addView(mFullscreenObserverView, mFullscreenObserverView.getWindowLayoutParams());
             mTargetFloatingView = floatingView;
         } else {
             removeViewImmediate(mTrashView);
         }
-        // 必ずトップに来て欲しいので毎回貼り付け
+        // I want you to come to the top, so I paste it every time.
         mWindowManager.addView(mTrashView, mTrashView.getWindowLayoutParams());
     }
 
     /**
-     * ViewをWindowから取り外します。
+     * Remove View from Window.
      *
      * @param floatingView FloatingView
      */
     private void removeViewToWindow(FloatingView floatingView) {
         final int matchIndex = mFloatingViewList.indexOf(floatingView);
-        // 見つかった場合は表示とリストから削除
+        // Remove from view and list if found
         if (matchIndex != -1) {
             removeViewImmediate(floatingView);
             mFloatingViewList.remove(matchIndex);
         }
 
-        // 残りのViewをチェック
+        // Check the remaining Views
         if (mFloatingViewList.isEmpty()) {
-            // 終了を通知
+            // Notification of termination
             if (mFloatingViewListener != null) {
                 mFloatingViewListener.onFinishFloatingView();
             }
@@ -574,12 +576,12 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * ViewをWindowから全て取り外します。
+     * Remove All Views from Window
      */
     public void removeAllViewToWindow() {
         removeViewImmediate(mFullscreenObserverView);
         removeViewImmediate(mTrashView);
-        // FloatingViewの削除
+        // Float View View the deletion of the
         final int size = mFloatingViewList.size();
         for (int i = 0; i < size; i++) {
             final FloatingView floatingView = mFloatingViewList.get(i);
@@ -632,17 +634,17 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     }
 
     /**
-     * FloatingViewを貼り付ける際のオプションを表すクラスです。
+     * Classes that represent options for pasting FloatingView.
      */
     public static class Options {
 
-        /**
-         * フローティングさせるViewの矩形（SHAPE_RECTANGLE or SHAPE_CIRCLE）
-         */
-        public float shape;
+//        /**
+//         * View rectangle to be floating (SHAPE_RECEPTION OR SHAPE_CIRCLE)
+//         */
+//        public float shape;
 
         /**
-         * 画面外のはみ出しマージン(px)
+         * out-of-screen projection margin(px)
          */
         public int overMargin;
 
@@ -652,7 +654,7 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         public int floatingViewX;
 
         /**
-         * 画面左下を原点とするFloatingViewのY座標
+         * Y-coordinate of FloatingView from the bottom left corner of the screen
          */
         public int floatingViewY;
 
@@ -667,8 +669,8 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         public int floatingViewHeight;
 
         /**
-         * FloatingViewが吸着する方向
-         * ※座標を指定すると自動的にMOVE_DIRECTION_NONEになります
+         * FloatingView Attracts
+         * If you specify coordinates, they will automatically be MOVE_DIRECTATION_NONE.
          */
         @MoveDirection
         public int moveDirection;
@@ -679,15 +681,15 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         public boolean usePhysics;
 
         /**
-         * 初期表示時にアニメーションするフラグ
+         * Flags to animate at initial display
          */
         public boolean animateInitialMove;
 
         /**
-         * オプションのデフォルト値を設定します。
+         * Set optional default values
          */
         public Options() {
-            shape = SHAPE_CIRCLE;
+//            shape = SHAPE_CIRCLE;
             overMargin = 0;
             floatingViewX = FloatingView.DEFAULT_X;
             floatingViewY = FloatingView.DEFAULT_Y;

@@ -45,45 +45,45 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 
 /**
- * This is a view to erase the FloatingView.。
+ * This is a view to erase the FloatingView.
  */
 class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListener {
 
     /**
-     * 背景の高さ(dp)
+     * background height(dp)
      */
     private static final int BACKGROUND_HEIGHT = 164;
 
     /**
-     * ターゲットを取り込む水平領域(dp)
+     * Horizontal area for capturing targets(dp)
      */
     private static final float TARGET_CAPTURE_HORIZONTAL_REGION = 30.0f;
 
     /**
-     * ターゲットを取り込む垂直領域(dp)
+     * Vertical space to capture targets(dp)
      */
     private static final float TARGET_CAPTURE_VERTICAL_REGION = 4.0f;
 
     /**
-     * 削除アイコンの拡大・縮小のアニメーション時間
+     * Animation time to enlarge or reduce deleted icons
      */
     private static final long TRASH_ICON_SCALE_DURATION_MILLIS = 200L;
 
     /**
-     * アニメーションなしの状態を表す定数
+     * an animation-free constant
      */
     static final int ANIMATION_NONE = 0;
     /**
-     * 背景・削除アイコンなどを表示するアニメーションを表す定数<br/>
-     * FloatingViewの追尾も含みます。
+     * Fixed number representing animation showing background and deletion icon
+     * Includes tracking of FloatingView.
      */
     static final int ANIMATION_OPEN = 1;
     /**
-     * 背景・削除アイコンなどを消すアニメーションを表す定数
+     * The constant representing animation that erases background, deletion icon, etc.
      */
     static final int ANIMATION_CLOSE = 2;
     /**
-     * 背景・削除アイコンなどを即時に消すことを表す定数
+     * The constant that indicates that the background and deletion icons should be deleted immediately.
      */
     static final int ANIMATION_FORCE_CLOSE = 3;
 
@@ -96,7 +96,7 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * 長押し判定とする時間
+     * long-press time
      */
     private static final int LONG_PRESS_TIMEOUT = ViewConfiguration.getLongPressTimeout();
 
@@ -121,37 +121,37 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     private final DisplayMetrics mMetrics;
 
     /**
-     * ルートView（背景、削除アイコンを含むView）
+     * Root View (background, View with delete icon)
      */
     private final ViewGroup mRootView;
 
     /**
-     * 削除アイコン
+     * delete icon
      */
     private final FrameLayout mTrashIconRootView;
 
     /**
-     * 固定された削除アイコン
+     * fixed delete icon
      */
     private final ImageView mFixedTrashIconView;
 
     /**
-     * 重なりに応じて動作する削除アイコン
+     * Delete icon that operates according to overlap
      */
     private final ImageView mActionTrashIconView;
 
     /**
-     * ActionTrashIconの幅
+     * ActionTrashIcon of Width
      */
     private int mActionTrashIconBaseWidth;
 
     /**
-     * ActionTrashIconの高さ
+     * ActionTrashIcon of Height
      */
     private int mActionTrashIconBaseHeight;
 
     /**
-     * ActionTrashIconの最大拡大率
+     * ActionTrashIcon of maximum expansion rate
      */
     private float mActionTrashIconMaxScale;
 
@@ -161,17 +161,17 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     private final FrameLayout mBackgroundView;
 
     /**
-     * 削除アイコンの枠内に入った時のアニメーション（拡大）
+     * Animation (enlarged) when you enter the deleted icon
      */
     private ObjectAnimator mEnterScaleAnimator;
 
     /**
-     * 削除アイコンの枠外に出た時のアニメーション（縮小）
+     * Animation when you go out of the box of the deleted icon (reduced)
      */
     private ObjectAnimator mExitScaleAnimator;
 
     /**
-     * アニメーションを行うハンドラ
+     * animated handler
      */
     private final AnimationHandler mAnimationHandler;
 
@@ -181,7 +181,7 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     private TrashViewListener mTrashViewListener;
 
     /**
-     * Viewの有効・無効フラグ（無効の場合は表示されない）
+     * Enabled/disabled flag for View (not displayed if disabled)
      */
     private boolean mIsEnabled;
 
@@ -194,7 +194,7 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * コンストラクタ
+     * constructor
      *
      * @param context Context
      */
@@ -214,19 +214,21 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE |
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         mParams.format = PixelFormat.TRANSLUCENT;
-        // INFO:Windowの原点のみ左下に設定
+
+        // INFO:Window of setting origin only to the lower left
         mParams.gravity = Gravity.LEFT | Gravity.BOTTOM;
 
-        // 各種Viewの設定
-        // TrashViewに直接貼り付けられるView（このViewを介さないと、削除Viewと背景Viewのレイアウトがなぜか崩れる）
+        // Configuring Various Views
+        // Views that are pasted directly into the TrashView
+        // (Without this View, the layout of the deleted View and the background View is somehow broken.)
         mRootView = new FrameLayout(context);
         mRootView.setClipChildren(false);
-        // 削除アイコンのルートView
+        // Remove Icon Root View
         mTrashIconRootView = new FrameLayout(context);
         mTrashIconRootView.setClipChildren(false);
         mFixedTrashIconView = new ImageView(context);
         mActionTrashIconView = new ImageView(context);
-        // 背景View
+        // Background View
         mBackgroundView = new FrameLayout(context);
         mBackgroundView.setAlpha(0.0f);
         final GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0x00000000, 0x50000000});
@@ -237,32 +239,32 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
             mBackgroundView.setBackground(gradientDrawable);
         }
 
-        // 背景Viewの貼り付け
+        // Paste Background View
         final FrameLayout.LayoutParams backgroundParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (BACKGROUND_HEIGHT * mMetrics.density));
         backgroundParams.gravity = Gravity.BOTTOM;
         mRootView.addView(mBackgroundView, backgroundParams);
-        // アクションアイコンの貼り付け
+        // Paste Action Icons
         final FrameLayout.LayoutParams actionTrashIconParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         actionTrashIconParams.gravity = Gravity.CENTER;
         mTrashIconRootView.addView(mActionTrashIconView, actionTrashIconParams);
-        // 固定アイコンの貼付け
+        // Attaching Fixed Icons
         final FrameLayout.LayoutParams fixedTrashIconParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         fixedTrashIconParams.gravity = Gravity.CENTER;
         mTrashIconRootView.addView(mFixedTrashIconView, fixedTrashIconParams);
-        // 削除アイコンの貼り付け
+        // Paste Delete Icons
         final FrameLayout.LayoutParams trashIconParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         trashIconParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
         mRootView.addView(mTrashIconRootView, trashIconParams);
 
-        // TrashViewに貼り付け
+        // Paste into TrashView
         addView(mRootView);
 
-        // 初回描画処理用
+        // first-time drawing processing
         getViewTreeObserver().addOnPreDrawListener(this);
     }
 
     /**
-     * 表示位置を決定します。
+     * Determine the Display Location.
      */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -271,7 +273,7 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * 画面回転時にレイアウトの調整をします。
+     * Adjust the layout when the screen rotates.
      */
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
@@ -280,8 +282,8 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * 初回描画時の座標設定を行います。<br/>
-     * 初回表示時に一瞬だけ削除アイコンが表示される事象があるため。
+     * Configure the coordinates settings for the first time drawing.<br/>
+     * There are events where the delete icon is displayed only for a moment at the first time.
      */
     @Override
     public boolean onPreDraw() {
@@ -300,7 +302,7 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * 画面サイズから自位置を決定します。
+     * Determine your location from the screen size.
      */
     private void updateViewLayout() {
         mWindowManager.getDefaultDisplay().getMetrics(mMetrics);
@@ -315,26 +317,26 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * TrashViewを非表示にします。
+     * Hide the TrashView.
      */
     void dismiss() {
-        // アニメーション停止
+        // animation stop
         mAnimationHandler.removeMessages(ANIMATION_OPEN);
         mAnimationHandler.removeMessages(ANIMATION_CLOSE);
         mAnimationHandler.sendAnimationMessage(ANIMATION_FORCE_CLOSE);
-        // 拡大アニメーションの停止
+        // Stop Extended Animation
         setScaleTrashIconImmediately(false);
     }
 
     /**
-     * Window上での描画領域を取得します。
-     * 当たり判定の矩形を表します。
+     * Retrieves the drawing area on the Window.
+     * Represents the rectangle of the hit decision.
      *
-     * @param outRect 変更を加えるRect
+     * @param outRect Rect to make changes
      */
     void getWindowDrawingRect(Rect outRect) {
-        // Gravityが逆向きなので、矩形の当たり判定も上下逆転(top/bottom)
-        // top(画面上で下方向)の判定を多めに設定
+        // Gravity is reversed, so the rectangle hit is reversed upside down (top/bottom)
+        // Set the top (downward on screen) decision more
         final ImageView iconView = hasActionTrashIcon() ? mActionTrashIconView : mFixedTrashIconView;
         final float iconPaddingLeft = iconView.getPaddingLeft();
         final float iconPaddingTop = iconView.getPaddingTop();
@@ -350,37 +352,37 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * アクションする削除アイコンの設定を更新します。
+     * Update the settings for the delete icon you want to act on.
      *
-     * @param width  対象となるViewの幅
-     * @param height 対象となるViewの高さ
-     * @param shape  対象となるViewの形状
+     * @param width  Width of Views Affected
+     * @param height View Heights Affected
+     * @param shape  View geometry
      */
     void updateActionTrashIcon(float width, float height, float shape) {
-        // アクションする削除アイコンが設定されていない場合は何もしない
+        // Do nothing if the delete icon you want to take action is not set
         if (!hasActionTrashIcon()) {
             return;
         }
-        // 拡大率の設定
+        // Configuring the Scaling Rate
         mAnimationHandler.mTargetWidth = width;
         mAnimationHandler.mTargetHeight = height;
         final float newWidthScale = width / mActionTrashIconBaseWidth * shape;
         final float newHeightScale = height / mActionTrashIconBaseHeight * shape;
         mActionTrashIconMaxScale = Math.max(newWidthScale, newHeightScale);
-        // ENTERアニメーション作成
+        // ENTER ANIMATION CREATION
         mEnterScaleAnimator = ObjectAnimator.ofPropertyValuesHolder(mActionTrashIconView, PropertyValuesHolder.ofFloat(ImageView.SCALE_X, mActionTrashIconMaxScale), PropertyValuesHolder.ofFloat(ImageView.SCALE_Y, mActionTrashIconMaxScale));
         mEnterScaleAnimator.setInterpolator(new OvershootInterpolator());
         mEnterScaleAnimator.setDuration(TRASH_ICON_SCALE_DURATION_MILLIS);
-        // Exitアニメーション作成
+        // Exit Animation
         mExitScaleAnimator = ObjectAnimator.ofPropertyValuesHolder(mActionTrashIconView, PropertyValuesHolder.ofFloat(ImageView.SCALE_X, 1.0f), PropertyValuesHolder.ofFloat(ImageView.SCALE_Y, 1.0f));
         mExitScaleAnimator.setInterpolator(new OvershootInterpolator());
         mExitScaleAnimator.setDuration(TRASH_ICON_SCALE_DURATION_MILLIS);
     }
 
     /**
-     * 削除アイコンの中心X座標を取得します。
+     * Obtain the center X-coordinate of the deleted icon.
      *
-     * @return 削除アイコンの中心X座標
+     * @return center X-coordinate of deleted icon
      */
     float getTrashIconCenterX() {
         final ImageView iconView = hasActionTrashIcon() ? mActionTrashIconView : mFixedTrashIconView;
@@ -391,9 +393,9 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * 削除アイコンの中心Y座標を取得します。
+     * Obtain the center Y-coordinate of the deleted icon.
      *
-     * @return 削除アイコンの中心Y座標
+     * @return center Y-coordinate of deleted icon
      */
     float getTrashIconCenterY() {
         final ImageView iconView = hasActionTrashIcon() ? mActionTrashIconView : mFixedTrashIconView;
@@ -406,17 +408,17 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
 
 
     /**
-     * アクションする削除アイコンが存在するかチェックします。
+     * Check if there is a delete icon to act on.
      *
-     * @return アクションする削除アイコンが存在する場合はtrue
+     * @return True if there is a delete icon to act on
      */
     private boolean hasActionTrashIcon() {
         return mActionTrashIconBaseWidth != 0 && mActionTrashIconBaseHeight != 0;
     }
 
     /**
-     * 固定削除アイコンの画像を設定します。<br/>
-     * この画像はフローティング表示が重なった際に大きさが変化しません。
+     * Set the fixed delete icon image.<br/>
+     * This image does not change in size when the floating displays overlap.
      *
      * @param resId drawable ID
      */
@@ -425,8 +427,8 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * アクションする削除アイコンの画像を設定します。<br/>
-     * この画像はフローティング表示が重なった際に大きさが変化します。
+     * Sets the image of the delete icon to be acted on.<br/>
+     * This image changes in size when the floating displays overlap.
      *
      * @param resId drawable ID
      */
@@ -440,8 +442,8 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * 固定削除アイコンを設定します。<br/>
-     * この画像はフローティング表示が重なった際に大きさが変化しません。
+     * Set the static delete icon.<br/>
+     * This image does not change in size when the floating displays overlap.
      *
      * @param drawable Drawable
      */
@@ -450,8 +452,8 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * アクション用削除アイコンを設定します。<br/>
-     * この画像はフローティング表示が重なった際に大きさが変化します。
+     * Set the action delete icon.<br/>
+     * This image changes in size when the floating displays overlap.
      *
      * @param drawable Drawable
      */
@@ -464,9 +466,9 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * 削除アイコンの大きさを即時に変更します。
+     * Change the size of the delete icon immediately.
      *
-     * @param isEnter 領域に入った場合はtrue.そうでない場合はfalse
+     * @param isEnter True if you enter the region; false otherwise.
      */
     private void setScaleTrashIconImmediately(boolean isEnter) {
         cancelScaleTrashAnimation();
@@ -476,20 +478,20 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * 削除アイコンの大きさを変更します。
+     * Change the size of the delete icon.
      *
-     * @param isEnter 領域に入った場合はtrue.そうでない場合はfalse
+     * @param isEnter True if you enter the region; false otherwise.
      */
     void setScaleTrashIcon(boolean isEnter) {
-        // アクションアイコンが設定されていなければ何もしない
+        // Do nothing unless the action icon is set
         if (!hasActionTrashIcon()) {
             return;
         }
 
-        // アニメーションをキャンセル
+        // Cancel Animation
         cancelScaleTrashAnimation();
 
-        // 領域に入った場合
+        // when in the realm of
         if (isEnter) {
             mEnterScaleAnimator.start();
         } else {
@@ -498,17 +500,17 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * TrashViewの有効・無効を設定します。
+     * Enable or disable TrashView.
      *
-     * @param enabled trueの場合は有効（表示）、falseの場合は無効（非表示）
+     * @param enabled Enabled for true (display), disabled for false (hidden)
      */
     void setTrashEnabled(boolean enabled) {
-        // 設定が同じ場合は何もしない
+        // Do nothing if the configurations are the same
         if (mIsEnabled == enabled) {
             return;
         }
 
-        // 非表示にする場合は閉じる
+        // Close to hide
         mIsEnabled = enabled;
         if (!mIsEnabled) {
             dismiss();
@@ -516,31 +518,31 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * TrashViewの表示状態を取得します。
+     * Retrieves the view state of the TrashView.
      *
-     * @return trueの場合は表示
+     * @return Display if true
      */
     boolean isTrashEnabled() {
         return mIsEnabled;
     }
 
     /**
-     * 削除アイコンの拡大・縮小アニメーションのキャンセル
+     * Cancel deleted icon expansion/reduction animation
      */
     private void cancelScaleTrashAnimation() {
-        // 枠内アニメーション
+        // in-frame animation
         if (mEnterScaleAnimator != null && mEnterScaleAnimator.isStarted()) {
             mEnterScaleAnimator.cancel();
         }
 
-        // 枠外アニメーション
+        // extra-frame animation
         if (mExitScaleAnimator != null && mExitScaleAnimator.isStarted()) {
             mExitScaleAnimator.cancel();
         }
     }
 
     /**
-     * TrashViewListenerを設定します。
+     * Configure the TrashViewListener
      *
      * @param listener TrashViewListener
      */
@@ -558,151 +560,151 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
     }
 
     /**
-     * FloatingViewに関連する処理を行います。
+     * Perform actions related to FloatingView.
      *
      * @param event MotionEvent
-     * @param x     FloatingViewのX座標
-     * @param y     FloatingViewのY座標
+     * @param x     FloatingView of X coordinate
+     * @param y     FloatingView of Y coordinate
      */
     void onTouchFloatingView(MotionEvent event, float x, float y) {
         final int action = event.getAction();
-        // 押下
+        // depression
         if (action == MotionEvent.ACTION_DOWN) {
             mAnimationHandler.updateTargetPosition(x, y);
-            // 長押し処理待ち
+            // Long push waiting
             mAnimationHandler.removeMessages(ANIMATION_CLOSE);
             mAnimationHandler.sendAnimationMessageDelayed(ANIMATION_OPEN, LONG_PRESS_TIMEOUT);
         }
-        // 移動
+        // migration
         else if (action == MotionEvent.ACTION_MOVE) {
             mAnimationHandler.updateTargetPosition(x, y);
-            // まだオープンアニメーションが開始していない場合のみ実行
+            // Run only if open animation has not yet started
             if (!mAnimationHandler.isAnimationStarted(ANIMATION_OPEN)) {
-                // 長押しのメッセージを削除
+                // Delete long-press messages
                 mAnimationHandler.removeMessages(ANIMATION_OPEN);
-                // オープン
+                // open
                 mAnimationHandler.sendAnimationMessage(ANIMATION_OPEN);
             }
         }
-        // 押上、キャンセル
+        // push up, cancel
         else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
-            // 長押しのメッセージを削除
+            // Delete long-press messages
             mAnimationHandler.removeMessages(ANIMATION_OPEN);
             mAnimationHandler.sendAnimationMessage(ANIMATION_CLOSE);
         }
     }
 
     /**
-     * アニメーションの制御を行うハンドラです。
+     * A handler that controls animation.
      */
     static class AnimationHandler extends Handler {
 
         /**
-         * アニメーションをリフレッシュするミリ秒
+         * Milliseconds to refresh the animation
          */
         private static final long ANIMATION_REFRESH_TIME_MILLIS = 10L;
 
         /**
-         * 背景のアニメーション時間
+         * background animation time
          */
         private static final long BACKGROUND_DURATION_MILLIS = 200L;
 
         /**
-         * 削除アイコンのポップアニメーションの開始遅延時間
+         * Start delay time of pop animation for deleted icons
          */
         private static final long TRASH_OPEN_START_DELAY_MILLIS = 200L;
 
         /**
-         * 削除アイコンのオープンアニメーション時間
+         * Delete Icon Open Animation Time
          */
         private static final long TRASH_OPEN_DURATION_MILLIS = 400L;
 
         /**
-         * 削除アイコンのクローズアニメーション時間
+         * Closed animation time for deleted icons
          */
         private static final long TRASH_CLOSE_DURATION_MILLIS = 200L;
 
         /**
-         * Overshootアニメーションの係数
+         * Overshoot Animation Factor
          */
         private static final float OVERSHOOT_TENSION = 1.0f;
 
         /**
-         * 削除アイコンの移動限界X軸オフセット(dp)
+         * Remove icon movement limit X-axis offset(dp)
          */
         private static final int TRASH_MOVE_LIMIT_OFFSET_X = 22;
 
         /**
-         * 削除アイコンの移動限界Y軸オフセット(dp)
+         * Remove Icon Move Limit Y-axis Offset(dp)
          */
         private static final int TRASH_MOVE_LIMIT_TOP_OFFSET = -4;
 
         /**
-         * アニメーション開始を表す定数
+         * an animation constant
          */
         private static final int TYPE_FIRST = 1;
         /**
-         * アニメーション更新を表す定数
+         * constant representing animation updates
          */
         private static final int TYPE_UPDATE = 2;
 
         /**
-         * アルファの最大値
+         * alpha maximum
          */
         private static final float MAX_ALPHA = 1.0f;
 
         /**
-         * アルファの最小値
+         * alpha minimum
          */
         private static final float MIN_ALPHA = 0.0f;
 
         /**
-         * アニメーションを開始した時間
+         * the time at which an animation was started
          */
         private long mStartTime;
 
         /**
-         * アニメーションを始めた時点のアルファ値
+         * alpha value at the time of animation
          */
         private float mStartAlpha;
 
         /**
-         * アニメーションを始めた時点のTransitionY
+         * TransitionY at the time of animation
          */
         private float mStartTransitionY;
 
         /**
-         * 実行中のアニメーションのコード
+         * Code of running animation
          */
         private int mStartedCode;
 
         /**
-         * 追従対象のX座標
+         * X-coordinate to follow
          */
         private float mTargetPositionX;
 
         /**
-         * 追従対象のY座標
+         * Y-coordinate to follow
          */
         private float mTargetPositionY;
 
         /**
-         * 追従対象の幅
+         * width of a follow-up object
          */
         private float mTargetWidth;
 
         /**
-         * 追従対象の高さ
+         * height of a follow-up target
          */
         private float mTargetHeight;
 
         /**
-         * 削除アイコンの移動限界位置
+         * Remove Icon Move Limit Location
          */
         private final Rect mTrashIconLimitPosition;
 
         /**
-         * Y軸の追従の範囲
+         * Y-axis range
          */
         private float mMoveStickyYRange;
 
@@ -718,7 +720,7 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
         private final WeakReference<TrashView> mTrashView;
 
         /**
-         * コンストラクタ
+         * constructor
          */
         AnimationHandler(TrashView trashView) {
             mTrashView = new WeakReference<>(trashView);
@@ -728,7 +730,7 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
         }
 
         /**
-         * アニメーションの処理を行います。
+         * We process the animation.
          */
         @Override
         public void handleMessage(Message msg) {
@@ -740,7 +742,7 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
                 return;
             }
 
-            // 有効でない場合はアニメーションを行わない
+            // do not animate when not valid
             if (!trashView.isTrashEnabled()) {
                 return;
             }
@@ -753,7 +755,7 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
             final float screenWidth = trashView.mMetrics.widthPixels;
             final float trashViewX = trashView.mParams.x;
 
-            // アニメーションを開始した場合の初期化
+            // Initialize on Animation
             if (animationType == TYPE_FIRST) {
                 mStartTime = SystemClock.uptimeMillis();
                 mStartAlpha = backgroundView.getAlpha();
@@ -763,28 +765,29 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
                     listener.onTrashAnimationStarted(mStartedCode);
                 }
             }
-            // 経過時間
+            // elapsed time
             final float elapsedTime = SystemClock.uptimeMillis() - mStartTime;
 
-            // 表示アニメーション
+            // display animation
             if (animationCode == ANIMATION_OPEN) {
                 final float currentAlpha = backgroundView.getAlpha();
-                // 最大のアルファ値に達していない場合
+                // If the maximum alpha value is not reached
                 if (currentAlpha < MAX_ALPHA) {
                     final float alphaTimeRate = Math.min(elapsedTime / BACKGROUND_DURATION_MILLIS, 1.0f);
                     final float alpha = Math.min(mStartAlpha + alphaTimeRate, MAX_ALPHA);
                     backgroundView.setAlpha(alpha);
                 }
 
-                // DelayTimeを超えていたらアニメーション開始
+                // If it exceeds DelayTime, it starts animation.
                 if (elapsedTime >= TRASH_OPEN_START_DELAY_MILLIS) {
                     final float screenHeight = trashView.mMetrics.heightPixels;
-                    // アイコンが左右に全部はみ出たらそれぞれ0%、100%の計算
+                    // Calculate 0% and 100% respectively when all the icons stick out from side to side.
                     final float positionX = trashViewX + (mTargetPositionX + mTargetWidth) / (screenWidth + mTargetWidth) * mTrashIconLimitPosition.width() + mTrashIconLimitPosition.left;
-                    // 削除アイコンのY座標アニメーションと追従（上方向がマイナス）
-                    // targetPositionYRateは、ターゲットのY座標が完全に画面外になると0%、画面の半分以降は100%
-                    // stickyPositionYは移動限界の下端が原点で上端まで移動する。mMoveStickyRangeが追従の範囲
-                    // positionYの計算により時間経過とともに移動する
+                    // Delete icon Y-coordinate animation and follow-up (upward negative)
+                    // targetPositionYRate is 0% when the Y-coordinate of the target is completely out of the screen,
+                    // and 100% after half the screen.
+                    // stickyPositionY moves the bottom edge of the migration limit to the top edge at the origin, mMoveStickyRange follows
+                    // positionY calculations move over time
                     final float targetPositionYRate = Math.min(2 * (mTargetPositionY + mTargetHeight) / (screenHeight + mTargetHeight), 1.0f);
                     final float stickyPositionY = mMoveStickyYRange * targetPositionYRate + mTrashIconLimitPosition.height() - mMoveStickyYRange;
                     final float translationYTimeRate = Math.min((elapsedTime - TRASH_OPEN_START_DELAY_MILLIS) / TRASH_OPEN_DURATION_MILLIS, 1.0f);
@@ -800,22 +803,22 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
 
                 sendMessageAtTime(newMessage(animationCode, TYPE_UPDATE), SystemClock.uptimeMillis() + ANIMATION_REFRESH_TIME_MILLIS);
             }
-            // 非表示アニメーション
+            // hidden animation
             else if (animationCode == ANIMATION_CLOSE) {
-                // アルファ値の計算
+                // calculation of alpha values
                 final float alphaElapseTimeRate = Math.min(elapsedTime / BACKGROUND_DURATION_MILLIS, 1.0f);
                 final float alpha = Math.max(mStartAlpha - alphaElapseTimeRate, MIN_ALPHA);
                 backgroundView.setAlpha(alpha);
 
-                // 削除アイコンのY座標アニメーション
+                // Y-coordinate animation of deleted icons
                 final float translationYTimeRate = Math.min(elapsedTime / TRASH_CLOSE_DURATION_MILLIS, 1.0f);
-                // アニメーションが最後まで到達していない場合
+                // If the animation hasn't reached the end
                 if (alphaElapseTimeRate < 1.0f || translationYTimeRate < 1.0f) {
                     final float position = mStartTransitionY + mTrashIconLimitPosition.height() * translationYTimeRate;
                     trashIconRootView.setTranslationY(position);
                     sendMessageAtTime(newMessage(animationCode, TYPE_UPDATE), SystemClock.uptimeMillis() + ANIMATION_REFRESH_TIME_MILLIS);
                 } else {
-                    // 位置を強制的に調整
+                    // Force position adjustment
                     trashIconRootView.setTranslationY(mTrashIconLimitPosition.bottom);
                     mStartedCode = ANIMATION_NONE;
                     if (listener != null) {
@@ -823,7 +826,7 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
                     }
                 }
             }
-            // 即時非表示
+            // Immediate hiding
             else if (animationCode == ANIMATION_FORCE_CLOSE) {
                 backgroundView.setAlpha(0.0f);
                 trashIconRootView.setTranslationY(mTrashIconLimitPosition.bottom);
@@ -844,17 +847,17 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
         }
 
         /**
-         * アニメーションのメッセージを送信します。
+         * Send an animation message.
          *
          * @param animation   ANIMATION_OPEN,ANIMATION_CLOSE,ANIMATION_FORCE_CLOSE
-         * @param delayMillis メッセージの送信時間
+         * @param delayMillis Message transmission time
          */
         void sendAnimationMessageDelayed(int animation, long delayMillis) {
             sendMessageAtTime(newMessage(animation, TYPE_FIRST), SystemClock.uptimeMillis() + delayMillis);
         }
 
         /**
-         * アニメーションのメッセージを送信します。
+         * Send an animation message.
          *
          * @param animation ANIMATION_OPEN,ANIMATION_CLOSE,ANIMATION_FORCE_CLOSE
          */
@@ -877,20 +880,20 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
         }
 
         /**
-         * アニメーションが開始しているかどうかチェックします。
+         * Check if the animation is starting.
          *
-         * @param animationCode アニメーションコード
-         * @return アニメーションが開始していたらtrue.そうでなければfalse
+         * @param animationCode animation code
+         * @return True if the animation was started otherwise false
          */
         boolean isAnimationStarted(int animationCode) {
             return mStartedCode == animationCode;
         }
 
         /**
-         * 追従対象の位置情報を更新します。
+         * Update the location information to follow.
          *
-         * @param x 追従対象のX座標
-         * @param y 追従対象のY座標
+         * @param x X-coordinate to follow
+         * @param y Y-coordinate to follow
          */
         void updateTargetPosition(float x, float y) {
             mTargetPositionX = x;
@@ -898,15 +901,18 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
         }
 
         /**
-         * Viewの表示状態が変更された際に呼び出されます。
+         * Called when View display state changes.
          */
         void onUpdateViewLayout() {
             final TrashView trashView = mTrashView.get();
             if (trashView == null) {
                 return;
             }
-            // 削除アイコン(TrashIconRootView)の移動限界設定(Gravityの基準位置を元に計算）
-            // 左下原点（画面下端（パディング含む）：0、上方向：マイナス、下方向：プラス）で、Y軸上限は削除アイコンが背景の中心に来る位置、下限はTrashIconRootViewが全部隠れる位置
+            // Migration Limit Settings for the Delete Icon (TrashIconRootView)
+            // (calculated based on the Gravity reference position)
+            // lower left origin（Lower edge of screen (including padding): 0, Up: Negative, Down: Plus）
+            // The upper limit of the Y axis is where the delete icon comes to the center of the background,
+            // and the lower limit is where the TrashIconRootView is all hidden.
             final float density = trashView.mMetrics.density;
             final float backgroundHeight = trashView.mBackgroundView.getMeasuredHeight();
             final float offsetX = TRASH_MOVE_LIMIT_OFFSET_X * density;
@@ -917,7 +923,7 @@ class TrashView extends FrameLayout implements ViewTreeObserver.OnPreDrawListene
             final int bottom = trashIconHeight;
             mTrashIconLimitPosition.set(left, top, right, bottom);
 
-            // 背景の大きさをもとにY軸の追従範囲を設定
+            // Set the Y-axis tracking range based on the size of the background.
             mMoveStickyYRange = backgroundHeight * 0.20f;
         }
     }

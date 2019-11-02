@@ -18,12 +18,12 @@ package com.example.munmo.android.floatingview;
 
 
 /**
- * FloatingViewのリスナです。
+ * FloatingView Listner
  */
 public interface FloatingViewListener {
 
     /**
-     * FloatingViewを終了する際に呼び出されます。
+     * Called when exiting FloatingView。
      */
     void onFinishFloatingView();
 
