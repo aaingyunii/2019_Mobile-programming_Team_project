@@ -2,12 +2,14 @@ package com.example.floattest;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
@@ -16,13 +18,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
-    private FloatingActionButton fab, facebook, kakao, instagram;
+    private FloatingActionButton fab;
     private Boolean isPopupOpen = false;
     private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1;
+    private int numofM = 0;
+    private ArrayList<FloatingActionButton> floatList = new ArrayList();
+    private ArrayList<Integer> layoutlist = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +40,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        facebook = (FloatingActionButton) findViewById(R.id.fab1);
-        kakao = (FloatingActionButton) findViewById(R.id.fab2);
-        instagram = (FloatingActionButton) findViewById(R.id.fab3);
 
+
+
+        //환경설정을통해서 floatList 내용 정하는 부분 구현(예: facebook 체크, kakao 체크), 메소드 만들어주기
+        //환경설정은 아이콘 꾹누르면 체크할 수 있도록
+        numofM = 3;
+        //최대 플롯버튼수는 정해두기 일단 list로 넣어두고 나중에 동적으로 변경
+        layoutlist.add(R.id.fab1);
+        layoutlist.add(R.id.fab2);
+        layoutlist.add(R.id.fab3);
+        for(int i =0;i< numofM; i++){
+            FloatingActionButton bt;
+            floatList.add((FloatingActionButton) findViewById(layoutlist.get(i)));
+            // 이미지랑 이름은 어플에서 가져와야 함.
+        }
+
+
+
+        //클릭 리스너 설정
         fab.setOnClickListener(this);
-        facebook.setOnClickListener(this);
-        kakao.setOnClickListener(this);
-        instagram.setOnClickListener(this);
+        for(int i =0;i< numofM; i++){
+            floatList.get(i).setOnClickListener(this);
+        }
+
+
+
     }
 
 
@@ -54,15 +79,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkPermission();
                 break;
             case R.id.fab1:
-                Toast.makeText(this, "facebook", Toast.LENGTH_SHORT).show();
                 showPopup();
                 break;
             case R.id.fab2:
-                Toast.makeText(this, "kakao", Toast.LENGTH_SHORT).show();
                 showPopup();
                 break;
             case R.id.fab3:
-                Toast.makeText(this,"instagram",Toast.LENGTH_SHORT).show();
                 showPopup();
                 break;
         }
@@ -73,23 +95,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void anim() {
 
         if (isFabOpen) {
-            facebook.startAnimation(fab_close);
-            kakao.startAnimation(fab_close);
-            instagram.startAnimation(fab_close);
-
-            facebook.setClickable(false);
-            kakao.setClickable(false);
-            instagram.setClickable(false);
-
+            for(int i=0;i<numofM;i++){
+                floatList.get(i).startAnimation(fab_close);
+                floatList.get(i).setClickable(false);
+            }
+            if(isPopupOpen==true)
+                showPopup();
             isFabOpen = false;
         } else {
-            facebook.startAnimation(fab_open);
-            kakao.startAnimation(fab_open);
-            instagram.startAnimation(fab_open);
 
-            facebook.setClickable(true);
-            kakao.setClickable(true);
-            instagram.setClickable(true);
+            for(int i=0;i<numofM;i++){
+                floatList.get(i).startAnimation(fab_open);
+                floatList.get(i).setClickable(true);
+            }
 
             isFabOpen = true;
         }
@@ -107,8 +125,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //show popup window
     public void showPopup(){
+        Intent intent = new Intent(MainActivity.this,PopupWindow.class);
+        //intent.putExtra("name",)
         if(isPopupOpen == false){
-            startService(new Intent(MainActivity.this,PopupWindow.class));
+            startService(intent);
             isPopupOpen = true;
         }else{
             stopService(new Intent(MainActivity.this,PopupWindow.class));
