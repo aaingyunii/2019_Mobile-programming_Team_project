@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".PopupWindow"
-            android:theme="@android:style/Theme.Dialog"></activity>
+            android:theme="@style/CustomTheme">
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>

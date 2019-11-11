@@ -1,8 +1,12 @@
 package com.example.floattest;
 
+
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -12,12 +16,20 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
-public class PopupWindow extends Activity {
+import com.google.android.material.tabs.TabLayout;
+
+public class PopupWindow extends AppCompatActivity {
 
     TextView txtText;
-    private ViewPager  mViewPager;
+    //채팅방 수 임시로 고정
+    private int chat_num = 3;
 
 
     @Override
@@ -51,9 +63,40 @@ public class PopupWindow extends Activity {
                 finish();
             }
         });
+        //테두리 투명하게
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        // 뷰페이저
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        // 프래그먼트 탭
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        for(int i=0;i<chat_num;i++){
+            tabLayout.addTab(tabLayout.newTab().setText(""+(i+1)));
+
+        }
+        tabLayout.setTabTextColors(Color.LTGRAY,Color.BLUE);
+        tabLayout.setTabGravity(tabLayout.GRAVITY_FILL);
+
+        final ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
+        final PagerAdapter adpater = new PagerAdapter
+                (getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adpater);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
 
 
     }

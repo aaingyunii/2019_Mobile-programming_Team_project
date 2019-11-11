@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //show popup window
     public void showPopup(){
+
         Intent intent = new Intent(MainActivity.this,PopupWindow.class);
         //intent.putExtra("name",)
         if(isPopupOpen == false){
