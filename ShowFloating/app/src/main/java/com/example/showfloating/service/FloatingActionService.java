@@ -26,7 +26,7 @@ public class FloatingActionService extends Service {
 
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
-    private ImageView fab1,fab2,fab3;
+
     private Boolean isPopupOpen = false;
     private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1;
     private int numofM = 0;
@@ -49,11 +49,12 @@ public class FloatingActionService extends Service {
         layoutlist.add(R.id.fab1);
 //        layoutlist.add(R.id.fab2);
 //        layoutlist.add(R.id.fab3);
-
+//
 //        for (int i = 0; i < numofM; i++) {
 //            floatList.add((ImageView) layoutlist.get(i));
 //            // 이미지랑 이름은 어플에서 가져와야 함.
 //        }
+
     }
 
     @Override
@@ -91,6 +92,7 @@ public class FloatingActionService extends Service {
 //                break;
 //        }
 //    }
+
     public void anim() {
 
         if (isFabOpen) {
@@ -121,7 +123,7 @@ public class FloatingActionService extends Service {
         if (isPopupOpen == false) {
 
 
-            
+
             startService(intent);
             isPopupOpen = true;
         } else {
