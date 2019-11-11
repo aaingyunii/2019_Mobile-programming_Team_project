@@ -1,73 +1,79 @@
 package com.example.floattest;
 
-import android.app.Service;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PixelFormat;
-import android.graphics.Point;
-import android.os.IBinder;
+import android.os.Bundle;
 import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class PopupWindow extends Service {
+import androidx.viewpager.widget.ViewPager;
 
-    WindowManager wm;
-    View mView;
+public class PopupWindow extends Activity {
+
+    TextView txtText;
+    private ViewPager  mViewPager;
+
 
     @Override
-    public IBinder onBind(Intent intent) { return null; }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //타이틀바 없애기
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.window_popup);
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        LayoutInflater inflate = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-        Point mPoint = new Point();
-        Display mDisplay = wm.getDefaultDisplay();
-        mDisplay.getSize(mPoint);
+        //UI 객체생성
+        txtText = (TextView)findViewById(R.id.name);
 
+        //데이터 가져오기
+        /*
+        Intent intent = getIntent();
+        String data = intent.getStringExtra("data");
+        txtText.setText(data);
+         */
+        //크기조절
+        Display display = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                ///*ViewGroup.LayoutParams.MATCH_PARENT*/300,
-                //ViewGroup.LayoutParams.WRAP_CONTENT,
-                mPoint.x / 2,
-                mPoint.y / 2,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                PixelFormat.TRANSLUCENT);
+        int width = (int)(display.getWidth()*0.95);
+        int height = (int) (display.getHeight() * 0.6);
+        getWindow().getAttributes().width = width;
+        getWindow().getAttributes().height = height;
 
-
-        params.gravity = Gravity.CENTER | Gravity.CENTER;
-        mView = inflate.inflate(R.layout.window_popup, null);
-        final TextView textView = (TextView) mView.findViewById(R.id.name);
-        final Button bt = (Button)mView.findViewById(R.id.bt);
-        bt.setOnClickListener(new View.OnClickListener() {
+        Button bt = (Button)findViewById(R.id.close_bt);
+        bt.setOnClickListener(new Button.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                textView.setText("on click!!");
+            public void onClick(View view){
+                finish();
             }
         });
-        wm.addView(mView, params);
+
+        // 뷰페이저
+        mViewPager = (ViewPager) findViewById(R.id.container);
+
+
     }
 
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if(wm != null) {
-            if(mView != null) {
-                wm.removeView(mView);
-                mView = null;
-            }
-            wm = null;
+    public boolean onTouchEvent(MotionEvent event) {
+        //바깥레이어 클릭시 안닫히게
+        if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
+            return false;
         }
+        return true;
     }
+/*
+    @Override
+    public void onBackPressed() {
+        //안드로이드 백버튼 막기
+        return;
+    }
+
+ */
 }
+

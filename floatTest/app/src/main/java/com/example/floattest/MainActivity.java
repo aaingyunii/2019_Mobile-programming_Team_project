@@ -128,10 +128,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(MainActivity.this,PopupWindow.class);
         //intent.putExtra("name",)
         if(isPopupOpen == false){
-            startService(intent);
-            isPopupOpen = true;
+            startActivity(intent);
+            anim();
+            //isPopupOpen = true;
         }else{
-            stopService(new Intent(MainActivity.this,PopupWindow.class));
             isPopupOpen = false;
         }
 

@@ -16,10 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".PopupWindow"
-            android:enabled="true"
-            android:permission="android.permission.SYSTEM_ALERT_WINDOW">
-        </service>
+        <activity android:name=".PopupWindow"
+            android:theme="@android:style/Theme.Dialog"></activity>
     </application>
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
