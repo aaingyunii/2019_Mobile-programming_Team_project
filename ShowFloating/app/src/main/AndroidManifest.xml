@@ -5,7 +5,6 @@
     <!-- top-view permission -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- Foreground Service permission(API level 28 or higher) -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- FloatingAction on Window permission -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -36,7 +35,8 @@
             android:taskAffinity="jp.co.recruit.floatingview.ChatHeadActivity" /> <!-- Demo Viewing Service -->
         <service
             android:name=".service.ChatHeadService"
-            android:exported="false" />
+            android:exported="false"
+            android:permission="android.permission.SYSTEM_ALERT_WINDOW"/>
         <!-- PopupWindow for chatting situation -->
         <service
             android:name=".PopupWindow"

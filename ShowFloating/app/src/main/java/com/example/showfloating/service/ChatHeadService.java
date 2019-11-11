@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
@@ -56,9 +57,12 @@ public class ChatHeadService extends Service implements FloatingViewListener {
             return START_STICKY;
         }
 
+        //화면의 해상도를 구한다.
         final DisplayMetrics metrics = new DisplayMetrics();
+        //윈도우의 최상위 뷰를 가져온다.
         final WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(metrics);
+
         final LayoutInflater inflater = LayoutInflater.from(this);
         final ImageView iconView = (ImageView) inflater.inflate(R.layout.widget_chathead, null, false);
 
@@ -66,7 +70,9 @@ public class ChatHeadService extends Service implements FloatingViewListener {
         iconView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChatHeadService.this,FloatingActionService.class);
+                Toast.makeText(ChatHeadService.this,"Clicked FloatingView",Toast.LENGTH_SHORT).show();
+                Log.d("test", "액티비티-서비스 시작버튼클릭");
+                Intent intent = new Intent(getApplicationContext(),FloatingActionService.class);
                 startService(intent);
             }
         });

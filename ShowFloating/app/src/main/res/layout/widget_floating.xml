@@ -3,35 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/fab3"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|end"-->
-<!--        android:layout_marginBottom="230dp"-->
-<!--        android:layout_marginRight="15sp"-->
-<!--        android:padding="8dp"-->
-<!--        android:src="@drawable/ic_add_black_24dp"-->
-<!--        android:visibility="invisible"-->
-<!--        android:backgroundTint="#9500ff"-->
-<!--        android:elevation="6dp"-->
-<!--        android:pressedTranslationZ="12dp"-->
-<!--        />-->
+    <ImageView
+        android:id="@+id/fab3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="230dp"
+        android:layout_marginRight="15sp"
+        android:padding="8dp"
+        android:src="@drawable/ic_add_black_24dp"
+        android:visibility="invisible"
+        android:backgroundTint="#9500ff"
+        android:elevation="6dp"
+        />
 
-<!--    <ImageView-->
-<!--        android:id="@+id/fab2"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|end"-->
-<!--        android:layout_marginBottom="160dp"-->
-<!--        android:layout_marginRight="15sp"-->
-<!--        android:padding="8dp"-->
-<!--        android:src="@drawable/ic_add_black_24dp"-->
-<!--        android:visibility="invisible"-->
-<!--        android:backgroundTint="#9500ff"-->
-<!--        android:elevation="6dp"-->
-<!--        android:pressedTranslationZ="12dp"-->
-<!--        />-->
+    <ImageView
+        android:id="@+id/fab2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="160dp"
+        android:layout_marginRight="15sp"
+        android:padding="8dp"
+        android:src="@drawable/ic_add_black_24dp"
+        android:visibility="invisible"
+        android:backgroundTint="#9500ff"
+        android:elevation="6dp"
+        />
 
     <ImageView
         android:id="@+id/fab1"
@@ -42,7 +40,7 @@
         android:layout_marginRight="15sp"
         android:padding="8dp"
         android:src="@drawable/ic_add_black_24dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:backgroundTint="#9500ff"
         android:elevation="6dp"
         />
