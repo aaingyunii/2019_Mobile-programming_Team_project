@@ -45,15 +45,6 @@ public class ChatHeadService extends Service implements FloatingViewListener {
      */
     private FloatingViewManager mFloatingViewManager;
 
-    //floattest에서 가져온 변수 선언
-//    private Animation fab_open, fab_close;
-//    private Boolean isFabOpen = false;
-//    private FloatingActionButton fab;
-//    private Boolean isPopupOpen = false;
-//    private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1;
-//    private int numofM = 0;
-//    private ArrayList<FloatingActionButton> floatList = new ArrayList();
-//    private ArrayList<Integer> layoutlist = new ArrayList();
 
     /**
      * {@inheritDoc}
@@ -75,7 +66,8 @@ public class ChatHeadService extends Service implements FloatingViewListener {
         iconView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, getString(R.string.chathead_click_message));
+                Intent intent = new Intent(ChatHeadService.this,FloatingActionService.class);
+                startService(intent);
             }
         });
 

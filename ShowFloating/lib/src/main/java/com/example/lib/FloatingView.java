@@ -875,7 +875,7 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
                 mVelocityTracker = null;
             }
 
-            // When ACTION_UP is done (when not pressed or moved)
+//             When ACTION_UP is done (when not pressed or moved)
             if (action == MotionEvent.ACTION_UP && !tmpIsLongPressed && !mIsMoveAccept) {
                 final int size = getChildCount();
                 for (int i = 0; i < size; i++) {
