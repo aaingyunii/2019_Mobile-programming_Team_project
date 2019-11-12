@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,7 +30,7 @@ public class PopupWindow extends AppCompatActivity {
 
     TextView txtText;
     //채팅방 수 임시로 고정
-    private int chat_num = 3;
+    private int chat_num = 2;
 
 
     @Override
@@ -77,13 +78,19 @@ public class PopupWindow extends AppCompatActivity {
 
         final ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
         final PagerAdapter adpater = new PagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
+                (getSupportFragmentManager(), tabLayout.getTabCount(), this);
+        Log.i("gangmin","before");
         viewPager.setAdapter(adpater);
+        Log.i("gangmin","after");
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        //셀랙트 리스너
+        /*
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+
             }
 
             @Override
@@ -96,6 +103,8 @@ public class PopupWindow extends AppCompatActivity {
 
             }
         });
+
+         */
 
 
 
