@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.example.showfloating.R;
 
@@ -35,7 +36,7 @@ public class FloatingActionService extends Service {
         //Xml의 객체들을 view로 가져오는 역할
         final LayoutInflater inflater = LayoutInflater.from(this);
         //xml파일을 view로 만들어서 화면위에 띄운다.
-        final FrameLayout floatView = (FrameLayout) inflater.inflate(R.layout.widget_floating,null,false);
+        final ImageView floatView = (ImageView) inflater.inflate(R.layout.widget_floating,null,false);
 
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -45,6 +46,8 @@ public class FloatingActionService extends Service {
                         WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL|
                         WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
+        params.gravity = Gravity.LEFT | Gravity.TOP;
+        windowManager.addView(floatView,params);
 
     }
 
