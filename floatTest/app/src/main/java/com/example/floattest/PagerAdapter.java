@@ -21,25 +21,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         mContext = c;
 
     }
-/*
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        View view = null ;
 
-        if (mContext != null) {
-            // LayoutInflater를 통해 chatpage 뷰 생성
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.chatpage, container, false);
-
-        }
-
-        // 뷰페이저에 추가.
-        container.addView(view) ;
-
-        return view ;
-    }
-
- */
 
     @Override
     public Fragment getItem(int position) {
