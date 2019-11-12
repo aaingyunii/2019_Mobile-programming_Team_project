@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -37,17 +38,27 @@ public class FloatingActionService extends Service {
         final LayoutInflater inflater = LayoutInflater.from(this);
         //xml파일을 view로 만들어서 화면위에 띄운다.
         final ImageView floatView = (ImageView) inflater.inflate(R.layout.widget_floating,null,false);
+        ImageView floatView2 = (ImageView) inflater.inflate(R.layout.widget_floating2,null,false);
+
+        int type=0;
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.O){
+            type=WindowManager.LayoutParams.TYPE_PHONE;
+        }else{
+            type =WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        }
 
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL|
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                type,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|
                         WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
+
         params.gravity = Gravity.LEFT | Gravity.TOP;
         windowManager.addView(floatView,params);
+        windowManager.addView(floatView2,params);
+
 
     }
 

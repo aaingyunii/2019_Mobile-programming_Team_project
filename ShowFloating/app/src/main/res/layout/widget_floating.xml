@@ -11,9 +11,9 @@
 <!--        android:layout_marginBottom="230dp"-->
 <!--        android:layout_marginRight="15sp"-->
 <!--        android:padding="8dp"-->
-<!--        android:src="@drawable/ic_add_black_24dp"-->
+<!--        android:src="@drawable/ic_looks_two_black_24dp"-->
 <!--        android:visibility="visible"-->
-<!--        android:backgroundTint="#9500ff"-->
+<!--        android:background="@android:color/transparent"-->
 <!--        android:elevation="6dp"-->
 <!--        />-->
 
@@ -25,9 +25,9 @@
 <!--        android:layout_marginBottom="160dp"-->
 <!--        android:layout_marginRight="15sp"-->
 <!--        android:padding="8dp"-->
-<!--        android:src="@drawable/ic_add_black_24dp"-->
+<!--        android:src="@drawable/ic_looks_two_black_24dp"-->
 <!--        android:visibility="visible"-->
-<!--        android:backgroundTint="#9500ff"-->
+<!--        android:background="@android:color/transparent"-->
 <!--        android:elevation="6dp"-->
 <!--        />-->
 
@@ -39,8 +39,8 @@
     android:layout_marginRight="15sp"
     android:padding="8dp"
     android:src="@drawable/ic_add_black_24dp"
+    android:background="@android:color/transparent"
     android:visibility="visible"
-    android:backgroundTint="#7C9500FF"
     android:elevation="6dp"
     xmlns:android="http://schemas.android.com/apk/res/android" />
 
