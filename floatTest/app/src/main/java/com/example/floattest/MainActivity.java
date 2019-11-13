@@ -15,10 +15,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -64,7 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             floatList.get(i).setOnClickListener(this);
         }
 
-
+        //notification listener 생성
+        Intent intent = new Intent(MainActivity.this,MyNotificationListener.class);
+        startService(intent);
 
     }
 
@@ -77,6 +81,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 anim();
                 Toast.makeText(this, "Floating Action Button", Toast.LENGTH_SHORT).show();
                 checkPermission();
+                //permission check for notification
+                boolean isPermissionAllowed = isNotiPermissionAllowed();
+                if(!isPermissionAllowed){
+                    Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                    startActivity(intent);
+                }
                 break;
             case R.id.fab1:
                 showPopup();
@@ -123,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     //show popup window
     public void showPopup(){
 
@@ -150,5 +161,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+    //permision check
+    private boolean isNotiPermissionAllowed() {
+        Set<String> notiListenerSet = NotificationManagerCompat.getEnabledListenerPackages(this);
+        String myPackageName = getPackageName();
+
+        for(String packageName : notiListenerSet) {
+            if(packageName == null) {
+                continue;
+            }
+            if(packageName.equals(myPackageName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
 }
