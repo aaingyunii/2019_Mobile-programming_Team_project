@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.media.Image;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.DisplayMetrics;
@@ -15,6 +16,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.showfloating.R;
 
@@ -46,9 +48,12 @@ public class FloatingActionService extends Service {
 
         //Xml의 객체들을 view로 가져오는 역할
         final LayoutInflater inflater = LayoutInflater.from(this);
+
         //xml파일을 view로 만들어서 화면위에 띄운다.
         final ImageView floatView = (ImageView) inflater.inflate(R.layout.widget_floating,null,false);
         final ImageView floatView2 = (ImageView) inflater.inflate(R.layout.widget_floating2,null,false);
+        final ImageView floatView3 = (ImageView) inflater.inflate(R.layout.widget_floating3,null,false);
+        final ImageView floatView4 = (ImageView) inflater.inflate(R.layout.widget_floating4,null,false);
 
         int type=0;
         if(Build.VERSION.SDK_INT<Build.VERSION_CODES.O){
@@ -57,7 +62,7 @@ public class FloatingActionService extends Service {
             type =WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         }
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+        WindowManager.LayoutParams params1 = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 type,
@@ -67,14 +72,39 @@ public class FloatingActionService extends Service {
                         WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 PixelFormat.TRANSLUCENT);
 
-        params.gravity = Gravity.BOTTOM | Gravity.END;
-        windowManager.addView(floatView,params);
-        windowManager.addView(floatView2,params);
+        params1.gravity = Gravity.RIGHT | Gravity.CENTER;
+        params1.y=-400;
+        windowManager.addView(floatView,params1);//위에서 1번째
+        params1.y=-200;
+        windowManager.addView(floatView2,params1);//위에서 2번째
+        params1.y=0;
+        windowManager.addView(floatView3,params1);//위에서 3번째
+        params1.y=200;
+        windowManager.addView(floatView4,params1);//4번째
+
 
         floatView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(FloatingActionService.this,"Click Kakao",Toast.LENGTH_SHORT).show();
+            }
+        });
+        floatView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(FloatingActionService.this,"Click Slack",Toast.LENGTH_SHORT).show();
+            }
+        });
+        floatView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(FloatingActionService.this,"Click Facebook",Toast.LENGTH_SHORT).show();
+            }
+        });
+        floatView4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(FloatingActionService.this,"Click Instagram",Toast.LENGTH_SHORT).show();
             }
         });
 

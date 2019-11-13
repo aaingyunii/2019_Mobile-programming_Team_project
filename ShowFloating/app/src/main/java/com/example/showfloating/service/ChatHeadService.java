@@ -71,7 +71,7 @@ public class ChatHeadService extends Service implements FloatingViewListener {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ChatHeadService.this,"Clicked FloatingView",Toast.LENGTH_SHORT).show();
-                Log.d("test", "액티비티-서비스 시작버튼클릭");
+                Log.d("test", "플로팅액션-서비스 시작버튼클릭");
                 Intent intent = new Intent(getApplicationContext(),FloatingActionService.class);
                 startService(intent);
             }
