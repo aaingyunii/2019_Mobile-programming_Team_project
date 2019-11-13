@@ -11,6 +11,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -22,12 +24,20 @@ import com.example.showfloating.R;
 
 public class FloatingActionService extends Service {
 
+    private ChatHeadService chatHeadService;
     private String TAG = "FloatingViewService";
+    private Animation fab_open, fab_close;
+    private Boolean isFabOpen = false;
+    private Boolean isPopupOpen = false;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+
         //화면의 해상도를 구한다.
         final DisplayMetrics metrics = new DisplayMetrics();
         //윈도우의 최상위 뷰를 가져온다.
@@ -38,7 +48,7 @@ public class FloatingActionService extends Service {
         final LayoutInflater inflater = LayoutInflater.from(this);
         //xml파일을 view로 만들어서 화면위에 띄운다.
         final ImageView floatView = (ImageView) inflater.inflate(R.layout.widget_floating,null,false);
-        ImageView floatView2 = (ImageView) inflater.inflate(R.layout.widget_floating2,null,false);
+        final ImageView floatView2 = (ImageView) inflater.inflate(R.layout.widget_floating2,null,false);
 
         int type=0;
         if(Build.VERSION.SDK_INT<Build.VERSION_CODES.O){
@@ -48,16 +58,25 @@ public class FloatingActionService extends Service {
         }
 
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
                 type,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|
-                        WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS|
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL|
+                        WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 PixelFormat.TRANSLUCENT);
 
-        params.gravity = Gravity.LEFT | Gravity.TOP;
+        params.gravity = Gravity.BOTTOM | Gravity.END;
         windowManager.addView(floatView,params);
         windowManager.addView(floatView2,params);
+
+        floatView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
     }
@@ -69,8 +88,14 @@ public class FloatingActionService extends Service {
      */
 
 
-//    @Override
-//    public int onStartCommand(Intent intent, int flags, int startId) {
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if(chatHeadService!=null){
+            return START_STICKY;
+        }
+
+        return START_REDELIVER_INTENT;
+
 //        //화면의 해상도를 구한다.
 //        final DisplayMetrics metrics = new DisplayMetrics();
 //        //윈도우의 최상위 뷰를 가져온다.
@@ -94,10 +119,17 @@ public class FloatingActionService extends Service {
 ////                PixelFormat.TRANSLUCENT);
 ////
 //        return flags;
-//    }
+    }
 
 
     @Override
     public IBinder onBind(Intent intent) { return null;}
 
+//    @Override
+//    public void onDestroy() {
+//            if(chatHeadService!=null){
+//
+//            }
+//            super.onDestroy();
+//    }
 }

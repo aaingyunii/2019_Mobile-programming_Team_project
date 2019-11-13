@@ -139,6 +139,7 @@ public class ChatHeadService extends Service implements FloatingViewListener {
         }
     }
 
+
     /**
      * Displays notifications.
      * There is no click action.
