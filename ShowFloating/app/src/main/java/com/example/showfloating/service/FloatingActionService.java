@@ -24,14 +24,14 @@ import com.example.showfloating.R;
  * Floating view 클릭 시 채팅앱 아이콘이 뜨는 것.
  */
 
-public class FloatingActionService extends Service {
+public class FloatingActionService extends Service implements View.OnClickListener{
 
     private ChatHeadService chatHeadService;
     private String TAG = "FloatingViewService";
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
     private Boolean isPopupOpen = false;
-
+    private ImageView floatView,floatView2,floatView3,floatView4;
 
     @Override
     public void onCreate() {
@@ -50,10 +50,11 @@ public class FloatingActionService extends Service {
         final LayoutInflater inflater = LayoutInflater.from(this);
 
         //xml파일을 view로 만들어서 화면위에 띄운다.
-        final ImageView floatView = (ImageView) inflater.inflate(R.layout.widget_floating,null,false);
-        final ImageView floatView2 = (ImageView) inflater.inflate(R.layout.widget_floating2,null,false);
-        final ImageView floatView3 = (ImageView) inflater.inflate(R.layout.widget_floating3,null,false);
-        final ImageView floatView4 = (ImageView) inflater.inflate(R.layout.widget_floating4,null,false);
+        final ImageView iconView = (ImageView) inflater.inflate(R.layout.widget_chathead,null,false);
+        floatView = (ImageView) inflater.inflate(R.layout.widget_floating,null,false);
+        floatView2 = (ImageView) inflater.inflate(R.layout.widget_floating,null,false);
+        floatView3 = (ImageView) inflater.inflate(R.layout.widget_floating,null,false);
+        floatView4 = (ImageView) inflater.inflate(R.layout.widget_floating,null,false);
 
         int type=0;
         if(Build.VERSION.SDK_INT<Build.VERSION_CODES.O){
@@ -61,7 +62,6 @@ public class FloatingActionService extends Service {
         }else{
             type =WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         }
-
         WindowManager.LayoutParams params1 = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -72,6 +72,7 @@ public class FloatingActionService extends Service {
                         WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 PixelFormat.TRANSLUCENT);
 
+        //파라미터를 이용해 각 뷰의 위치를 정적으로 고정시켜 놓음.
         params1.gravity = Gravity.RIGHT | Gravity.CENTER;
         params1.y=-400;
         windowManager.addView(floatView,params1);//위에서 1번째
@@ -82,33 +83,37 @@ public class FloatingActionService extends Service {
         params1.y=200;
         windowManager.addView(floatView4,params1);//4번째
 
+        //미완성
+        iconView.setOnClickListener(this);
+//        floatView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(FloatingActionService.this,"Click Kakao",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        floatView2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(FloatingActionService.this,"Click Slack",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        floatView3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(FloatingActionService.this,"Click Facebook",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        floatView4.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(FloatingActionService.this,"Click Instagram",Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
-        floatView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(FloatingActionService.this,"Click Kakao",Toast.LENGTH_SHORT).show();
-            }
-        });
-        floatView2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(FloatingActionService.this,"Click Slack",Toast.LENGTH_SHORT).show();
-            }
-        });
-        floatView3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(FloatingActionService.this,"Click Facebook",Toast.LENGTH_SHORT).show();
-            }
-        });
-        floatView4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(FloatingActionService.this,"Click Instagram",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+        floatView.setOnClickListener(this);
+        floatView2.setOnClickListener(this);
+        floatView3.setOnClickListener(this);
+        floatView4.setOnClickListener(this);
     }
 
 
@@ -155,6 +160,49 @@ public class FloatingActionService extends Service {
     @Override
     public IBinder onBind(Intent intent) { return null;}
 
+    //애니메이션 not working yet
+    @Override
+    public void onClick(View v) {
+        int id =v.getId();
+        switch (id){
+            case R.layout.widget_chathead:
+                anim();
+                Toast.makeText(this, "Floating View", Toast.LENGTH_SHORT).show();
+                break;
+            case R.layout.widget_floating:
+                anim();
+                Toast.makeText(this, "Floating vv", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    //애니메이션 not working yet
+    public void anim() {
+        if (isFabOpen) {
+            floatView.startAnimation(fab_close);
+            floatView2.startAnimation(fab_close);
+            floatView3.startAnimation(fab_close);
+            floatView4.startAnimation(fab_close);
+            floatView.setClickable(false);
+            floatView2.setClickable(false);
+            floatView3.setClickable(false);
+            floatView4.setClickable(false);
+
+            isFabOpen = false;
+
+        } else {
+            floatView.startAnimation(fab_open);
+            floatView2.startAnimation(fab_open);
+            floatView3.startAnimation(fab_open);
+            floatView4.startAnimation(fab_open);
+            floatView.setClickable(true);
+            floatView2.setClickable(true);
+            floatView3.setClickable(true);
+            floatView4.setClickable(true);
+
+            isFabOpen = true;
+        }
+    }
 //    @Override
 //    public void onDestroy() {
 //            if(chatHeadService!=null){
