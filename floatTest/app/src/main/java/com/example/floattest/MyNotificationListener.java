@@ -1,19 +1,27 @@
 package com.example.floattest;
 
 import android.app.Notification;
+import android.content.Intent;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+
 
 public class MyNotificationListener extends NotificationListenerService {
+    MyDBHandler myDBHandler;
+
     public final static String TAG = "MyNotificationListener";
+
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
-        Log.i("NotificationListener","onCreate()");
+        //서비스실행할때 최초로 생성(바꿔줘야할지 고민해야 한다)
+        myDBHandler = new MyDBHandler(this, "chatlog");
     }
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
@@ -43,6 +51,27 @@ public class MyNotificationListener extends NotificationListenerService {
                 " title: " + title +
                 " text : " + text +
                 " subText: " + subText);
+
+        if(text == null)
+            text = "";
+        if(subText == null)
+            subText = "";
+
+        String packNmae = sbn.getPackageName().replaceAll("\\.", "");
+
+
+        myDBHandler.createTable(packNmae);
+        myDBHandler.insert(packNmae,sbn.getId(),sbn.getPostTime(),title,text.toString(),subText.toString());
+
+        //여기서 리스트어댑터와 프래그먼트에 접근하여 화면을 새로고침한다.
+        sendMessage(packNmae);
     }
+    private void sendMessage(String packageName) {
+        Intent intent = new Intent("message_to_Activity");
+        intent.putExtra("message", packageName);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+
 
 }

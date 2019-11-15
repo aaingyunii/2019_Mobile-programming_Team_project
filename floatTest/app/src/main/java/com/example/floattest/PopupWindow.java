@@ -3,8 +3,10 @@ package com.example.floattest;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -32,6 +35,8 @@ public class PopupWindow extends AppCompatActivity {
     TextView txtText;
     //채팅방 수 임시로 고정
     private int chat_num = 2;
+    private ViewPager viewPager;
+    private PagerAdapter adapter;
 
 
     @Override
@@ -77,12 +82,10 @@ public class PopupWindow extends AppCompatActivity {
         tabLayout.setTabTextColors(Color.LTGRAY,Color.BLUE);
         tabLayout.setTabGravity(tabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
-        final PagerAdapter adpater = new PagerAdapter
+        viewPager = (ViewPager)findViewById(R.id.pager);
+        adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount(), this);
-        Log.i("gangmin","before");
-        viewPager.setAdapter(adpater);
-        Log.i("gangmin","after");
+        viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         //셀랙트 리스너
@@ -106,11 +109,32 @@ public class PopupWindow extends AppCompatActivity {
         });
 
          */
-
-
-
-
     }
+
+
+    //서비스로부터 브로드케스트 메세지를 받기위한 onResume()
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("message_to_Activity"));
+    }
+
+    //브로드케스트 메세지 리시버
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+            adapter.updateFragment(message);
+            //CallYourMethod(message); 실행시킬 메소드를 전달 받은 데이터를 담아 호출하려면 이렇게 한다.
+        }
+    };
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        super.onPause();
+    }
+
 
 
     @Override

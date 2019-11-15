@@ -1,6 +1,14 @@
 package com.example.floattest;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +17,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.w3c.dom.Text;
 
-public class ChatFragment extends Fragment {
+public class ChatFragment extends Fragment{
 
     ListView m_ListView;
     ChatAdapter m_Adapter;
+    String packageName = "comkakaotalk";
+    MyDBHandler myDBHandler ;
+
+
+
     public ChatFragment(){
 
     }
@@ -27,28 +42,58 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.chat_fragment, container, false);
 
-        //채팅 커스텀 어댑터
-        m_Adapter = new ChatAdapter();
-
         //Listview 연결
         m_ListView = (ListView)v.findViewById(R.id.listView1);
+
+        //채팅 커스텀 어댑터
+        m_Adapter = new ChatAdapter();
 
         //어뎁터랑 view 연결
         m_ListView.setAdapter(m_Adapter);
 
-        //이부분 동적으로 만들기
-        m_Adapter.add("인균아",1);
-        m_Adapter.add("돈좀빌려줘",1);
-        m_Adapter.add("말만해",0);
-        m_Adapter.add("5만원빌려줘",1);
-        m_Adapter.add("고마워",1);
-        m_Adapter.add("내일갚을게",1);
-        m_Adapter.add("갚을필요없어",0);
-        m_Adapter.add("2015/11/20",2);
-        m_Adapter.add("ㅇㅋㅇㅋ",1);
-        m_Adapter.add("ㅅㄱㅅㄱ",1);
-
-
+        listUdpate();
         return v;
     }
+
+    //데이터베이스에서 업데이트, 전달할때 업데이트할 프래그먼트 이름 알려주기ㅣ
+    public void listUdpate(){
+        Log.i("updateconfirm","update!");
+        myDBHandler = MyDBHandler.open(getActivity(),"chatlog");
+
+        //테이블 있는지 확인하고 있을때 업데이트하기
+        /*
+        if(myDBHandler.nullCheck(packageName).toString().equals(0)){
+            return;
+        }
+
+         */
+        Cursor cursor = myDBHandler.select(packageName);
+
+        //채팅 커스텀 어댑터 새로 만들어서 연결
+        m_Adapter = new ChatAdapter();
+
+        //어뎁터랑 view 연결
+        m_ListView.setAdapter(m_Adapter);
+
+        while (cursor.moveToNext()) {
+            if(cursor.getInt(1)==2){
+                String chat_message = cursor.getString(3) + " : " + cursor.getString(4);
+                m_Adapter.add(chat_message,0);
+            }
+        }
+
+        //데이터베이스에서 업데이트 하는 메소드 만들기.
+        //어뎁터 업데이트
+        m_Adapter.notifyDataSetChanged();
+        //프래그먼트 화면 업데이트
+        //fragmentUpdate();
+    }
+
+    //프래그먼트 화면 업데이트 메소드
+    public void fragmentUpdate(){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+    }
+
+
 }

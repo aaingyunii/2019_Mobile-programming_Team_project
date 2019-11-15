@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     private Context mContext = null ;
+    ChatFragment tab1, tab2, tab3;
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs, Context c) {
         super(fm);
@@ -25,25 +26,30 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
+        Log.i("지금인가?","ㅇㅇ");
         switch (position) {
             case 0:
-                ChatFragment tab1 = new ChatFragment();
-                Log.i("gangmin","fragment1");
+                tab1 = new ChatFragment();
                 return tab1;
             case 1:
-                ChatFragment tab2 = new ChatFragment();
-                Log.i("gangmin","fragment2");
+                tab2 = new ChatFragment();
                 return tab2;
             case 2:
-                ChatFragment tab3 = new ChatFragment();
-                Log.i("gangmin","fragment3");
+                tab3 = new ChatFragment();
                 return tab3;
             default:
                 return null;
         }
 
 
+    }
+    //업데이트하는부분 요소들 동적으로 변경해야함
+    public void updateFragment(String packName){
+        if(packName.equals("comkakaotalk")){
+            tab1.listUdpate();}
+        else{
+            //tab2.listUdpate();
+        }
     }
 
     @Override

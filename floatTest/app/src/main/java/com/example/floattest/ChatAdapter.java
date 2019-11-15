@@ -141,6 +141,7 @@ public class ChatAdapter extends BaseAdapter {
         return convertView;
     }
 
+
     private class CustomHolder {
         TextView    m_TextView;
         LinearLayout    layout;
