@@ -22,6 +22,12 @@ public class MyDBHandler {
     public static MyDBHandler open(Context context, String name) {
         return new MyDBHandler(context, name);
     }
+    public Cursor tabNum(String packageName){
+        mDB = mHelper.getReadableDatabase();
+        Cursor c = mDB.rawQuery("SELECT DISTINCT title from "+packageName,null);
+        return c;
+    }
+
 
     public Cursor select(String packageName)
     {
@@ -30,15 +36,7 @@ public class MyDBHandler {
         return c;
     }
 
-    public Cursor nullCheck(String packageName){
-        mDB = mHelper.getReadableDatabase();
-        Cursor c = mDB.rawQuery("SELECT EXISTS ("
-                + "  SELECT 1 FROM Information_schema.tables " +
-                "  WHERE table_schema = chatlog " +
-                "  AND table_name = "+packageName+
-                ") AS flag",null);
-        return c;
-    }
+
 
     public void insert(String packageName, int id, long postTime, String title, String text, String subText) {
 

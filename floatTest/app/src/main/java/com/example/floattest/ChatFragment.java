@@ -22,21 +22,23 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class ChatFragment extends Fragment{
 
     ListView m_ListView;
     ChatAdapter m_Adapter;
-    String packageName = "comkakaotalk";
     MyDBHandler myDBHandler ;
+    int position ;
 
 
 
     public ChatFragment(){
 
     }
-
-
-
+    public void getPosition(int position){
+        this.position = position;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,23 +53,19 @@ public class ChatFragment extends Fragment{
         //어뎁터랑 view 연결
         m_ListView.setAdapter(m_Adapter);
 
-        listUdpate();
+        myDBHandler = MyDBHandler.open(getActivity(),"chatlog");
+        //listUdpate("comkakaotalk");
         return v;
+
+
     }
 
+
     //데이터베이스에서 업데이트, 전달할때 업데이트할 프래그먼트 이름 알려주기ㅣ
-    public void listUdpate(){
+    public void listUdpate(String packName, String tabName){
         Log.i("updateconfirm","update!");
-        myDBHandler = MyDBHandler.open(getActivity(),"chatlog");
 
-        //테이블 있는지 확인하고 있을때 업데이트하기
-        /*
-        if(myDBHandler.nullCheck(packageName).toString().equals(0)){
-            return;
-        }
-
-         */
-        Cursor cursor = myDBHandler.select(packageName);
+        Cursor cursor = myDBHandler.select(packName);
 
         //채팅 커스텀 어댑터 새로 만들어서 연결
         m_Adapter = new ChatAdapter();
@@ -75,9 +73,10 @@ public class ChatFragment extends Fragment{
         //어뎁터랑 view 연결
         m_ListView.setAdapter(m_Adapter);
 
+
         while (cursor.moveToNext()) {
-            if(cursor.getInt(1)==2){
-                String chat_message = cursor.getString(3) + " : " + cursor.getString(4);
+            if(cursor.getInt(1)==2 && cursor.getString(3).equals(tabName)){
+                String chat_message = cursor.getString(4);
                 m_Adapter.add(chat_message,0);
             }
         }

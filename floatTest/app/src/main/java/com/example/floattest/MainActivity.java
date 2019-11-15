@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton fab;
     private Boolean isPopupOpen = false;
     private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1;
-    private int numofM = 0;
+    private int numofM ;
     private ArrayList<FloatingActionButton> floatList = new ArrayList();
     private ArrayList<Integer> layoutlist = new ArrayList();
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //환경설정을통해서 floatList 내용 정하는 부분 구현(예: facebook 체크, kakao 체크), 메소드 만들어주기
         //환경설정은 아이콘 꾹누르면 체크할 수 있도록
-        numofM = 3;
+        numofM = 1;
         //최대 플롯버튼수는 정해두기 일단 list로 넣어두고 나중에 동적으로 변경
         layoutlist.add(R.id.fab1);
         layoutlist.add(R.id.fab2);

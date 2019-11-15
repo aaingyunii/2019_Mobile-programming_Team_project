@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,26 +18,25 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
+
 public class PopupWindow extends AppCompatActivity {
 
     TextView txtText;
     //채팅방 수 임시로 고정
-    private int chat_num = 2;
     private ViewPager viewPager;
     private PagerAdapter adapter;
+    String packagNmae = "comkakaotalk";
 
 
     @Override
@@ -73,12 +73,24 @@ public class PopupWindow extends AppCompatActivity {
         //테두리 투명하게
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        //데이터베이스에서 조사해서 탭 수 정하기
+        MyDBHandler myDBHandler = MyDBHandler.open(this,"chatlog");
+        Cursor cursor = myDBHandler.tabNum(packagNmae);
+        ArrayList tab_list = new ArrayList();
+        while (cursor.moveToNext()) {
+            if (cursor.getString(0) != null) {
+                tab_list.add(cursor.getString(0)) ;
+                Log.i("알려줘",cursor.getString(0));
+            }
+        }
+
         // 프래그먼트 탭
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        for(int i=0;i<chat_num;i++){
-            tabLayout.addTab(tabLayout.newTab().setText(""+(i+1)));
+        for(int i=0;i<tab_list.size();i++){
+            tabLayout.addTab(tabLayout.newTab().setText(tab_list.get(i).toString()));
 
         }
+
         tabLayout.setTabTextColors(Color.LTGRAY,Color.BLUE);
         tabLayout.setTabGravity(tabLayout.GRAVITY_FILL);
 
@@ -87,14 +99,14 @@ public class PopupWindow extends AppCompatActivity {
                 (getSupportFragmentManager(), tabLayout.getTabCount(), this);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
+        adapter.getPositionList(tab_list);
         //셀랙트 리스너
-        /*
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-
+                adapter.updateFragment(packagNmae,viewPager.getCurrentItem());
             }
 
             @Override
@@ -108,7 +120,6 @@ public class PopupWindow extends AppCompatActivity {
             }
         });
 
-         */
     }
 
 
@@ -125,7 +136,7 @@ public class PopupWindow extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("message");
-            adapter.updateFragment(message);
+            adapter.updateFragment(message,viewPager.getCurrentItem());
             //CallYourMethod(message); 실행시킬 메소드를 전달 받은 데이터를 담아 호출하려면 이렇게 한다.
         }
     };
