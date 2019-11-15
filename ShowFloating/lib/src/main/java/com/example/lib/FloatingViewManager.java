@@ -245,6 +245,7 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         }
 
         final boolean isPortrait = mResources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+
         // update FloatingView layout
         mTargetFloatingView.onUpdateSystemLayout(isHideStatusBar, isHideNavigationBar, isPortrait, windowRect);
 

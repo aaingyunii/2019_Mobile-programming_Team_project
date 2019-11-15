@@ -17,6 +17,13 @@
         android:summary="%s"
         android:title="@string/settings_title_display_mode"/>
 
+    <ListPreference
+        android:defaultValue="None"
+        android:entries="@array/settings_messenger_list"
+        android:entryValues="@array/settings_messenger_list"
+        android:key="@string/settings_select_messenger"
+        android:title="Select Messenger App"/>
+
 <!--    <ListPreference-->
 <!--        android:defaultValue="0"-->
 <!--        android:entries="@array/settings_entries_margin"-->

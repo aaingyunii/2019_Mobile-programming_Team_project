@@ -2,6 +2,9 @@
 <resources>
     <!--<string name="settings_title_shape">Shape</string>-->
     <string name="settings_title_display_mode">Display Mode</string>
+
+    <string name="settings_select_messenger">Select Messenger App</string>
+
     <string name="settings_title_margin">Margin</string>
     <string name="settings_title_move_direction">Move direction</string>
     <string name="settings_title_use_physics">Use physics</string>
@@ -34,6 +37,13 @@
         <item>Always</item>
         <item>FullScreen</item>
         <item>Hide</item>
+    </string-array>
+
+    <string-array name="settings_messenger_list">
+        <item>KakaoTalk</item>
+        <item>Facebook</item>
+        <item>Instagram</item>
+        <item>Slack</item>
     </string-array>
 
     <string-array name="settings_entries_margin">

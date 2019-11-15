@@ -4,10 +4,13 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,11 +23,13 @@ import com.example.lib.FloatingViewListener;
 import com.example.lib.FloatingViewManager;
 import com.example.showfloating.R;
 
+import java.util.ArrayList;
+
 
 /**
  * ChatHead Service
  */
-public class ChatHeadService extends Service implements FloatingViewListener {
+public class ChatHeadService extends Service implements FloatingViewListener, View.OnClickListener {
 
     /**
      * Debugging Log Tags
@@ -46,16 +51,31 @@ public class ChatHeadService extends Service implements FloatingViewListener {
      */
     private FloatingViewManager mFloatingViewManager;
 
+    private ChatHeadService mChatheadService;
+
+    //    private Animation fab_open, fab_close;
+    private Boolean isFabOpen = false;
+    private Boolean isPopupOpen = false;
+    private ImageView iconView, floatView, floatView2, floatView3, floatView4, iconViewSub;
+    private int numOfView = 5;
+    private ArrayList<ImageView> floatList = new ArrayList();
+
 
     /**
      * {@inheritDoc}
      */
+
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Do nothing if the Manager already exists
         if (mFloatingViewManager != null) {
             return START_STICKY;
         }
+
+//        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+//        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+
 
         //화면의 해상도를 구한다.
         final DisplayMetrics metrics = new DisplayMetrics();
@@ -64,19 +84,63 @@ public class ChatHeadService extends Service implements FloatingViewListener {
         windowManager.getDefaultDisplay().getMetrics(metrics);
 
         final LayoutInflater inflater = LayoutInflater.from(this);
-        final ImageView iconView = (ImageView) inflater.inflate(R.layout.widget_chathead, null, false);
+
+        iconView = (ImageView) inflater.inflate(R.layout.widget_chathead, null, false);
+        floatView = (ImageView) inflater.inflate(R.layout.widget_floating, null, false);
+        floatView2 = (ImageView) inflater.inflate(R.layout.widget_floating, null, false);
+        floatView3 = (ImageView) inflater.inflate(R.layout.widget_floating, null, false);
+        floatView4 = (ImageView) inflater.inflate(R.layout.widget_floating, null, false);
+        //처음 iconView 클릭시 iconView는 사라진 상태에서 다시 iconView를 불러내기 위한 버튼 홈버튼과 같은 존재
+        iconViewSub = (ImageView) inflater.inflate(R.layout.widget_chatheadsub, null, false);
+
+        //동적을 위해 리스트에 각 뷰를 저장
+        floatList.add(floatView);
+        floatList.add(floatView2);
+        floatList.add(floatView3);
+        floatList.add(floatView4);
+        floatList.add(iconViewSub);
+
+        //각 뷰에 해당하는 버튼 클릭 이벤트 생성
+        iconView.setOnClickListener(this);
+        iconViewSub.setOnClickListener(this);
+        floatView.setOnClickListener(this);
+        floatView2.setOnClickListener(this);
+        floatView3.setOnClickListener(this);
+        floatView4.setOnClickListener(this);
 
 
-        iconView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ChatHeadService.this,"Clicked FloatingView",Toast.LENGTH_SHORT).show();
-                Log.d("test", "플로팅액션-서비스 시작버튼클릭");
-                Intent intent = new Intent(getApplicationContext(),FloatingActionService.class);
-                startService(intent);
-            }
-        });
+        //파라미터를 이용해 각 뷰의 위치를 정적으로 고정시켜 놓음.
+        int type = 0;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            type = WindowManager.LayoutParams.TYPE_PHONE;
+        } else {
+            type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        }
 
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                type,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+                        WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                PixelFormat.TRANSLUCENT);
+
+        //각 floatView의 위치 넣기
+        params.gravity = Gravity.RIGHT | Gravity.CENTER;
+        params.y = -400;
+        windowManager.addView(floatView, params);//위에서 1번째
+        params.y = -200;
+        windowManager.addView(floatView2, params);// 2번째
+        params.y = 0;
+        windowManager.addView(floatView3, params);// 3번째
+        params.y = 200;
+        windowManager.addView(floatView4, params);// 4번째
+        params.y = 400;
+        windowManager.addView(iconViewSub, params);
+
+
+        //FloatingViewManager를 이용해 iconView를 윈도우에 추가 및 삭제 액티비티 삽입.
         mFloatingViewManager = new FloatingViewManager(this, this);
         mFloatingViewManager.setFixedTrashIconImage(R.drawable.ic_trash_fixed);
         mFloatingViewManager.setActionTrashIconImage(R.drawable.ic_trash_action);
@@ -84,6 +148,7 @@ public class ChatHeadService extends Service implements FloatingViewListener {
         final FloatingViewManager.Options options = new FloatingViewManager.Options();
         options.overMargin = (int) (16 * metrics.density);
         mFloatingViewManager.addViewToWindow(iconView, options);
+
 
         // resident start
         startForeground(NOTIFICATION_ID, createNotification(this));
@@ -97,6 +162,8 @@ public class ChatHeadService extends Service implements FloatingViewListener {
     @Override
     public void onDestroy() {
         destroy();
+        Log.d(TAG,"모든 서비스 종료");
+        Toast.makeText(this,"모든 서비스 종료",Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
 
@@ -130,11 +197,13 @@ public class ChatHeadService extends Service implements FloatingViewListener {
     }
 
     /**
-     * Discard View.。
+     * Remove View.
      */
     private void destroy() {
         if (mFloatingViewManager != null) {
             mFloatingViewManager.removeAllViewToWindow();
+            for (int i = 0; i < numOfView; i++)
+                ((WindowManager) getSystemService(WINDOW_SERVICE)).removeView(floatList.get(i));
             mFloatingViewManager = null;
         }
     }
@@ -144,6 +213,56 @@ public class ChatHeadService extends Service implements FloatingViewListener {
      * Displays notifications.
      * There is no click action.
      */
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.fab:
+                anim();
+                Toast.makeText(this, "Icon Clicked", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.fab_sub:
+                anim();
+                Toast.makeText(this, "Sub Clicked", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        if (floatList.get(0).equals(v)) {
+            Toast.makeText(this, "1 Clicked", Toast.LENGTH_SHORT).show();
+
+        } else if (floatList.get(1).equals(v)) {
+            Toast.makeText(this, "2 Clicked", Toast.LENGTH_SHORT).show();
+
+        } else if (floatList.get(2).equals(v)) {
+            Toast.makeText(this, "3 Clicked", Toast.LENGTH_SHORT).show();
+
+        } else if (floatList.get(3).equals(v)) {
+            Toast.makeText(this, "4 Clicked", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    public void anim() {
+        if (isFabOpen) {
+            iconView.setVisibility(View.VISIBLE);
+            for (int i = 0; i < numOfView; i++) {
+                floatList.get(i).setVisibility(View.INVISIBLE);
+                floatList.get(i).setClickable(false);
+            }
+            iconView.setClickable(true);
+            isFabOpen = false;
+
+        } else {
+            iconView.setVisibility(View.INVISIBLE);
+            for (int i = 0; i < numOfView; i++) {
+                floatList.get(i).setVisibility(View.VISIBLE);
+                floatList.get(i).setClickable(true);
+            }
+            iconView.setClickable(false);
+            isFabOpen = true;
+        }
+    }
 
     private static Notification createNotification(Context context) {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, context.getString(R.string.default_floatingview_channel_id));
@@ -157,4 +276,5 @@ public class ChatHeadService extends Service implements FloatingViewListener {
 
         return builder.build();
     }
+
 }
