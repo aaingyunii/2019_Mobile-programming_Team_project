@@ -1345,14 +1345,6 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
         mIsDraggable = isDraggable;
     }
 
-    /**
-     * Constant representing the shape of View
-     *
-     * @param shape SHAPE_CIRCLE or SHAPE_RECTANGLE
-     */
-    void setShape(float shape) {
-        mShape = shape;
-    }
 
     /**
      * Get the shape of the view。
@@ -1669,9 +1661,6 @@ class FloatingView extends FrameLayout implements ViewTreeObserver.OnPreDrawList
          * @param delayMillis Message sending time
          */
 
-        void sendAnimationMessageDelayed(int animation, long delayMillis) {
-            sendMessageAtTime(newMessage(animation, TYPE_FIRST), SystemClock.uptimeMillis() + delayMillis);
-        }
 
         /**
          * Send animated message

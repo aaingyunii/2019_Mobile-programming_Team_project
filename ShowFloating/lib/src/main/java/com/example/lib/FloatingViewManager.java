@@ -91,16 +91,6 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
     public @interface MoveDirection {
     }
 
-//    /**
-//     * View is circular
-//     */
-//    public static final float SHAPE_CIRCLE = 1.0f;
-//
-//    /**
-//     * Viewの形が四角形の場合
-//     */
-//    public static final float SHAPE_RECTANGLE = 1.4142f;
-
     /**
      * {@link Context}
      */
@@ -409,23 +399,6 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         mTrashView.setActionTrashIconImage(resId);
     }
 
-    /**
-     * Configure the persistent delete icon.
-     *
-     * @param drawable Drawable
-     */
-    public void setFixedTrashIconImage(Drawable drawable) {
-        mTrashView.setFixedTrashIconImage(drawable);
-    }
-
-    /**
-     * Set the action delete icon
-     *
-     * @param drawable Drawable
-     */
-    public void setActionTrashIconImage(Drawable drawable) {
-        mTrashView.setActionTrashIconImage(drawable);
-    }
 
     /**
      * Change the Display Mode
@@ -449,23 +422,7 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
         }
     }
 
-    /**
-     * Configure to display or hide the TrashView.
-     *
-     * @param enabled Display if true
-     */
-    public void setTrashViewEnabled(boolean enabled) {
-        mTrashView.setTrashEnabled(enabled);
-    }
 
-    /**
-     * Retrieve the hidden state of the TrashView。
-     *
-     * @return If true, the display state (enabled state of overlap determination)
-     */
-    public boolean isTrashViewEnabled() {
-        return mTrashView.isTrashEnabled();
-    }
 
     /**
      * Set the DisplayCutout's safe area
@@ -622,11 +579,6 @@ public class FloatingViewManager implements ScreenChangedListener, View.OnTouchL
      * Classes that represent options for pasting FloatingView.
      */
     public static class Options {
-
-//        /**
-//         * View rectangle to be floating (SHAPE_RECEPTION OR SHAPE_CIRCLE)
-//         */
-//        public float shape;
 
         /**
          * out-of-screen projection margin(px)

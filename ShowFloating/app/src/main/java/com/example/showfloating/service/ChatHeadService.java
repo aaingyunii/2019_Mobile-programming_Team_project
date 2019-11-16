@@ -4,14 +4,17 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -53,9 +56,7 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
 
     private ChatHeadService mChatheadService;
 
-    //    private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
-    private Boolean isPopupOpen = false;
     private ImageView iconView, floatView, floatView2, floatView3, floatView4, iconViewSub;
     private int numOfView = 5;
     private ArrayList<ImageView> floatList = new ArrayList();
@@ -72,10 +73,6 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         if (mFloatingViewManager != null) {
             return START_STICKY;
         }
-
-//        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
-//        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
-
 
         //화면의 해상도를 구한다.
         final DisplayMetrics metrics = new DisplayMetrics();
@@ -139,6 +136,27 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         params.y = 400;
         windowManager.addView(iconViewSub, params);
 
+        Drawable icon = null;
+        Drawable icon2 = null;
+        Drawable icon3 = null;
+        Drawable icon4 = null;
+
+        try {
+            icon = getPackageManager().getApplicationIcon("com.kakao.talk");
+            icon2 = getPackageManager().getApplicationIcon("com.Slack");
+            icon3 = getPackageManager().getApplicationIcon("com.facebook.orca");
+            icon4 = getPackageManager().getApplicationIcon("com.instagram.android");
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        floatView.setImageDrawable(icon);
+        floatView2.setImageDrawable(icon2);
+        floatView3.setImageDrawable(icon3);
+        floatView4.setImageDrawable(icon4);
+
+
 
         //FloatingViewManager를 이용해 iconView를 윈도우에 추가 및 삭제 액티비티 삽입.
         mFloatingViewManager = new FloatingViewManager(this, this);
@@ -148,6 +166,7 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         final FloatingViewManager.Options options = new FloatingViewManager.Options();
         options.overMargin = (int) (16 * metrics.density);
         mFloatingViewManager.addViewToWindow(iconView, options);
+        mFloatingViewManager.setDisplayMode(FloatingViewManager.DISPLAY_MODE_SHOW_ALWAYS);
 
 
         // resident start
@@ -162,9 +181,21 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
     @Override
     public void onDestroy() {
         destroy();
-        Log.d(TAG,"모든 서비스 종료");
-        Toast.makeText(this,"모든 서비스 종료",Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "모든 서비스 종료");
+        Toast.makeText(this, "모든 서비스 종료", Toast.LENGTH_SHORT).show();
         super.onDestroy();
+    }
+
+    /**
+     * Remove View.
+     */
+    private void destroy() {
+        if (mFloatingViewManager != null) {
+            mFloatingViewManager.removeAllViewToWindow();
+            for (int i = 0; i < numOfView; i++)
+                ((WindowManager) getSystemService(WINDOW_SERVICE)).removeView(floatList.get(i));
+            mFloatingViewManager = null;
+        }
     }
 
     /**
@@ -196,22 +227,12 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         }
     }
 
-    /**
-     * Remove View.
-     */
-    private void destroy() {
-        if (mFloatingViewManager != null) {
-            mFloatingViewManager.removeAllViewToWindow();
-            for (int i = 0; i < numOfView; i++)
-                ((WindowManager) getSystemService(WINDOW_SERVICE)).removeView(floatList.get(i));
-            mFloatingViewManager = null;
-        }
-    }
+
 
 
     /**
      * Displays notifications.
-     * There is no click action.
+     * Describe click action.
      */
 
     @Override
@@ -246,22 +267,26 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
     public void anim() {
         if (isFabOpen) {
             iconView.setVisibility(View.VISIBLE);
+            iconView.setOnClickListener(this);
+            iconView.setClickable(true);
             for (int i = 0; i < numOfView; i++) {
                 floatList.get(i).setVisibility(View.INVISIBLE);
                 floatList.get(i).setClickable(false);
             }
-            iconView.setClickable(true);
+
             isFabOpen = false;
 
         } else {
             iconView.setVisibility(View.INVISIBLE);
+            iconView.setOnClickListener(null);
+            iconView.setClickable(false);
             for (int i = 0; i < numOfView; i++) {
                 floatList.get(i).setVisibility(View.VISIBLE);
                 floatList.get(i).setClickable(true);
             }
-            iconView.setClickable(false);
             isFabOpen = true;
         }
+
     }
 
     private static Notification createNotification(Context context) {
