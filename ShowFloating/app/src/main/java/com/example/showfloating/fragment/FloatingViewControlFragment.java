@@ -85,7 +85,7 @@ public class FloatingViewControlFragment extends Fragment {
 //                ft.addToBackStack(null);
 //                ft.commit();
                 Intent intent = new Intent(getActivity(), MessengerListActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,111);
             }
 
         });
@@ -105,7 +105,11 @@ public class FloatingViewControlFragment extends Fragment {
         } else if (requestCode == CUSTOM_OVERLAY_PERMISSION_REQUEST_CODE) {
             showFloatingView(getActivity(), false, true);
         }
+
+
+
     }
+
 
     /**
      * View FloatingView
@@ -159,7 +163,7 @@ public class FloatingViewControlFragment extends Fragment {
         service = ChatHeadService.class;
         key = ChatHeadService.EXTRA_CUTOUT_SAFE_AREA;
 
-        final Intent intent = new Intent(activity, service);
+        final Intent intent = new Intent(activity,service);
         intent.putExtra(key, FloatingViewManager.findCutoutSafeArea(activity));
         ContextCompat.startForegroundService(activity, intent);
     }
