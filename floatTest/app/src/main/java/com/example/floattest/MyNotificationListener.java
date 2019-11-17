@@ -64,11 +64,14 @@ public class MyNotificationListener extends NotificationListenerService {
         myDBHandler.insert(packNmae,sbn.getId(),sbn.getPostTime(),title,text.toString(),subText.toString());
 
         //여기서 리스트어댑터와 프래그먼트에 접근하여 화면을 새로고침한다.
-        sendMessage(packNmae);
+        sendMessage(packNmae,title);
     }
-    private void sendMessage(String packageName) {
+    private void sendMessage(String packageName,String title) {
         Intent intent = new Intent("message_to_Activity");
         intent.putExtra("message", packageName);
+        if(title == null)
+            title = "";
+        intent.putExtra("title",title);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 

@@ -57,11 +57,11 @@ public class MyDBHandler {
 
     }
 
-    public void delete(String name)
+    public void delete(String packName,String tabName)
     {
         Log.d(TAG, "delete");
         mDB = mHelper.getWritableDatabase();
-        mDB.delete("student", "name=?", new String[]{name});
+        mDB.delete(packName, "title=?", new String[]{tabName});
     }
 
     public void close() {

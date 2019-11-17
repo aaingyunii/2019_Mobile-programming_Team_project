@@ -2,9 +2,11 @@ package com.example.floattest;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -18,7 +20,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,11 +41,17 @@ public class PopupWindow extends AppCompatActivity {
     private ViewPager viewPager;
     private PagerAdapter adapter;
     String packagNmae = "comkakaotalk";
-
+    public MyDBHandler myDBHandler ;
+    public Context context;
+    ArrayList tab_list ;
+    public TabLayout tabLayout;
+    private static final String SETTINGS_PLAYER_JSON = "settings_item_json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //콘텍스트 저장
+        context = this;
         //타이틀바 없애기
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.window_popup);
@@ -55,6 +65,7 @@ public class PopupWindow extends AppCompatActivity {
         String data = intent.getStringExtra("data");
         txtText.setText(data);
          */
+
         //크기조절
         Display display = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 
@@ -73,22 +84,31 @@ public class PopupWindow extends AppCompatActivity {
         //테두리 투명하게
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        tab_list = tabUpdate();
+
+        tabSetting();
+    }
+    //tab_list 갱신
+    ArrayList tabUpdate(){
         //데이터베이스에서 조사해서 탭 수 정하기
         MyDBHandler myDBHandler = MyDBHandler.open(this,"chatlog");
         Cursor cursor = myDBHandler.tabNum(packagNmae);
-        ArrayList tab_list = new ArrayList();
+
+        tab_list = new ArrayList();
         while (cursor.moveToNext()) {
             if (cursor.getString(0) != null) {
                 tab_list.add(cursor.getString(0)) ;
                 Log.i("알려줘",cursor.getString(0));
             }
         }
-
+        return tab_list;
+    }
+    //tab setting
+    public void tabSetting(){
         // 프래그먼트 탭
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         for(int i=0;i<tab_list.size();i++){
             tabLayout.addTab(tabLayout.newTab().setText(tab_list.get(i).toString()));
-
         }
 
         tabLayout.setTabTextColors(Color.LTGRAY,Color.BLUE);
@@ -99,7 +119,8 @@ public class PopupWindow extends AppCompatActivity {
                 (getSupportFragmentManager(), tabLayout.getTabCount(), this);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        adapter.getPositionList(tab_list);
+        adapter.setPositionList(tab_list);
+        adapter.setPackageName(packagNmae);
         //셀랙트 리스너
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -119,9 +140,51 @@ public class PopupWindow extends AppCompatActivity {
 
             }
         });
+        //길게 눌렀을때
+        final LinearLayout tabStrip = (LinearLayout)tabLayout.getChildAt(0);
+        for (int i = 0; i < tabStrip.getChildCount(); i++) {
+            tabStrip.getChildAt(i).setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
 
+                    show(viewPager.getCurrentItem());
+                    adapter.notifyDataSetChanged();
+                    return false;
+                }
+            });
+        }
     }
-
+    //삭제 다이얼로그
+    void show(final int position)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete history");
+        builder.setMessage("Are you sure you want to clear this chat history?");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        myDBHandler = MyDBHandler.open(context,"chatlog");
+                        myDBHandler.delete(packagNmae,tab_list.get(position).toString());
+                        myDBHandler.close();
+                        tabLayout.removeTabAt(position);
+                        tab_list.remove(position);
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(),"history is deleted.",Toast.LENGTH_LONG).show();
+                        if(tab_list.size()==0){
+                            finish();
+                            ArrayList<String> DBlist = Array2String.getStringArrayPref(context,SETTINGS_PLAYER_JSON);
+                            DBlist.remove(packagNmae);
+                            Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
+                        }
+                    }
+                });
+        builder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        builder.show();
+    }
 
     //서비스로부터 브로드케스트 메세지를 받기위한 onResume()
     @Override
@@ -136,8 +199,21 @@ public class PopupWindow extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("message");
-            adapter.updateFragment(message,viewPager.getCurrentItem());
-            //CallYourMethod(message); 실행시킬 메소드를 전달 받은 데이터를 담아 호출하려면 이렇게 한다.
+            String tabName = intent.getStringExtra("title");
+            if(tab_list.get(viewPager.getCurrentItem()).equals(tabName)){
+                adapter.updateFragment(message,viewPager.getCurrentItem());
+
+            }else if(tabName.length()!=0){
+                if(!tab_list.contains(tabName)){
+                    tab_list = tabUpdate();
+                    int position = viewPager.getCurrentItem();
+                    tabLayout.removeAllTabs();
+                    tabSetting();
+                    adapter.notifyDataSetChanged();
+                    viewPager.setCurrentItem(position);
+                }
+            }
+            Log.i("알려줘","여기니?");
         }
     };
     @Override

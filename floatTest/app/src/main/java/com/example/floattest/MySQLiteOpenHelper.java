@@ -17,23 +17,15 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.i("여기야","온크리트");
         this.sqLiteDatabase = sqLiteDatabase;
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        Log.i("여기야","온업그레이드");
-        String sql="drop table if exists student";
-        sqLiteDatabase.execSQL(sql);
+        //String sql="drop table if exists student";
+        //sqLiteDatabase.execSQL(sql);
         onCreate(sqLiteDatabase);
     }
-    /*
-    public void createTable(){
-
-        String sql = "create table imsi(_id integer primary key autoincrement, posttime integer, title text, text text)";
-        sqLiteDatabase.execSQL(sql);
-    }*/
 
 
 }

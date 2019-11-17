@@ -1,11 +1,16 @@
 package com.example.floattest;
 
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -16,8 +21,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -33,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<FloatingActionButton> floatList = new ArrayList();
     private ArrayList<Integer> layoutlist = new ArrayList();
 
+
+
+    private static final String SETTINGS_PLAYER_JSON = "settings_item_json";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-
 
 
         //환경설정을통해서 floatList 내용 정하는 부분 구현(예: facebook 체크, kakao 체크), 메소드 만들어주기
@@ -58,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // 이미지랑 이름은 어플에서 가져와야 함.
         }
 
-
-
         //클릭 리스너 설정
         fab.setOnClickListener(this);
         for(int i =0;i< numofM; i++){
@@ -70,6 +80,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(MainActivity.this,MyNotificationListener.class);
         startService(intent);
 
+
+
+    }
+
+    //브로드케스트로부터 메세지 받기
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("message_to_Activity"));
+    }
+
+    //브로드케스트 메세지 리시버
+    //이걸로 최신 리스트를 유지해야 한다
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+
+            ArrayList<String> DBlist = Array2String.getStringArrayPref(context,SETTINGS_PLAYER_JSON);
+            if(DBlist==null)
+                DBlist = new ArrayList();
+            if(!DBlist.contains(message)){
+                DBlist.add(message);
+            }
+            else{
+                DBlist.remove(message);
+                DBlist.add(message);
+            }
+            Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
+        }
+    };
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        super.onPause();
     }
 
 
@@ -89,7 +135,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.fab1:
-                showPopup();
+                ArrayList<String> DBlist = Array2String.getStringArrayPref(this,SETTINGS_PLAYER_JSON);
+                if(DBlist.contains("comkakaotalk")){
+                    showPopup();
+                }else{
+                    Toast.makeText(this, "no message", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.fab2:
                 showPopup();
@@ -158,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             else {
                 startService(new Intent(MainActivity.this, PopupWindow.class));
+
             }
         }
     }
@@ -177,6 +229,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return false;
     }
+
+
 
 
 }
