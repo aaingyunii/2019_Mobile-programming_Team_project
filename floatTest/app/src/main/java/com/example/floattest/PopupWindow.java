@@ -1,9 +1,7 @@
 package com.example.floattest;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +10,7 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -26,7 +25,7 @@ import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -37,6 +36,7 @@ import java.util.ArrayList;
 public class PopupWindow extends AppCompatActivity {
 
     TextView txtText;
+    ConstraintLayout constraintLayout;
     //채팅방 수 임시로 고정
     private ViewPager viewPager;
     private PagerAdapter adapter;
@@ -46,6 +46,7 @@ public class PopupWindow extends AppCompatActivity {
     ArrayList tab_list ;
     public TabLayout tabLayout;
     private static final String SETTINGS_PLAYER_JSON = "settings_item_json";
+    public int initiation = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,16 @@ public class PopupWindow extends AppCompatActivity {
 
         //UI 객체생성
         txtText = (TextView)findViewById(R.id.name);
+        constraintLayout = (ConstraintLayout)findViewById(R.id.popup_element);
+        Drawable drawable = this.getResources().getDrawable(R.drawable.round_kakao);
+        switch (packagNmae){
+            case "comkakaotalk":
+                txtText.setText("kakao");
+                txtText.setTextColor(Color.BLACK);
+                constraintLayout.setBackground(drawable);
+                break;
+        }
+
 
         //데이터 가져오기
         /*
@@ -87,6 +98,7 @@ public class PopupWindow extends AppCompatActivity {
         tab_list = tabUpdate();
 
         tabSetting();
+
     }
     //tab_list 갱신
     ArrayList tabUpdate(){
@@ -117,10 +129,11 @@ public class PopupWindow extends AppCompatActivity {
         viewPager = (ViewPager)findViewById(R.id.pager);
         adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount(), this);
-        viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         adapter.setPositionList(tab_list);
         adapter.setPackageName(packagNmae);
+
+        viewPager.setAdapter(adapter);
         //셀랙트 리스너
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

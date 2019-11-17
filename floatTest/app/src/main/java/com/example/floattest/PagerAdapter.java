@@ -2,6 +2,8 @@ package com.example.floattest;
 
 
 import android.content.Context;
+import android.util.Log;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -34,6 +36,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         tab = new ChatFragment();
         tab.setInfo(position,tab_list,packName);
+
         chatFragments.put(position,tab);
         return tab;
     }

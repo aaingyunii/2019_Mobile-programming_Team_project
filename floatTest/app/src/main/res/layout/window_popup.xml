@@ -5,7 +5,7 @@
     android:id="@+id/popup_element"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/round"
+    android:background="@drawable/round_kakao"
     android:orientation="vertical"
     android:elevation="6dp"
     android:padding="10sp" >

@@ -1,5 +1,6 @@
 package com.example.floattest;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,10 +32,6 @@ public class ChatFragment extends Fragment{
         this.position = position;
         this.packName = packName;
         this.tab_list = tab_list;
-        if(position==0){
-            //이부분 해결해야 한다 -> 첫페이지 갱신하기
-            //listUdpate(packName,tab_list.get(position).toString());
-        }
     }
 
     @Override
@@ -61,9 +58,12 @@ public class ChatFragment extends Fragment{
 
         myDBHandler = MyDBHandler.open(getActivity(),"chatlog");
 
-        //if(position ==0)
-       //     listUdpate("comkakaotalk");
-
+        if(position==0){
+            Log.i("updatecon123",packName);
+            Log.i("updatecon123",tab_list.get(position).toString());
+            //이부분 해결해야 한다 -> 첫페이지 갱신하기
+            listUdpate(packName,tab_list.get(position).toString());
+        }
 
         return v;
 
@@ -73,7 +73,7 @@ public class ChatFragment extends Fragment{
 
     //데이터베이스에서 업데이트, 전달할때 업데이트할 프래그먼트 이름 알려주기ㅣ
     public void listUdpate(String packName, String tabName){
-        Log.i("updateconfirm","update!");
+        Log.i("updateconfirm","2번");
 
         Cursor cursor = myDBHandler.select(packName);
 
