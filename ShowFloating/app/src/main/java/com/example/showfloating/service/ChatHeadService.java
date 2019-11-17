@@ -14,7 +14,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -89,6 +88,7 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         floatView4 = (ImageView) inflater.inflate(R.layout.widget_floating, null, false);
         //처음 iconView 클릭시 iconView는 사라진 상태에서 다시 iconView를 불러내기 위한 버튼 홈버튼과 같은 존재
         iconViewSub = (ImageView) inflater.inflate(R.layout.widget_chatheadsub, null, false);
+
 
         //동적을 위해 리스트에 각 뷰를 저장
         floatList.add(floatView);
@@ -301,5 +301,6 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
 
         return builder.build();
     }
+
 
 }

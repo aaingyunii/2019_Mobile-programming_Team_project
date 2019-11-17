@@ -19,9 +19,9 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.lib.FloatingViewManager;
+import com.example.showfloating.MessengerListActivity;
 import com.example.showfloating.R;
 import com.example.showfloating.service.ChatHeadService;
 
@@ -68,6 +68,7 @@ public class FloatingViewControlFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_floating_view_control, container, false);
         // View demos
+
         rootView.findViewById(R.id.float_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,11 +80,14 @@ public class FloatingViewControlFragment extends Fragment {
         rootView.findViewById(R.id.show_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.container, FloatingViewSettingsFragment.newInstance());
-                ft.addToBackStack(null);
-                ft.commit();
+//                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                ft.replace(R.id.container, FloatingViewSettingsFragment.newInstance());
+//                ft.addToBackStack(null);
+//                ft.commit();
+                Intent intent = new Intent(getActivity(), MessengerListActivity.class);
+                startActivity(intent);
             }
+
         });
 
         return rootView;
