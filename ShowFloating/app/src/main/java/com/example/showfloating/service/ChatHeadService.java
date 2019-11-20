@@ -24,6 +24,7 @@ import androidx.core.app.NotificationCompat;
 import com.example.lib.FloatingViewListener;
 import com.example.lib.FloatingViewManager;
 import com.example.showfloating.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 

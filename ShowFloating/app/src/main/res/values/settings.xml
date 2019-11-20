@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<string name="settings_title_shape">Shape</string>-->
     <string name="settings_title_display_mode">Display Mode</string>
 
     <string name="settings_select_messenger">Select Messenger App</string>
@@ -17,15 +16,6 @@
     <string name="settings_dialog_title_init_y">From bottom side ratio</string>
     <string name="settings_title_animation">Initial animation</string>
 
-    <!--<string-array name="settings_entries_shape">-->
-        <!--<item>Circle</item>-->
-        <!--<item>Rectangle</item>-->
-    <!--</string-array>-->
-
-    <!--<string-array name="settings_values_shape">-->
-        <!--<item>Circle</item>-->
-        <!--<item>Rectangle</item>-->
-    <!--</string-array>-->
 
     <string-array name="settings_entries_display_mode">
         <item>Show Always</item>

@@ -68,7 +68,6 @@ public class FloatingViewControlFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_floating_view_control, container, false);
         // View demos
-
         rootView.findViewById(R.id.float_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

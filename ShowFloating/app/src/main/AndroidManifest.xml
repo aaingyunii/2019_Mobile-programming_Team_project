@@ -23,19 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- demo screen -->
-        <activity
-            android:name=".DeleteActionActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:taskAffinity="jp.co.recruit.floatingview.ChatHeadActivity" /> <!-- Demo Viewing Service -->
+
         <service
             android:name=".service.ChatHeadService"
             android:exported="false"
             android:permission="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- PopupWindow for chatting situation -->
-        <service
-            android:name=".PopupWindow"
-            android:enabled="true"
-            android:permission="android.permission.SYSTEM_ALERT_WINDOW" />
     </application>
 
 </manifest>
