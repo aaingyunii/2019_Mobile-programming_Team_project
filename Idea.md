@@ -14,8 +14,7 @@
 ##### app icon badge
 - http://son10001.blogspot.com/2016/02/android-studio-android-viewbadger-jar.html
 ##### direct reply 
-- https://aroundck.tistory.com/4941
-- https://segunfamisa.com/posts/notifications-direct-reply-android-nougat
+- https://medium.com/@lowcarbrob/how-to-reply-to-android-app-notifications-c09e44da9bdb
 # 초기 아이디어 탑3
 ### - 알고리즘 분석기
 
