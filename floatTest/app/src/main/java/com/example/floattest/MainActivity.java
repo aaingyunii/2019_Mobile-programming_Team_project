@@ -5,18 +5,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.graphics.Point;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,10 +24,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int numofM ;
     private ArrayList<FloatingActionButton> floatList = new ArrayList();
     private ArrayList<Integer> layoutlist = new ArrayList();
+    private PackageManager packageManager;
+
+    static List<PackageInfo> packInfoList = null;
 
 
 
@@ -50,6 +51,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //버튼달기
+        Button start_button = (Button)findViewById(R.id.start_button);
+        Button setting_button = (Button)findViewById(R.id.setting_button);
+
+        start_button.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                if(packInfoList == null|| packInfoList.size()==0){
+                    Toast.makeText(MainActivity.this, "empty, go to setting page.", Toast.LENGTH_SHORT).show();
+                }else {
+                    //showFloatingView(
+                }
+            }
+        });
+
+        setting_button.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,MessengerListActivity.class);
+                startActivityForResult(intent,111);
+            }
+        });
+
+
+
+
 
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
