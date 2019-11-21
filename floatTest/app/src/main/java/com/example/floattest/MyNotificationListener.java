@@ -44,33 +44,40 @@ public class MyNotificationListener extends NotificationListenerService {
         Icon smallIcon = notification.getSmallIcon();
         Icon largeIcon = notification.getLargeIcon();
 
-        Log.d(TAG, "onNotificationPosted ~ " +
-                " packageName: " + sbn.getPackageName() +
-                " id: " + sbn.getId() +
-                " postTime: " + sbn.getPostTime() +
-                " title: " + title +
-                " text : " + text +
-                " subText: " + subText);
 
+        String subTextS= "";
         if(text == null)
             text = "";
-        if(subText == null)
-            subText = "";
+        if(title == null)
+            title = "";
+        if(subText==null)
+            subText="";
+        subTextS = subText.toString();
 
         String packNmae = sbn.getPackageName().replaceAll("\\.", "");
+        if(title.length()!=0){
+            myDBHandler.createTable(packNmae);
+            if(title.length()!=0 && subText.length() !=0){
+                String temp = title;
+                title =subTextS;
+                subTextS = temp;
+            }
+            myDBHandler.insert(packNmae,sbn.getId(),sbn.getPostTime(),title,text.toString(),subTextS);
+            Log.d(TAG, "onNotificationPosted ~ " +
+                    " packageName: " + sbn.getPackageName() +
+                    " id: " + sbn.getId() +
+                    " postTime: " + sbn.getPostTime() +
+                    " title: " + title +
+                    " text : " + text +
+                    " subText: " + subTextS);
 
-
-        myDBHandler.createTable(packNmae);
-        myDBHandler.insert(packNmae,sbn.getId(),sbn.getPostTime(),title,text.toString(),subText.toString());
-
-        //여기서 리스트어댑터와 프래그먼트에 접근하여 화면을 새로고침한다.
-        sendMessage(packNmae,title);
+            //여기서 리스트어댑터와 프래그먼트에 접근하여 화면을 새로고침한다.
+            sendMessage(packNmae,title);
+        }
     }
     private void sendMessage(String packageName,String title) {
         Intent intent = new Intent("message_to_Activity");
         intent.putExtra("message", packageName);
-        if(title == null)
-            title = "";
         intent.putExtra("title",title);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }

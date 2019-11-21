@@ -75,5 +75,11 @@ public class MyDBHandler {
         String sql = "CREATE TABLE IF NOT EXISTS "+packageName+"(_id integer primary key autoincrement, id integer,posttime long, title text, text text, subtext text)";
         mDB.execSQL(sql);
     }
+    public void deleteTable(String packageName){
+        mDB = mHelper.getWritableDatabase();
+
+        String sql = "DROP TABLE "+packageName;
+        mDB.execSQL(sql);
+    }
 
 }

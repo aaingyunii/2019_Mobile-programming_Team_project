@@ -188,6 +188,7 @@ public class PopupWindow extends AppCompatActivity {
                             ArrayList<String> DBlist = Array2String.getStringArrayPref(context,SETTINGS_PLAYER_JSON);
                             DBlist.remove(packagNmae);
                             Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
+                            myDBHandler.deleteTable(packagNmae);
                         }
                     }
                 });
@@ -213,20 +214,22 @@ public class PopupWindow extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("message");
             String tabName = intent.getStringExtra("title");
-            if(tab_list.get(viewPager.getCurrentItem()).equals(tabName)){
-                adapter.updateFragment(message,viewPager.getCurrentItem());
 
-            }else if(tabName.length()!=0){
-                if(!tab_list.contains(tabName)){
-                    tab_list = tabUpdate();
-                    int position = viewPager.getCurrentItem();
-                    tabLayout.removeAllTabs();
-                    tabSetting();
-                    adapter.notifyDataSetChanged();
-                    viewPager.setCurrentItem(position);
-                }
+                if(tab_list.get(viewPager.getCurrentItem()).equals(tabName)){
+                    adapter.updateFragment(message,viewPager.getCurrentItem());
+                }else if(tabName.length()!=0){
+                    if(!tab_list.contains(tabName)){
+                        tab_list = tabUpdate();
+                        int position = viewPager.getCurrentItem();
+                        tabLayout.removeAllTabs();
+                        tabSetting();
+                        adapter.notifyDataSetChanged();
+                        viewPager.setCurrentItem(position);
+                    }
+
             }
-            Log.i("알려줘","여기니?");
+
+
         }
     };
     @Override
