@@ -12,7 +12,7 @@
 ##### notification listner code
 - https://codechacha.com/ko/notification-listener/
 ##### app icon badge
-- http://son10001.blogspot.com/2016/02/android-studio-android-viewbadger-jar.html
+- https://github.com/nex3z/NotificationBadge
 ##### direct reply 
 - https://medium.com/@lowcarbrob/how-to-reply-to-android-app-notifications-c09e44da9bdb
 # 초기 아이디어 탑3
