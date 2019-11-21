@@ -11,7 +11,7 @@
 - https://github.com/txusballesteros/bubbles-for-android
 ##### notification listner code
 - https://codechacha.com/ko/notification-listener/
-##### app icon badge
+##### notification badge
 - https://github.com/nex3z/NotificationBadge
 ##### direct reply 
 - https://medium.com/@lowcarbrob/how-to-reply-to-android-app-notifications-c09e44da9bdb
