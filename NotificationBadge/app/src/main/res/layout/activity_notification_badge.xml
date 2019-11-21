@@ -22,7 +22,7 @@
         android:id="@+id/tv_badge_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textColor="#FFFFFF	"
+        android:textColor="#FFFFFF"
         android:layout_gravity="center"
         android:gravity="center"
         android:maxLines="1"
