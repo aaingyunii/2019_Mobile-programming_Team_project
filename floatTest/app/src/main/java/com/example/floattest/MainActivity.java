@@ -1,18 +1,24 @@
 package com.example.floattest;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -20,8 +26,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.library.FloatingViewManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
@@ -39,9 +47,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int numofM ;
     private ArrayList<FloatingActionButton> floatList = new ArrayList();
     private ArrayList<Integer> layoutlist = new ArrayList();
-    private PackageManager packageManager;
 
     static List<PackageInfo> packInfoList = null;
+
+
+    /**
+     * Permission Allow Code for Flows to Display Simple FloatingView
+     */
+    private static final int CHATHEAD_OVERLAY_PERMISSION_REQUEST_CODE = 100;
+
+    /**
+     * Permission Allow Code for Flows to Display Customized FloatingView
+     */
+    private static final int CUSTOM_OVERLAY_PERMISSION_REQUEST_CODE = 101;
+
 
 
 
@@ -51,6 +70,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // create default notification channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            final String channelId = getString(R.string.default_floatingview_channel_id);
+            final String channelName = getString(R.string.default_floatingview_channel_name);
+            final NotificationChannel defaultChannel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_MIN);
+            final NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            if (manager != null) {
+                manager.createNotificationChannel(defaultChannel);
+            }
+        }
 
 
         //버튼달기
@@ -63,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(packInfoList == null|| packInfoList.size()==0){
                     Toast.makeText(MainActivity.this, "empty, go to setting page.", Toast.LENGTH_SHORT).show();
                 }else {
-                    //showFloatingView(
+                    showFloatingView(MainActivity.this,true,false);
                 }
             }
         });
@@ -112,6 +142,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
+    //플로팅 뷰 켜기
+    private void showFloatingView(Context context, boolean isShowOverlayPermission, boolean isCustomFloatingView) {
+        // Check for API22 or lower
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            startFloatingViewService(MainActivity.this);
+            return;
+        }
+
+        // Check if it can be displayed on top of other apps
+        if (Settings.canDrawOverlays(context)) {
+            startFloatingViewService(MainActivity.this);
+            return;
+        }
+
+        // View Overlay Permissions
+        if (isShowOverlayPermission) {
+            final Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.getPackageName()));
+            startActivityForResult(intent, isCustomFloatingView ? CUSTOM_OVERLAY_PERMISSION_REQUEST_CODE : CHATHEAD_OVERLAY_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    //플로팅뷰 서비스
+    private static void startFloatingViewService(Activity activity) {
+        // *** You must follow these rules when obtain the cutout(FloatingViewManager.findCutoutSafeArea) ***
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            // 1. 'windowLayoutInDisplayCutoutMode' do not be set to 'never'
+            if (activity.getWindow().getAttributes().layoutInDisplayCutoutMode == WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER) {
+                throw new RuntimeException("'windowLayoutInDisplayCutoutMode' do not be set to 'never'");
+            }
+            // 2. Do not set Activity to landscape
+            if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                throw new RuntimeException("Do not set Activity to landscape");
+            }
+        }
+
+        // launch service
+        final Class<? extends Service> service;
+        final String key;
+        service = ChatHeadService.class;
+        key = ChatHeadService.EXTRA_CUTOUT_SAFE_AREA;
+
+        final Intent intent = new Intent(activity,service);
+        intent.putExtra(key, FloatingViewManager.findCutoutSafeArea(activity));
+        ContextCompat.startForegroundService(activity, intent);
+    }
+
 
     //브로드케스트로부터 메세지 받기
     @Override

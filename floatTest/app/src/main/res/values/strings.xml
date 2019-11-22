@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">floatTest</string>
+    <string name="chathead_content_title" translatable="false">Demo Chat: Active</string>
+    <string name="content_text" translatable="false">Demo running.</string>
+    <string name="chathead_click_message" translatable="false">Click</string>
+    <string name="delete_demo" translatable="false">Delete Demo</string>
+    <string name="start" translatable="false">Start!</string>
+    <string name="show_settings" translatable="false">Initial Settings</string>
+    <string name="permission_denied" translatable="false">Overlay permission not granted.</string>
+    <string name="touch_finished_position" formatted="false" translatable="false">Current position (%d,%d)</string>
+    <string name="deleted_soon" translatable="false">FloatingView will be deleted soon.</string>
+    <string name="finish_deleted" translatable="false">FloatingView has been deleted.</string>
+    <string name="default_floatingview_channel_id" translatable="false">default_floatingview_channel</string>
+    <string name="default_floatingview_channel_name" translatable="false">Default Channel</string>
 </resources>

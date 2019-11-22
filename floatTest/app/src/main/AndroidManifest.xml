@@ -27,8 +27,14 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <service
+            android:name=".ChatHeadService"
+            android:exported="false"
+            android:permission="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- PopupWindow for chatting situation -->
     </application>
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
 
 </manifest>
