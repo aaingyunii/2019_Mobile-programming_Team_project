@@ -75,6 +75,9 @@ public class MyNotificationListener extends NotificationListenerService {
             sendMessage(packNmae,title);
         }
     }
+
+
+
     private void sendMessage(String packageName,String title) {
         Intent intent = new Intent("message_to_Activity");
         intent.putExtra("message", packageName);

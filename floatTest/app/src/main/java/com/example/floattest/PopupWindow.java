@@ -248,6 +248,12 @@ public class PopupWindow extends AppCompatActivity {
         }
         return true;
     }
+    @Override
+    public void onStop(){
+        super.onStop();
+        Intent intent = new Intent("visibility");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
 /*
     @Override
     public void onBackPressed() {

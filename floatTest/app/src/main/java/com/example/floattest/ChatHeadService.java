@@ -2,14 +2,19 @@ package com.example.floattest;
 
 import android.app.Notification;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,11 +27,15 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.library.FloatingViewListener;
 import com.example.library.FloatingViewManager;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -59,12 +68,29 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
      * {@inheritDoc}
      */
     private ImageView iconView;
+    private ArrayList<ImageView> floatList;
+
+    private static final String SETTINGS_PLAYER_JSON = "settings_item_json";
+    private Context context ;
+
+    static List<PackageInfo> packInfoList = null;
+
+    @Override
+    public void onCreate(){
+        context = this;
+        //브로드케스트로부터 메세지 받기
+        packInfoList = MainActivity.packInfoList;
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("message_to_Activity"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(popupRecevier,
+                new IntentFilter("visibility"));
+    }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-
+        MainActivity.serviceOn =1;
         // Do nothing if the Manager already exists
         if (mFloatingViewManager != null) {
             return START_STICKY;
@@ -102,6 +128,8 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
     @Override
     public void onDestroy() {
         Toast.makeText(this, "모든 서비스 종료", Toast.LENGTH_SHORT).show();
+        MainActivity.serviceOn = 0;
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
     }
 
@@ -143,10 +171,13 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
     @Override
     public void onClick(View v) {
         iconView.setVisibility(View.INVISIBLE);
-        iconView.setOnClickListener(null);
         iconView.setClickable(false);
+
         childService();
     }
+
+
+
 
     public void childService(){
 
@@ -174,19 +205,32 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
                         WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
                         WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 PixelFormat.TRANSLUCENT);
+        floatList = new ArrayList();
         int y_loc = -400;
-        for(int i=0;i<MainActivity.packInfoList.size();i++){
-            Log.i("몇번일까",i+"");
+        for(int i=0;i<packInfoList.size();i++){
+            String name = packInfoList.get(i).packageName.replaceAll("\\.", "");
             params.gravity = Gravity.RIGHT | Gravity.CENTER;
             params.y = y_loc;
             ImageView floatView = (ImageView)inflater.inflate(R.layout.widget_floating,null,false);
+            floatList.add(floatView);
+            floatView.setTag(name);
             floatView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    ArrayList<String> DBlist = Array2String.getStringArrayPref(context,SETTINGS_PLAYER_JSON);
+                    String tag = view.getTag().toString();
+                    Log.i("태그를확인",tag);
+                    if(DBlist.contains(tag)){
+                        Intent intent = new Intent(context,PopupWindow.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        invisibleView();
+                    }else{
+                        Toast.makeText(context, "no message", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
-            Drawable icon = getPackageManager().getApplicationIcon(MainActivity.packInfoList.get(i).applicationInfo);
+            Drawable icon = getPackageManager().getApplicationIcon(packInfoList.get(i).applicationInfo);
 
             floatView.setImageDrawable(icon);
             params.height = 150;
@@ -198,43 +242,60 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
             y_loc += 200;
         }
         ImageView iconHome = (ImageView)inflater.inflate(R.layout.widget_chatheadsub, null, false);
+        floatList.add(iconHome);
         iconHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                iconView.setVisibility(View.VISIBLE);
+                iconView.setClickable(true);
+                for(int i=0;i<floatList.size();i++){
+                    windowManager.removeViewImmediate(floatList.get(i));
+                }
             }
         });
         params.y = y_loc;
         windowManager.addView(iconHome,params);
 
     }
-/*
-    public void anim() {
-        if (isFabOpen) {
-            iconView.setVisibility(View.VISIBLE);
-            iconView.setOnClickListener(this);
-            iconView.setClickable(true);
-            for (int i = 0; i < numOfView; i++) {
+    public void invisibleView(){
+        for(int i=0;i<floatList.size();i++){
+            if(floatList.get(i).getVisibility()==View.VISIBLE){
                 floatList.get(i).setVisibility(View.INVISIBLE);
                 floatList.get(i).setClickable(false);
-            }
-
-            isFabOpen = false;
-
-        } else {
-            iconView.setVisibility(View.INVISIBLE);
-            iconView.setOnClickListener(null);
-            iconView.setClickable(false);
-            for (int i = 0; i < numOfView; i++) {
+            }else{
                 floatList.get(i).setVisibility(View.VISIBLE);
                 floatList.get(i).setClickable(true);
             }
-            isFabOpen = true;
         }
-
     }
 
- */
+    //브로드케스트 메세지 리시버
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+                String message = intent.getStringExtra("message");
+
+                ArrayList<String> DBlist = Array2String.getStringArrayPref(context,SETTINGS_PLAYER_JSON);
+                if(DBlist==null)
+                    DBlist = new ArrayList();
+                if(!DBlist.contains(message)){
+                    DBlist.add(message);
+                }
+                else{
+                    DBlist.remove(message);
+                    DBlist.add(message);
+                }
+                Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
+        }
+    };
+    private BroadcastReceiver popupRecevier = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+          invisibleView();
+        }
+    };
+
 
     private static Notification createNotification(Context context) {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, context.getString(R.string.default_floatingview_channel_id));

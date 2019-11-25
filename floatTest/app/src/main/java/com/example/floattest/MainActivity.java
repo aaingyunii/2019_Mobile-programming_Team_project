@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<Integer> layoutlist = new ArrayList();
 
     static List<PackageInfo> packInfoList = null;
-
+    static int serviceOn = 0;
 
     /**
      * Permission Allow Code for Flows to Display Simple FloatingView
@@ -60,16 +60,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Permission Allow Code for Flows to Display Customized FloatingView
      */
     private static final int CUSTOM_OVERLAY_PERMISSION_REQUEST_CODE = 101;
+    static Activity thisActivity;
 
 
 
 
-    private static final String SETTINGS_PLAYER_JSON = "settings_item_json";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        thisActivity = MainActivity.this;
 
         // create default notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -93,7 +97,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(packInfoList == null|| packInfoList.size()==0){
                     Toast.makeText(MainActivity.this, "empty, go to setting page.", Toast.LENGTH_SHORT).show();
                 }else {
-                    showFloatingView(MainActivity.this,true,false);
+                    //permission check
+                    //checkPermission();
+                    boolean isPermissionAllowed = isNotiPermissionAllowed();
+                    if(!isPermissionAllowed){
+                        Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                        startActivity(intent);
+                    }else{
+                        showFloatingView(MainActivity.this,true,false);
+
+                    }
+
                 }
             }
         });
@@ -101,39 +115,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setting_button.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,MessengerListActivity.class);
-                startActivityForResult(intent,111);
+                if(serviceOn ==0 ){
+                    Intent intent = new Intent(MainActivity.this,MessengerListActivity.class);
+                    startActivityForResult(intent,111);
+                }
+
             }
         });
 
-
-
-
-
-        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
-        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-
-
-        //환경설정을통해서 floatList 내용 정하는 부분 구현(예: facebook 체크, kakao 체크), 메소드 만들어주기
-        //환경설정은 아이콘 꾹누르면 체크할 수 있도록
-        numofM = 1;
-        //최대 플롯버튼수는 정해두기 일단 list로 넣어두고 나중에 동적으로 변경
-        layoutlist.add(R.id.fab1);
-        layoutlist.add(R.id.fab2);
-        layoutlist.add(R.id.fab3);
-        for(int i =0;i< numofM; i++){
-            FloatingActionButton bt;
-            floatList.add((FloatingActionButton) findViewById(layoutlist.get(i)));
-            // 이미지랑 이름은 어플에서 가져와야 함.
-        }
-
-        //클릭 리스너 설정
-        fab.setOnClickListener(this);
-        for(int i =0;i< numofM; i++){
-            floatList.get(i).setOnClickListener(this);
-        }
 
         //notification listener 생성
         Intent intent = new Intent(MainActivity.this,MyNotificationListener.class);
@@ -141,6 +130,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+    }
+
+    //permision check
+    private boolean isNotiPermissionAllowed() {
+        Set<String> notiListenerSet = NotificationManagerCompat.getEnabledListenerPackages(this);
+        String myPackageName = getPackageName();
+
+        for(String packageName : notiListenerSet) {
+            if(packageName == null) {
+                continue;
+            }
+            if(packageName.equals(myPackageName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     //플로팅 뷰 켜기
@@ -188,124 +194,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final Intent intent = new Intent(activity,service);
         intent.putExtra(key, FloatingViewManager.findCutoutSafeArea(activity));
         ContextCompat.startForegroundService(activity, intent);
+        thisActivity.finish();
     }
 
 
-    //브로드케스트로부터 메세지 받기
-    @Override
-    public void onResume() {
-        super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("message_to_Activity"));
-    }
-
-    //브로드케스트 메세지 리시버
-    //이걸로 최신 리스트를 유지해야 한다
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra("message");
-
-            ArrayList<String> DBlist = Array2String.getStringArrayPref(context,SETTINGS_PLAYER_JSON);
-            if(DBlist==null)
-                DBlist = new ArrayList();
-            if(!DBlist.contains(message)){
-                DBlist.add(message);
-            }
-            else{
-                DBlist.remove(message);
-                DBlist.add(message);
-            }
-            Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
-        }
-    };
-    @Override
-    protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
-        super.onPause();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.fab:
-                anim();
-                Toast.makeText(this, "Floating Action Button", Toast.LENGTH_SHORT).show();
-                checkPermission();
-                //permission check for notification
-                boolean isPermissionAllowed = isNotiPermissionAllowed();
-                if(!isPermissionAllowed){
-                    Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-                    startActivity(intent);
-                }
-                break;
-            case R.id.fab1:
-                ArrayList<String> DBlist = Array2String.getStringArrayPref(this,SETTINGS_PLAYER_JSON);
-                if(DBlist.contains("comkakaotalk")){
-                    showPopup();
-                }else{
-                    Toast.makeText(this, "no message", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.fab2:
-                showPopup();
-                break;
-            case R.id.fab3:
-                showPopup();
-                break;
-        }
-
-
-    }
-
-    public void anim() {
-
-        if (isFabOpen) {
-            for(int i=0;i<numofM;i++){
-                floatList.get(i).startAnimation(fab_close);
-                floatList.get(i).setClickable(false);
-            }
-            if(isPopupOpen==true)
-                showPopup();
-            isFabOpen = false;
-        } else {
-
-            for(int i=0;i<numofM;i++){
-                floatList.get(i).startAnimation(fab_open);
-                floatList.get(i).setClickable(true);
-            }
-
-            isFabOpen = true;
-        }
-    }
-    //check permission
-    public void checkPermission(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   // 마시멜로우 이상일 경우
-            if (!Settings.canDrawOverlays(this)) {              // 체크
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
-            }
-        }
-    }
-
-
-    //show popup window
-    public void showPopup(){
-
-        Intent intent = new Intent(MainActivity.this,PopupWindow.class);
-        //intent.putExtra("name",)
-        if(isPopupOpen == false){
-            startActivity(intent);
-            anim();
-            //isPopupOpen = true;
-        }else{
-            isPopupOpen = false;
-        }
-
-    }
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -320,22 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-    //permision check
-    private boolean isNotiPermissionAllowed() {
-        Set<String> notiListenerSet = NotificationManagerCompat.getEnabledListenerPackages(this);
-        String myPackageName = getPackageName();
 
-        for(String packageName : notiListenerSet) {
-            if(packageName == null) {
-                continue;
-            }
-            if(packageName.equals(myPackageName)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
 
 
