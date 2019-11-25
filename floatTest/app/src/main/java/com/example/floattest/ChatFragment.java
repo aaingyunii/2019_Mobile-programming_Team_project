@@ -59,8 +59,6 @@ public class ChatFragment extends Fragment{
         myDBHandler = MyDBHandler.open(getActivity(),"chatlog");
 
         if(position==0){
-            Log.i("updatecon123",packName);
-            Log.i("updatecon123",tab_list.get(position).toString());
             //이부분 해결해야 한다 -> 첫페이지 갱신하기
             listUdpate(packName,tab_list.get(position).toString());
         }
@@ -73,7 +71,6 @@ public class ChatFragment extends Fragment{
 
     //데이터베이스에서 업데이트, 전달할때 업데이트할 프래그먼트 이름 알려주기ㅣ
     public void listUdpate(String packName, String tabName){
-        Log.i("updateconfirm","2번");
 
         Cursor cursor = myDBHandler.select(packName);
 
@@ -109,18 +106,8 @@ public class ChatFragment extends Fragment{
         }
 
 
-        //데이터베이스에서 업데이트 하는 메소드 만들기.
-        //어뎁터 업데이트
-        //m_Adapter.notifyDataSetChanged();
-        //프래그먼트 화면 업데이트
-        //fragmentUpdate();
     }
 
-    //프래그먼트 화면 업데이트 메소드 탭 업데이트할때 쓰여야 할 수 있음
-    public void fragmentUpdate(){
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
-    }
 
 
 }

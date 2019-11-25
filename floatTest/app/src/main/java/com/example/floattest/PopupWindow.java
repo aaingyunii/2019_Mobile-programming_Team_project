@@ -7,11 +7,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -40,17 +43,20 @@ public class PopupWindow extends AppCompatActivity {
     //채팅방 수 임시로 고정
     private ViewPager viewPager;
     private PagerAdapter adapter;
-    String packagNmae = "comkakaotalk";
+    String packagNmae = "";
     public MyDBHandler myDBHandler ;
     public Context context;
     ArrayList tab_list ;
     public TabLayout tabLayout;
     private static final String SETTINGS_PLAYER_JSON = "settings_item_json";
-    public int initiation = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //packName 가져오기
+        Intent intent = getIntent();
+        this.packagNmae = intent.getStringExtra("packname");
+
         //콘텍스트 저장
         context = this;
         //타이틀바 없애기
@@ -60,22 +66,19 @@ public class PopupWindow extends AppCompatActivity {
         //UI 객체생성
         txtText = (TextView)findViewById(R.id.name);
         constraintLayout = (ConstraintLayout)findViewById(R.id.popup_element);
-        Drawable drawable = this.getResources().getDrawable(R.drawable.round_kakao);
-        switch (packagNmae){
-            case "comkakaotalk":
-                txtText.setText("kakao");
-                txtText.setTextColor(Color.BLACK);
-                constraintLayout.setBackground(drawable);
-                break;
-        }
+        //색가져오기
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int color = sharedPreferences.getInt(packagNmae, Color.WHITE);
+
+        //컬러 적용시키기
+        Drawable background = this.getResources().getDrawable(R.drawable.round_kakao);
+        background.setColorFilter(color, PorterDuff.Mode.OVERLAY);
+        String chatName = intent.getStringExtra("appname");
+        txtText.setText(chatName);
+        txtText.setTextColor(Color.BLACK);
+        constraintLayout.setBackground(background);
 
 
-        //데이터 가져오기
-        /*
-        Intent intent = getIntent();
-        String data = intent.getStringExtra("data");
-        txtText.setText(data);
-         */
 
         //크기조절
         Display display = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -123,7 +126,7 @@ public class PopupWindow extends AppCompatActivity {
             tabLayout.addTab(tabLayout.newTab().setText(tab_list.get(i).toString()));
         }
 
-        tabLayout.setTabTextColors(Color.LTGRAY,Color.BLUE);
+        tabLayout.setTabTextColors(Color.LTGRAY,Color.BLACK);
         tabLayout.setTabGravity(tabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager)findViewById(R.id.pager);
@@ -219,8 +222,9 @@ public class PopupWindow extends AppCompatActivity {
                     adapter.updateFragment(message,viewPager.getCurrentItem());
                 }else if(tabName.length()!=0){
                     if(!tab_list.contains(tabName)){
-                        tab_list = tabUpdate();
                         int position = viewPager.getCurrentItem();
+                        tab_list = tabUpdate();
+
                         tabLayout.removeAllTabs();
                         tabSetting();
                         adapter.notifyDataSetChanged();
@@ -252,6 +256,7 @@ public class PopupWindow extends AppCompatActivity {
     public void onStop(){
         super.onStop();
         Intent intent = new Intent("visibility");
+        intent.putExtra("packname",packagNmae);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 /*

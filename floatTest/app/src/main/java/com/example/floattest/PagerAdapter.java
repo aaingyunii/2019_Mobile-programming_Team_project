@@ -2,6 +2,7 @@ package com.example.floattest;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -43,7 +44,12 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     //업데이트하는부분 요소들 동적으로 변경해야함
 
     public void updateFragment(String packName,int position){
-        chatFragments.get(position).listUdpate(packName,tab_list.get(position).toString());
+        try {
+
+            chatFragments.get(position).listUdpate(packName, tab_list.get(position).toString());
+        }catch (Exception e){
+            Log.i("오류다오류", tab_list.get(position) + "");
+        }
     }
     @Override
     public int getCount() {

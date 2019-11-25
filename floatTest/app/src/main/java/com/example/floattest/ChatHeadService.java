@@ -7,14 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,19 +20,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.library.FloatingViewListener;
 import com.example.library.FloatingViewManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -67,13 +63,17 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
     /**
      * {@inheritDoc}
      */
-    private ImageView iconView;
-    private ArrayList<ImageView> floatList;
+    private RelativeLayout iconView;
+    private ArrayList<View> floatList;
+    private ArrayList<NotificationBadge> badgeList;
+    private ArrayList<Integer> countList;
 
     private static final String SETTINGS_PLAYER_JSON = "settings_item_json";
     private Context context ;
 
     static List<PackageInfo> packInfoList = null;
+    private HashMap<String,String> hashMap ;
+    NotificationBadge mBadge, sBdage;
 
     @Override
     public void onCreate(){
@@ -84,6 +84,13 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
                 new IntentFilter("message_to_Activity"));
         LocalBroadcastManager.getInstance(this).registerReceiver(popupRecevier,
                 new IntentFilter("visibility"));
+        //어플리케이션 이름 저장
+        hashMap = new HashMap();
+        countList = new ArrayList();
+        for(int i = 0;i<packInfoList.size();i++){
+            countList.add(0);
+        }
+
     }
 
 
@@ -100,8 +107,10 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         final DisplayMetrics metrics = new DisplayMetrics();
         //윈도우의 최상위 뷰를 가져온다.
         final LayoutInflater inflater = LayoutInflater.from(this);
-        iconView = (ImageView) inflater.inflate(R.layout.widget_chathead, null, false);
+        iconView = (RelativeLayout) inflater.inflate(R.layout.widget_chathead, null, false);
         iconView.setOnClickListener(this);
+        mBadge = (NotificationBadge)iconView.findViewById(R.id.badge);
+
 
 
         //FloatingViewManager를 이용해 iconView를 윈도우에 추가 및 삭제 액티비티 삽입.
@@ -174,6 +183,7 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         iconView.setClickable(false);
 
         childService();
+
     }
 
 
@@ -206,23 +216,32 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
                         WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 PixelFormat.TRANSLUCENT);
         floatList = new ArrayList();
+        badgeList = new ArrayList();
+
         int y_loc = -400;
         for(int i=0;i<packInfoList.size();i++){
             String name = packInfoList.get(i).packageName.replaceAll("\\.", "");
             params.gravity = Gravity.RIGHT | Gravity.CENTER;
             params.y = y_loc;
-            ImageView floatView = (ImageView)inflater.inflate(R.layout.widget_floating,null,false);
+            RelativeLayout floatView = (RelativeLayout)inflater.inflate(R.layout.widget_floating,null,false);
             floatList.add(floatView);
+            sBdage = (NotificationBadge)floatView.findViewById(R.id.badge);
+            badgeList.add(sBdage);
+
             floatView.setTag(name);
+            hashMap.put(name,getPackageManager().getApplicationLabel(packInfoList.get(i).applicationInfo).toString());
+            badgeList.get(i).setNumber(countList.get(i));
+
             floatView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ArrayList<String> DBlist = Array2String.getStringArrayPref(context,SETTINGS_PLAYER_JSON);
                     String tag = view.getTag().toString();
-                    Log.i("태그를확인",tag);
                     if(DBlist.contains(tag)){
                         Intent intent = new Intent(context,PopupWindow.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("packname",tag);
+                        intent.putExtra("appname",hashMap.get(tag));
                         startActivity(intent);
                         invisibleView();
                     }else{
@@ -232,20 +251,29 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
             });
             Drawable icon = getPackageManager().getApplicationIcon(packInfoList.get(i).applicationInfo);
 
-            floatView.setImageDrawable(icon);
-            params.height = 150;
-            params.width = 150;
+            ImageView imageView = (ImageView)floatView.findViewById(R.id.floatView);
+            imageView.setImageDrawable(icon);
+            //imageView.setLayoutParams(new RelativeLayout.LayoutParams(150,150));
+            params.height = 230;
+            params.width = 230;
 
             windowManager.addView(floatView,params);
 
 
             y_loc += 200;
         }
-        ImageView iconHome = (ImageView)inflater.inflate(R.layout.widget_chatheadsub, null, false);
+        ImageView iconHome = (ImageView)inflater.inflate(R.layout.widget_chatheadhome, null, false);
         floatList.add(iconHome);
         iconHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //뱃지
+                int count = 0;
+                for(int i=0;i<packInfoList.size();i++){
+                count += countList.get(i);
+                }
+                mBadge.setNumber(count);
+
                 iconView.setVisibility(View.VISIBLE);
                 iconView.setClickable(true);
                 for(int i=0;i<floatList.size();i++){
@@ -254,6 +282,8 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
             }
         });
         params.y = y_loc;
+        params.height = 150;
+        params.width = 150;
         windowManager.addView(iconHome,params);
 
     }
@@ -287,11 +317,35 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
                     DBlist.add(message);
                 }
                 Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
+
+                for(int i=0;i<packInfoList.size();i++){
+                    if(packInfoList.get(i).packageName.replaceAll("\\.", "").equals(message)){
+
+                        countList.set(i,countList.get(i)+1);
+                        try{
+                            badgeList.get(i).setNumber(countList.get(i));
+                        }catch(Exception e){
+
+                        }
+                    }
+                }
+            int count = 0;
+            for(int j=0;j<packInfoList.size();j++){
+                count += countList.get(j);
+            }
+            mBadge.setNumber(count);
+
         }
     };
     private BroadcastReceiver popupRecevier = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            for(int i=0;i<packInfoList.size();i++){
+                if(packInfoList.get(i).packageName.replaceAll("\\.", "").equals(intent.getStringExtra("packname"))){
+                    countList.set(i,0);
+                    badgeList.get(i).setNumber(countList.get(i));
+                }
+            }
           invisibleView();
         }
     };

@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1;
     private int numofM ;
     private ArrayList<FloatingActionButton> floatList = new ArrayList();
-    private ArrayList<Integer> layoutlist = new ArrayList();
 
     static List<PackageInfo> packInfoList = null;
     static int serviceOn = 0;

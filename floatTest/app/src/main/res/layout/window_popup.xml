@@ -27,6 +27,8 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:tabIndicatorColor="#000000"
+                app:tabSelectedTextColor="#000000"
                 android:elevation="6dp"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
@@ -51,6 +53,7 @@
         android:background="@android:color/transparent"
         android:gravity="center"
         android:text="SNS"
+        android:paddingLeft="10dp"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/fragment_container"
         app:layout_constraintEnd_toEndOf="parent"
