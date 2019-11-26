@@ -6,28 +6,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp">
+    android:layout_height="wrap_content">
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
         android:clickable="true"
-        android:padding="8dp"
-        android:src="@drawable/ic_cloud"></ImageView>
+        android:src="@mipmap/message_launcher"></ImageView>
+
     <com.example.floattest.NotificationBadge
         android:id="@+id/badge"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_toRightOf="@id/fab"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignTop="@id/fab"
-        android:layout_marginLeft="-16dp"
-        android:layout_marginTop="-8dp"
-        app:nbMaxTextLength="2"/>
+        android:layout_marginLeft="-28dp"
+        android:layout_toRightOf="@id/fab"
+        app:nbMaxTextLength="2" />
 </RelativeLayout>
 
 

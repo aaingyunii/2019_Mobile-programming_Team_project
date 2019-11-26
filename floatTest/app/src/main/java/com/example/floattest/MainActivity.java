@@ -18,10 +18,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //상태바 없얘기
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
         thisActivity = MainActivity.this;
@@ -87,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         //버튼달기
-        Button start_button = (Button)findViewById(R.id.start_button);
-        Button setting_button = (Button)findViewById(R.id.setting_button);
+        ImageButton start_button = (ImageButton)findViewById(R.id.start_button);
+        ImageButton setting_button = (ImageButton)findViewById(R.id.setting_button);
 
         start_button.setOnClickListener(new Button.OnClickListener(){
             @Override

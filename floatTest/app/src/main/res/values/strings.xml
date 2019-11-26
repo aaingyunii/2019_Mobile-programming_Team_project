@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">floatTest</string>
+    <string name="app_name">Message Hub</string>
     <string name="chathead_content_title" translatable="false">Demo Chat: Active</string>
     <string name="content_text" translatable="false">Demo running.</string>
     <string name="chathead_click_message" translatable="false">Click</string>

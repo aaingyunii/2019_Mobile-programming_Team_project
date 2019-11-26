@@ -5,16 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp">
+    android:layout_height="wrap_content">
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/floatView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingRight="8dp"
         android:src="@drawable/ic_add_black_24dp"
         android:visibility="visible"
         />
@@ -25,8 +23,7 @@
         app:nbTextSize="10dp"
         android:layout_toRightOf="@id/floatView"
         android:layout_alignTop="@id/floatView"
-        android:layout_marginLeft="-16dp"
-        android:layout_marginTop="-8dp"
+        android:layout_marginLeft="-26dp"
         app:nbMaxTextLength="2"/>
 </RelativeLayout>
 

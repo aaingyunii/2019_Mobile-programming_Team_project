@@ -110,8 +110,7 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         iconView = (RelativeLayout) inflater.inflate(R.layout.widget_chathead, null, false);
         iconView.setOnClickListener(this);
         mBadge = (NotificationBadge)iconView.findViewById(R.id.badge);
-
-
+        Log.i("여기디여기","");
 
         //FloatingViewManager를 이용해 iconView를 윈도우에 추가 및 삭제 액티비티 삽입.
         mFloatingViewManager = new FloatingViewManager(this, this);
@@ -120,6 +119,9 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         mFloatingViewManager.setSafeInsetRect((Rect) intent.getParcelableExtra(EXTRA_CUTOUT_SAFE_AREA));
         final FloatingViewManager.Options options = new FloatingViewManager.Options();
         options.overMargin = (int) (16 * metrics.density);
+        options.floatingViewWidth = 170;
+        options.floatingViewHeight = 170;
+
         mFloatingViewManager.addViewToWindow(iconView, options);
         mFloatingViewManager.setDisplayMode(FloatingViewManager.DISPLAY_MODE_SHOW_ALWAYS);
 
@@ -254,37 +256,41 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
             ImageView imageView = (ImageView)floatView.findViewById(R.id.floatView);
             imageView.setImageDrawable(icon);
             //imageView.setLayoutParams(new RelativeLayout.LayoutParams(150,150));
-            params.height = 230;
-            params.width = 230;
+            params.height = 150;
+            params.width = 150;
 
             windowManager.addView(floatView,params);
 
 
             y_loc += 200;
         }
-        ImageView iconHome = (ImageView)inflater.inflate(R.layout.widget_chatheadhome, null, false);
+        RelativeLayout iconHome = (RelativeLayout)inflater.inflate(R.layout.widget_chatheadhome, null, false);
         floatList.add(iconHome);
-        iconHome.setOnClickListener(new View.OnClickListener() {
+
+        params.y = y_loc;
+        params.height = 155;
+        params.width = 155;
+        windowManager.addView(iconHome,params);
+
+        ImageView homView = (ImageView)iconHome.findViewById(R.id.fab_home);
+
+        homView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+
                 //뱃지
                 int count = 0;
                 for(int i=0;i<packInfoList.size();i++){
-                count += countList.get(i);
+                    count += countList.get(i);
                 }
-                mBadge.setNumber(count);
-
                 iconView.setVisibility(View.VISIBLE);
                 iconView.setClickable(true);
+                mBadge.setNumber(count);
                 for(int i=0;i<floatList.size();i++){
                     windowManager.removeViewImmediate(floatList.get(i));
                 }
             }
         });
-        params.y = y_loc;
-        params.height = 150;
-        params.width = 150;
-        windowManager.addView(iconHome,params);
 
     }
     public void invisibleView(){
@@ -316,11 +322,10 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
                     DBlist.remove(message);
                     DBlist.add(message);
                 }
-                Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
 
+                Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
                 for(int i=0;i<packInfoList.size();i++){
                     if(packInfoList.get(i).packageName.replaceAll("\\.", "").equals(message)){
-
                         countList.set(i,countList.get(i)+1);
                         try{
                             badgeList.get(i).setNumber(countList.get(i));
@@ -329,11 +334,13 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
                         }
                     }
                 }
-            int count = 0;
-            for(int j=0;j<packInfoList.size();j++){
-                count += countList.get(j);
-            }
-            mBadge.setNumber(count);
+                if(iconView.isClickable()){
+                    int count = 0;
+                    for(int i=0;i<packInfoList.size();i++){
+                        count += countList.get(i);
+                    }
+                    mBadge.setNumber(count);
+                }
 
         }
     };
