@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -67,12 +68,12 @@ public class PopupWindow extends AppCompatActivity {
         txtText = (TextView)findViewById(R.id.name);
         constraintLayout = (ConstraintLayout)findViewById(R.id.popup_element);
         //색가져오기
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int color = sharedPreferences.getInt(packagNmae, Color.WHITE);
+        int color = MessengerListActivity.colorMap.get(packagNmae);
 
+        Log.i("색가져오기",packagNmae+" : "+color);
         //컬러 적용시키기
         Drawable background = this.getResources().getDrawable(R.drawable.round_kakao);
-        background.setColorFilter(color, PorterDuff.Mode.OVERLAY);
+        background.setColorFilter(color,PorterDuff.Mode.SRC_OVER);
         String chatName = intent.getStringExtra("appname");
         txtText.setText(chatName);
         txtText.setTextColor(Color.BLACK);

@@ -10,8 +10,10 @@ import android.view.WindowManager;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MessengerListActivity extends AppCompatActivity {
@@ -19,6 +21,8 @@ public class MessengerListActivity extends AppCompatActivity {
     ListView apkList;
     static List<PackageInfo> msList;
     static List<PackageInfo> result;
+    static HashMap<String,Integer> colorMap = new HashMap();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,12 @@ public class MessengerListActivity extends AppCompatActivity {
         String filter2 = "com.facebook.orca";
         String filter3 = "com.instagram.android";
         String filter4 = "com.Slack";
+
+        //색 해쉬맵
+        colorMap.put(filter.replaceAll("\\.", ""), ContextCompat.getColor(this,R.color.comkakaotalk));
+        colorMap.put(filter2.replaceAll("\\.", ""),ContextCompat.getColor(this,R.color.comfacebookorca));
+        colorMap.put(filter3.replaceAll("\\.", ""),ContextCompat.getColor(this,R.color.cominstagramandroid));
+        colorMap.put(filter4.replaceAll("\\.", ""),ContextCompat.getColor(this,R.color.comSlack));
 
         //카카오톡, 인스타그램, 페톡, 슬랙의 package 주소를 직접넣어
         //전체 PackageInfo에서 이들만을 필터링하여 msList에 삽입.

@@ -3,19 +3,18 @@ package com.example.floattest;
 import android.app.Notification;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import services.BaseNotificationListener;
 
 
-public class MyNotificationListener extends NotificationListenerService {
+public class MyNotificationListener extends BaseNotificationListener {
     MyDBHandler myDBHandler;
 
     public final static String TAG = "MyNotificationListener";
@@ -36,8 +35,7 @@ public class MyNotificationListener extends NotificationListenerService {
     }
 
     @Override
-    public void onNotificationPosted(StatusBarNotification sbn) {
-        super.onNotificationPosted(sbn);
+    protected boolean shouldAppBeAnnounced(StatusBarNotification sbn) {
 
 
         Notification notification = sbn.getNotification();
@@ -49,8 +47,6 @@ public class MyNotificationListener extends NotificationListenerService {
         Icon largeIcon = notification.getLargeIcon();
         int color = notification.color;
 
-
-
         String subTextS= "";
         if(text == null)
             text = "";
@@ -61,7 +57,7 @@ public class MyNotificationListener extends NotificationListenerService {
         subTextS = subText.toString();
 
         String packNmae = sbn.getPackageName().replaceAll("\\.", "");
-        if(title.length()!=0&&!packNmae.contains("android")){
+        if(title.length()!=0&&!packNmae.contains("com.android")){
             myDBHandler.createTable(packNmae);
             if(title.length()!=0 && subText.length() !=0){
                 String temp = title;
@@ -77,19 +73,17 @@ public class MyNotificationListener extends NotificationListenerService {
                     " text : " + text +
                     " subText: " + subTextS);
 
-            //색지정
-            color = 16777216+color;
-
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt(packNmae,color);
-
             //여기서 리스트어댑터와 프래그먼트에 접근하여 화면을 새로고침한다.
             sendMessage(packNmae,title);
         }
+
+        return false;
     }
 
+    @Override
+    protected void onNotificationPosted(StatusBarNotification statusBarNotification, String s) {
 
+    }
 
     private void sendMessage(String packageName,String title) {
         Intent intent = new Intent("message_to_Activity");
