@@ -80,17 +80,19 @@ public class ChatFragment extends Fragment{
 
         String checkNull = "";
         while (cursor.moveToNext()) {
-            if(cursor.getInt(1)==2 && cursor.getString(3).equals(tabName)){
+            //if(cursor.getInt(1)==2 && cursor.getString(3).equals(tabName)){
+            try{
+            if(cursor.getString(3).equals(tabName)){
                 String chat_message = cursor.getString(4);
                 checkNull += chat_message;
                 if((!cursor.getString(5).equals(""))){
                     m_Adapter.add(cursor.getString(5)+" : "+chat_message,0);
                 }else{
-                    m_Adapter.add(cursor.getString(3)+" : "+chat_message,0);
+                    m_Adapter.add(chat_message,0);
                 }
 
 
-            }
+            }}catch(Exception e){Log.i("No title","dz");}
         }
         //어뎁터랑 view 연결
         if(checkNull.length()!=0){

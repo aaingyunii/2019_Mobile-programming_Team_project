@@ -39,6 +39,7 @@ public class MyNotificationListener extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
 
+
         Notification notification = sbn.getNotification();
         Bundle extras = sbn.getNotification().extras;
         String title = extras.getString(Notification.EXTRA_TITLE);
@@ -75,9 +76,9 @@ public class MyNotificationListener extends NotificationListenerService {
                     " title: " + title +
                     " text : " + text +
                     " subText: " + subTextS);
+
             //색지정
             color = 16777216+color;
-            String colorHex = Integer.toHexString(color);
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = preferences.edit();

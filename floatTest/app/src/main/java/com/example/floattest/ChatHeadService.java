@@ -74,6 +74,7 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
     static List<PackageInfo> packInfoList = null;
     private HashMap<String,String> hashMap ;
     NotificationBadge mBadge, sBdage;
+    private WindowManager windowManager;
 
     @Override
     public void onCreate(){
@@ -181,116 +182,120 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
 
     @Override
     public void onClick(View v) {
-        iconView.setVisibility(View.INVISIBLE);
-        iconView.setClickable(false);
-
-        childService();
+        if(v.getId() == iconView.getId()){
+            iconView.setVisibility(View.INVISIBLE);
+            iconView.setClickable(false);
+            childService();
+        }
 
     }
 
 
 
-
     public void childService(){
+            //화면의 해상도를 구한다.
+            final DisplayMetrics metrics = new DisplayMetrics();
+            //윈도우의 최상위 뷰를 가져온다.
+            windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+            windowManager.getDefaultDisplay().getMetrics(metrics);
 
-        //화면의 해상도를 구한다.
-        final DisplayMetrics metrics = new DisplayMetrics();
-        //윈도우의 최상위 뷰를 가져온다.
-        final WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        windowManager.getDefaultDisplay().getMetrics(metrics);
+            final LayoutInflater inflater = LayoutInflater.from(this);
 
-        final LayoutInflater inflater = LayoutInflater.from(this);
+            //파라미터를 이용해 각 뷰의 위치를 정적으로 고정시켜 놓음.
+            int type = 0;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                type = WindowManager.LayoutParams.TYPE_PHONE;
+            } else {
+                type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+            }
 
-        //파라미터를 이용해 각 뷰의 위치를 정적으로 고정시켜 놓음.
-        int type = 0;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            type = WindowManager.LayoutParams.TYPE_PHONE;
-        } else {
-            type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        }
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    type,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+                            WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                    PixelFormat.TRANSLUCENT);
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                type,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
-                        WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-                PixelFormat.TRANSLUCENT);
-        floatList = new ArrayList();
-        badgeList = new ArrayList();
+            floatList = new ArrayList();
+            badgeList = new ArrayList();
 
-        int y_loc = -400;
-        for(int i=0;i<packInfoList.size();i++){
-            String name = packInfoList.get(i).packageName.replaceAll("\\.", "");
-            params.gravity = Gravity.RIGHT | Gravity.CENTER;
+            int y_loc = -400;
+            for(int i=0;i<packInfoList.size();i++){
+                String name = packInfoList.get(i).packageName.replaceAll("\\.", "");
+                params.gravity = Gravity.RIGHT | Gravity.CENTER;
+                params.y = y_loc;
+                RelativeLayout floatView = (RelativeLayout)inflater.inflate(R.layout.widget_floating,null,false);
+                floatList.add(floatView);
+                sBdage = (NotificationBadge)floatView.findViewById(R.id.badge);
+                badgeList.add(sBdage);
+
+                floatView.setTag(name);
+                hashMap.put(name,getPackageManager().getApplicationLabel(packInfoList.get(i).applicationInfo).toString());
+                badgeList.get(i).setNumber(countList.get(i));
+
+                floatView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ArrayList<String> DBlist = Array2String.getStringArrayPref(context,SETTINGS_PLAYER_JSON);
+                        String tag = view.getTag().toString();
+                        if(DBlist.contains(tag)){
+                            Intent intent = new Intent(context,PopupWindow.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("packname",tag);
+                            intent.putExtra("appname",hashMap.get(tag));
+                            startActivity(intent);
+                            invisibleView();
+                        }else{
+                            Toast.makeText(context, "no message", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                Drawable icon = getPackageManager().getApplicationIcon(packInfoList.get(i).applicationInfo);
+
+                ImageView imageView = (ImageView)floatView.findViewById(R.id.floatView);
+                imageView.setImageDrawable(icon);
+                //imageView.setLayoutParams(new RelativeLayout.LayoutParams(150,150));
+                params.height = 150;
+                params.width = 150;
+
+                windowManager.addView(floatView,params);
+
+
+                y_loc += 200;
+            }
+            RelativeLayout iconHome = (RelativeLayout)inflater.inflate(R.layout.widget_chatheadhome, null, false);
+            floatList.add(iconHome);
+
             params.y = y_loc;
-            RelativeLayout floatView = (RelativeLayout)inflater.inflate(R.layout.widget_floating,null,false);
-            floatList.add(floatView);
-            sBdage = (NotificationBadge)floatView.findViewById(R.id.badge);
-            badgeList.add(sBdage);
+            params.height = 155;
+            params.width = 155;
+            windowManager.addView(iconHome,params);
 
-            floatView.setTag(name);
-            hashMap.put(name,getPackageManager().getApplicationLabel(packInfoList.get(i).applicationInfo).toString());
-            badgeList.get(i).setNumber(countList.get(i));
+            ImageView homView = (ImageView)iconHome.findViewById(R.id.fab_home);
 
-            floatView.setOnClickListener(new View.OnClickListener() {
+            homView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    ArrayList<String> DBlist = Array2String.getStringArrayPref(context,SETTINGS_PLAYER_JSON);
-                    String tag = view.getTag().toString();
-                    if(DBlist.contains(tag)){
-                        Intent intent = new Intent(context,PopupWindow.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("packname",tag);
-                        intent.putExtra("appname",hashMap.get(tag));
-                        startActivity(intent);
-                        invisibleView();
-                    }else{
-                        Toast.makeText(context, "no message", Toast.LENGTH_SHORT).show();
+
+                    //뱃지
+                    int count = 0;
+                    for(int i=0;i<packInfoList.size();i++){
+                        count += countList.get(i);
+                    }
+                    iconView.setVisibility(View.VISIBLE);
+                    iconView.setClickable(true);
+                    mBadge.setNumber(count);
+                    windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+                    for(int i=0;i<floatList.size();i++){
+                        windowManager.removeViewImmediate(floatList.get(i));
+
                     }
                 }
             });
-            Drawable icon = getPackageManager().getApplicationIcon(packInfoList.get(i).applicationInfo);
-
-            ImageView imageView = (ImageView)floatView.findViewById(R.id.floatView);
-            imageView.setImageDrawable(icon);
-            //imageView.setLayoutParams(new RelativeLayout.LayoutParams(150,150));
-            params.height = 150;
-            params.width = 150;
-
-            windowManager.addView(floatView,params);
 
 
-            y_loc += 200;
-        }
-        RelativeLayout iconHome = (RelativeLayout)inflater.inflate(R.layout.widget_chatheadhome, null, false);
-        floatList.add(iconHome);
-
-        params.y = y_loc;
-        params.height = 155;
-        params.width = 155;
-        windowManager.addView(iconHome,params);
-
-        ImageView homView = (ImageView)iconHome.findViewById(R.id.fab_home);
-
-        homView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-
-                //뱃지
-                int count = 0;
-                for(int i=0;i<packInfoList.size();i++){
-                    count += countList.get(i);
-                }
-                iconView.setVisibility(View.VISIBLE);
-                iconView.setClickable(true);
-                mBadge.setNumber(count);
-                for(int i=0;i<floatList.size();i++){
-                    windowManager.removeViewImmediate(floatList.get(i));
-                }
-            }
-        });
 
     }
     public void invisibleView(){
