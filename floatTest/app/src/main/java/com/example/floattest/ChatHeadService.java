@@ -307,17 +307,6 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
 
 
 
-    public void invisibleView(){
-        for(int i=0;i<floatList.size();i++){
-            if(floatList.get(i).getVisibility()==View.VISIBLE){
-                floatList.get(i).setVisibility(View.INVISIBLE);
-                floatList.get(i).setClickable(false);
-            }else{
-                floatList.get(i).setVisibility(View.VISIBLE);
-                floatList.get(i).setClickable(true);
-            }
-        }
-    }
 
     //브로드케스트 메세지 리시버
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {

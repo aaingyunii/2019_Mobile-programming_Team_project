@@ -184,8 +184,6 @@ public class PopupWindow extends AppCompatActivity {
                         MyNotificationListener.replyModel.remove(packagNmae+tab_list.get(position).toString());
                         myDBHandler.delete(packagNmae,tab_list.get(position).toString());
                         myDBHandler.close();
-
-
                         tabLayout.removeTabAt(position);
                         tab_list.remove(position);
                         adapter.notifyDataSetChanged();
@@ -196,6 +194,11 @@ public class PopupWindow extends AppCompatActivity {
                             DBlist.remove(packagNmae);
                             Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
                             myDBHandler.deleteTable(packagNmae);
+                        }
+                        if(position ==0){
+                            viewPager.setCurrentItem(position);
+                            adapter.updateFragment(packagNmae,viewPager.getCurrentItem());
+
                         }
                     }
                 });
