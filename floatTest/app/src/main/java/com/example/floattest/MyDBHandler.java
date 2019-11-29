@@ -81,5 +81,10 @@ public class MyDBHandler {
         String sql = "DROP TABLE "+packageName;
         mDB.execSQL(sql);
     }
+    public void deleteAll(String packName){
+        mDB = mHelper.getWritableDatabase();
+        String sql ="DROP TABLE IF EXISTS "+packName.replaceAll("\\.", "");
+        mDB.execSQL(sql);
+    }
 
 }

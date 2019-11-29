@@ -11,19 +11,45 @@ import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.robj.notificationhelperlibrary.utils.NotificationUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import models.Action;
 import services.BaseNotificationListener;
 
 
 public class MyNotificationListener extends BaseNotificationListener {
     MyDBHandler myDBHandler;
+    private static final String SETTINGS_PLAYER_JSON = "settings_item_json";
 
     public final static String TAG = "MyNotificationListener";
+
+    public static HashMap<String, Action> replyModel = new HashMap();
 
     @Override
     public void onCreate() {
         super.onCreate();
         //서비스실행할때 최초로 생성(바꿔줘야할지 고민해야 한다)
         myDBHandler = new MyDBHandler(this, "chatlog");
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        String firstStart = prefs.getString("firstStart", null);
+        if(firstStart == null){
+            Log.i("reset","ok");
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.clear();
+            editor.putString("firstStart","ok");
+            editor.apply();
+            String[] packName = MessengerListActivity.packNameList;
+            for(int i=0;i<packName.length;i++)
+                myDBHandler.deleteAll(packName[i]);
+            ArrayList<String> DBlist = new ArrayList();
+            Array2String.setStringArrayPref(this,SETTINGS_PLAYER_JSON,DBlist);
+        }
     }
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
@@ -75,6 +101,11 @@ public class MyNotificationListener extends BaseNotificationListener {
 
             //여기서 리스트어댑터와 프래그먼트에 접근하여 화면을 새로고침한다.
             sendMessage(packNmae,title);
+
+            String key = packNmae+title;
+            if(!replyModel.containsKey(key)){
+                replyModel.put(key, NotificationUtils.getQuickReplyAction(notification,sbn.getPackageName()));
+            }
         }
 
         return false;

@@ -7,14 +7,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -29,7 +27,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -130,12 +127,15 @@ public class PopupWindow extends AppCompatActivity {
         tabLayout.setTabTextColors(Color.LTGRAY,Color.BLACK);
         tabLayout.setTabGravity(tabLayout.GRAVITY_FILL);
 
-        viewPager = (ViewPager)findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.pager);
+
         adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount(), this);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         adapter.setPositionList(tab_list);
         adapter.setPackageName(packagNmae);
+
+        //스와이프 막기
 
         viewPager.setAdapter(adapter);
         //셀랙트 리스너
@@ -164,7 +164,7 @@ public class PopupWindow extends AppCompatActivity {
                 @Override
                 public boolean onLongClick(View v) {
 
-                    show(viewPager.getCurrentItem());
+                    deleteShow(viewPager.getCurrentItem());
                     adapter.notifyDataSetChanged();
                     return false;
                 }
@@ -172,7 +172,7 @@ public class PopupWindow extends AppCompatActivity {
         }
     }
     //삭제 다이얼로그
-    void show(final int position)
+    void deleteShow(final int position)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete history");
@@ -181,8 +181,11 @@ public class PopupWindow extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         myDBHandler = MyDBHandler.open(context,"chatlog");
+                        MyNotificationListener.replyModel.remove(packagNmae+tab_list.get(position).toString());
                         myDBHandler.delete(packagNmae,tab_list.get(position).toString());
                         myDBHandler.close();
+
+
                         tabLayout.removeTabAt(position);
                         tab_list.remove(position);
                         adapter.notifyDataSetChanged();

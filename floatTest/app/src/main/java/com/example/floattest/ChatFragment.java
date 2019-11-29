@@ -1,5 +1,6 @@
 package com.example.floattest;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -7,12 +8,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ChatFragment extends Fragment{
 
@@ -62,6 +67,31 @@ public class ChatFragment extends Fragment{
             //이부분 해결해야 한다 -> 첫페이지 갱신하기
             listUdpate(packName,tab_list.get(position).toString());
         }
+        final EditText editText = v.findViewById(R.id.editText1);
+        ImageButton imageButton = v.findViewById(R.id.button1);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100,100);
+        imageButton.setLayoutParams(params);
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String msg = editText.getText().toString();
+                if(msg != null && msg.length()!=0) {
+                    try {
+                        Date date = new Date(System.currentTimeMillis());
+                        myDBHandler.insert(packName,999999999,date.getTime(),tab_list.get(position).toString(),msg,"");
+                        MyNotificationListener.replyModel.get(packName+tab_list.get(position)).sendReply(getActivity(),msg);
+                        editText.setText(null);
+                        listUdpate(packName,tab_list.get(position).toString());
+                    } catch (PendingIntent.CanceledException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
+
 
         return v;
 
@@ -88,11 +118,14 @@ public class ChatFragment extends Fragment{
                 if((!cursor.getString(5).equals(""))){
                     m_Adapter.add(cursor.getString(5)+" : "+chat_message,0);
                 }else{
-                    m_Adapter.add(chat_message,0);
+                    if(cursor.getInt(1)==999999999){
+                        m_Adapter.add(chat_message,1);
+                    }else{
+                        m_Adapter.add(chat_message,0);
+                    }
                 }
-
-
-            }}catch(Exception e){Log.i("No title","dz");}
+            }
+            }catch(Exception e){Log.i("No title","dz");}
         }
         //어뎁터랑 view 연결
         if(checkNull.length()!=0){

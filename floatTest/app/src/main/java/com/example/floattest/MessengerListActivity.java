@@ -22,6 +22,7 @@ public class MessengerListActivity extends AppCompatActivity {
     static List<PackageInfo> msList;
     static List<PackageInfo> result;
     static HashMap<String,Integer> colorMap = new HashMap();
+    static String[] packNameList = {"com.kakao.talk","com.facebook.orca","com.instagram.android","com.Slack"};
 
 
     @Override
@@ -41,10 +42,10 @@ public class MessengerListActivity extends AppCompatActivity {
         msList = new ArrayList<PackageInfo>();
         result = new ArrayList<PackageInfo>();
 
-        String filter = "com.kakao.talk";
-        String filter2 = "com.facebook.orca";
-        String filter3 = "com.instagram.android";
-        String filter4 = "com.Slack";
+        String filter = packNameList[0];
+        String filter2 = packNameList[1];
+        String filter3 = packNameList[2];
+        String filter4 = packNameList[3];
 
         //색 해쉬맵
         colorMap.put(filter.replaceAll("\\.", ""), ContextCompat.getColor(this,R.color.comkakaotalk));
