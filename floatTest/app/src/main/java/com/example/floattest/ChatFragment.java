@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -78,11 +79,15 @@ public class ChatFragment extends Fragment{
                 String msg = editText.getText().toString();
                 if(msg != null && msg.length()!=0) {
                     try {
+                        try{
+                        MyNotificationListener.replyModel.get(packName+tab_list.get(position)).sendReply(getActivity(),msg);
                         Date date = new Date(System.currentTimeMillis());
                         myDBHandler.insert(packName,999999999,date.getTime(),tab_list.get(position).toString(),msg,"");
-                        MyNotificationListener.replyModel.get(packName+tab_list.get(position)).sendReply(getActivity(),msg);
+
                         editText.setText(null);
-                        listUdpate(packName,tab_list.get(position).toString());
+                        listUdpate(packName,tab_list.get(position).toString());}catch (NullPointerException e){
+                            Toast.makeText(getActivity(),"can reply to notification",Toast.LENGTH_SHORT);
+                        }
                     } catch (PendingIntent.CanceledException e) {
                         e.printStackTrace();
                     }

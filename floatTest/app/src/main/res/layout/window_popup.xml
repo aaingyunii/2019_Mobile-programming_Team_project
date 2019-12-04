@@ -8,14 +8,18 @@
     android:background="@drawable/round_kakao"
     android:orientation="vertical"
     android:elevation="6dp"
-    android:padding="10sp" >
+    android:paddingTop="10sp"
+    android:layout_marginBottom="15dp">
 
     <LinearLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginLeft="1dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/rount_chat"
+        android:background="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="16dp"
         android:orientation="horizontal">
@@ -36,9 +40,9 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
+                android:padding="5dp"
                 android:layout_height="match_parent"
-                android:layout_below="@id/tab_layout"
-                />
+                android:layout_below="@id/tab_layout" />
         </LinearLayout>
 
 
@@ -66,6 +70,7 @@
         android:id="@+id/close_bt"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginRight="10dp"
         android:layout_alignParentLeft="false"
         android:layout_alignParentBottom="true"
         android:background="@drawable/round_button"

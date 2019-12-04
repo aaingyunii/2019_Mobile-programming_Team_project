@@ -84,28 +84,34 @@ public class MyNotificationListener extends BaseNotificationListener {
 
         String packNmae = sbn.getPackageName().replaceAll("\\.", "");
         if(title.length()!=0&&!packNmae.contains("com.android")){
-            myDBHandler.createTable(packNmae);
-            if(title.length()!=0 && subText.length() !=0){
-                String temp = title;
-                title =subTextS;
-                subTextS = temp;
-            }
-            myDBHandler.insert(packNmae,sbn.getId(),sbn.getPostTime(),title,text.toString(),subTextS);
-            Log.d(TAG, "onNotificationPosted ~ " +
-                    " packageName: " + sbn.getPackageName() +
-                    " id: " + sbn.getId() +
-                    " postTime: " + sbn.getPostTime() +
-                    " title: " + title +
-                    " text : " + text +
-                    " subText: " + subTextS);
+            if(packNmae.contains("insta")&&text.toString().contains(":")&&!text.toString().substring(0,text.toString().indexOf(":")).equals(title)){
 
-            //여기서 리스트어댑터와 프래그먼트에 접근하여 화면을 새로고침한다.
-            sendMessage(packNmae,title);
-
-            String key = packNmae+title;
-            if(!replyModel.containsKey(key)){
-                replyModel.put(key, NotificationUtils.getQuickReplyAction(notification,sbn.getPackageName()));
             }
+            else{
+                myDBHandler.createTable(packNmae);
+                if(title.length()!=0 && subText.length() !=0){
+                    String temp = title;
+                    title =subTextS;
+                    subTextS = temp;
+                }
+                myDBHandler.insert(packNmae,sbn.getId(),sbn.getPostTime(),title,text.toString(),subTextS);
+                Log.d(TAG, "onNotificationPosted ~ " +
+                        " packageName: " + sbn.getPackageName() +
+                        " id: " + sbn.getId() +
+                        " postTime: " + sbn.getPostTime() +
+                        " title: " + title +
+                        " text : " + text +
+                        " subText: " + subTextS);
+
+                //여기서 리스트어댑터와 프래그먼트에 접근하여 화면을 새로고침한다.
+                sendMessage(packNmae,title);
+
+                String key = packNmae+title;
+                if(!replyModel.containsKey(key)){
+                    replyModel.put(key, NotificationUtils.getQuickReplyAction(notification,sbn.getPackageName()));
+                }
+            }
+
         }
 
         return false;
