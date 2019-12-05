@@ -186,15 +186,18 @@ public class PopupWindow extends AppCompatActivity {
                         myDBHandler.close();
                         tabLayout.removeTabAt(position);
                         tab_list.remove(position);
-                        adapter.notifyDataSetChanged();
-                        Toast.makeText(getApplicationContext(),"history is deleted.",Toast.LENGTH_LONG).show();
+
                         if(tab_list.size()==0){
-                            finish();
                             ArrayList<String> DBlist = Array2String.getStringArrayPref(context,SETTINGS_PLAYER_JSON);
                             DBlist.remove(packagNmae);
                             Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
                             myDBHandler.deleteTable(packagNmae);
+                            finish();
+                            return;
                         }
+
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(),"history is deleted.",Toast.LENGTH_LONG).show();
                         if(position ==0){
                             viewPager.setCurrentItem(position);
                             adapter.updateFragment(packagNmae,viewPager.getCurrentItem());

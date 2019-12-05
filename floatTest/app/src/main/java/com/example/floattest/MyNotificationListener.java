@@ -1,6 +1,7 @@
 package com.example.floattest;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Icon;
@@ -81,10 +82,12 @@ public class MyNotificationListener extends BaseNotificationListener {
         if(subText==null)
             subText="";
         subTextS = subText.toString();
-
         String packNmae = sbn.getPackageName().replaceAll("\\.", "");
+
+
         if(title.length()!=0&&!packNmae.contains("com.android")){
-            if(packNmae.contains("insta")&&text.toString().contains(":")&&!text.toString().substring(0,text.toString().indexOf(":")).equals(title)){
+            if((packNmae.contains("insta")&&text.toString().contains(":")&&!text.toString().substring(0,text.toString().indexOf(":")).equals(title))||sbn.getId()==1863136066){
+
 
             }
             else{
@@ -94,6 +97,12 @@ public class MyNotificationListener extends BaseNotificationListener {
                     title =subTextS;
                     subTextS = temp;
                 }
+
+                //slack 예외처리
+                if(packNmae.contains("Slack")&&title.contains(")")){
+                    title = title.substring(title.indexOf(")")+1,title.length());
+                }
+
                 myDBHandler.insert(packNmae,sbn.getId(),sbn.getPostTime(),title,text.toString(),subTextS);
                 Log.d(TAG, "onNotificationPosted ~ " +
                         " packageName: " + sbn.getPackageName() +
@@ -111,8 +120,9 @@ public class MyNotificationListener extends BaseNotificationListener {
                     replyModel.put(key, NotificationUtils.getQuickReplyAction(notification,sbn.getPackageName()));
                 }
             }
-
         }
+
+
 
         return false;
     }
