@@ -33,6 +33,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class PopupWindow extends AppCompatActivity {
 
@@ -47,6 +48,8 @@ public class PopupWindow extends AppCompatActivity {
     ArrayList tab_list ;
     public TabLayout tabLayout;
     private static final String SETTINGS_PLAYER_JSON = "settings_item_json";
+    private int position ;
+    private int check = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,9 @@ public class PopupWindow extends AppCompatActivity {
         //packName 가져오기
         Intent intent = getIntent();
         this.packagNmae = intent.getStringExtra("packname");
+
+        //position 가져오기
+        this.position = Integer.parseInt(intent.getStringExtra("packposition"));
 
         //콘텍스트 저장
         context = this;
@@ -90,6 +96,7 @@ public class PopupWindow extends AppCompatActivity {
         bt.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
+                countReset();
                 finish();
             }
         });
@@ -103,6 +110,8 @@ public class PopupWindow extends AppCompatActivity {
     }
     //tab_list 갱신
     ArrayList tabUpdate(){
+        check = 1;
+
         //데이터베이스에서 조사해서 탭 수 정하기
         MyDBHandler myDBHandler = MyDBHandler.open(this,"chatlog");
         Cursor cursor = myDBHandler.tabNum(packagNmae);
@@ -116,12 +125,28 @@ public class PopupWindow extends AppCompatActivity {
         }
         return tab_list;
     }
+    //count Reset
+    public void countReset(){
+        //before finish make count to 0
+        Iterator<String> keys = MyNotificationListener.tabCountCover.get(position).keySet().iterator();
+        while( keys.hasNext() ){
+            String key = keys.next();
+            MyNotificationListener.tabCountCover.get(position).put(key,0);
+        }
+    }
+
     //tab setting
     public void tabSetting(){
         // 프래그먼트 탭
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         for(int i=0;i<tab_list.size();i++){
-            tabLayout.addTab(tabLayout.newTab().setText(tab_list.get(i).toString()));
+            int count = (int) MyNotificationListener.tabCountCover.get(position).get(tab_list.get(i).toString());
+           if(count == 0 ){
+                tabLayout.addTab(tabLayout.newTab().setText(tab_list.get(i).toString()));
+            }else{
+                tabLayout.addTab(tabLayout.newTab().setText(tab_list.get(i).toString()+"("+count+")"));
+            }
+
         }
 
         tabLayout.setTabTextColors(Color.LTGRAY,Color.BLACK);
@@ -143,7 +168,22 @@ public class PopupWindow extends AppCompatActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                int lposition = tab.getPosition();
+
+                viewPager.setCurrentItem(lposition);
+
+
+                Log.d("선택탭",lposition+"");
+                if(lposition!=0){
+                    MyNotificationListener.tabCountCover.get(position).put(tab_list.get(lposition).toString(),0);
+                    tabLayout.getTabAt(lposition).setText(tab_list.get(lposition).toString());
+                }else if(check != 1){
+                    MyNotificationListener.tabCountCover.get(position).put(tab_list.get(lposition).toString(),0);
+                    tabLayout.getTabAt(lposition).setText(tab_list.get(lposition).toString());
+
+                }
+                check = 0;
+
                 adapter.updateFragment(packagNmae,viewPager.getCurrentItem());
             }
 
@@ -154,7 +194,6 @@ public class PopupWindow extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
         //길게 눌렀을때
@@ -192,6 +231,9 @@ public class PopupWindow extends AppCompatActivity {
                             DBlist.remove(packagNmae);
                             Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
                             myDBHandler.deleteTable(packagNmae);
+
+                            countReset();
+
                             finish();
                             return;
                         }
@@ -228,9 +270,10 @@ public class PopupWindow extends AppCompatActivity {
             String message = intent.getStringExtra("message");
             String tabName = intent.getStringExtra("title");
 
-                if(tab_list.get(viewPager.getCurrentItem()).equals(tabName)){
+
+                if(packagNmae.equals(packagNmae)&& tab_list.get(viewPager.getCurrentItem()).equals(tabName)){
                     adapter.updateFragment(message,viewPager.getCurrentItem());
-                }else if(tabName.length()!=0){
+                }else if(packagNmae.equals(packagNmae)&&tabName.length()!=0){
                     if(!tab_list.contains(tabName)){
                         int position = viewPager.getCurrentItem();
                         tab_list = tabUpdate();
@@ -239,6 +282,16 @@ public class PopupWindow extends AppCompatActivity {
                         tabSetting();
                         adapter.notifyDataSetChanged();
                         viewPager.setCurrentItem(position);
+                    }else{
+
+                        int position = viewPager.getCurrentItem();
+                        tab_list = tabUpdate();
+
+                        tabLayout.removeAllTabs();
+                        tabSetting();
+                        adapter.notifyDataSetChanged();
+                        viewPager.setCurrentItem(position);
+
                     }
 
             }

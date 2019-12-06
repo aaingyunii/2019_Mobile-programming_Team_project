@@ -72,6 +72,7 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
     private Context context ;
 
     static List<PackageInfo> packInfoList = null;
+    private ArrayList<String> packOrder ;
     private HashMap<String,String> hashMap ;
     NotificationBadge mBadge, sBdage;
     private WindowManager windowManager;
@@ -89,8 +90,12 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         //어플리케이션 이름 저장
         hashMap = new HashMap();
         countList = new ArrayList();
+        packOrder = new ArrayList();
         for(int i = 0;i<packInfoList.size();i++){
+            packOrder.add(packInfoList.get(i).packageName.replaceAll("\\.", ""));
             countList.add(0);
+            HashMap<String, Integer> tabCount = new HashMap();
+            MyNotificationListener.tabCountCover.add(tabCount);
         }
 
     }
@@ -175,6 +180,7 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
 
             floatView.setTag(name);
             hashMap.put(name,getPackageManager().getApplicationLabel(packInfoList.get(i).applicationInfo).toString());
+            hashMap.put(name+"position",i+"");
             badgeList.get(i).setNumber(countList.get(i));
 
             floatView.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +193,7 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("packname",tag);
                         intent.putExtra("appname",hashMap.get(tag));
+                        intent.putExtra("packposition",hashMap.get(tag+"position"));
                         startActivity(intent);
 
                         //뷰 삭제
@@ -314,6 +321,18 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         public void onReceive(Context context, Intent intent) {
 
                 String message = intent.getStringExtra("message");
+                String title = intent.getStringExtra("title");
+                Log.i("message 내용은?",message);
+                if(packOrder.contains(message)){
+                    if(MyNotificationListener.tabCountCover.get(packOrder.indexOf(message)).containsKey(title)){
+                        //있음
+                        MyNotificationListener.tabCountCover.get(packOrder.indexOf(message)).put(title,(Integer)MyNotificationListener.tabCountCover.get(packOrder.indexOf(message)).get(title)+1);
+                    }else{
+                        //없음
+                        MyNotificationListener.tabCountCover.get(packOrder.indexOf(message)).put(title,1);
+                    }
+                }
+
 
                 ArrayList<String> DBlist = Array2String.getStringArrayPref(context,SETTINGS_PLAYER_JSON);
                 if(DBlist==null)

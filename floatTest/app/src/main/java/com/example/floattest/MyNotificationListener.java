@@ -29,9 +29,14 @@ public class MyNotificationListener extends BaseNotificationListener {
 
     public static HashMap<String, Action> replyModel = new HashMap();
 
+    static ArrayList<HashMap> tabCountCover ;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        //count
+        tabCountCover = new ArrayList();
+
         //서비스실행할때 최초로 생성(바꿔줘야할지 고민해야 한다)
         myDBHandler = new MyDBHandler(this, "chatlog");
 
