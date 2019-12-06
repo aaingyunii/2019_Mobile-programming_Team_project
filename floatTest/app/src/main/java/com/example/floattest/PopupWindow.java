@@ -128,10 +128,15 @@ public class PopupWindow extends AppCompatActivity {
     //count Reset
     public void countReset(){
         //before finish make count to 0
-        Iterator<String> keys = MyNotificationListener.tabCountCover.get(position).keySet().iterator();
-        while( keys.hasNext() ){
-            String key = keys.next();
-            MyNotificationListener.tabCountCover.get(position).put(key,0);
+        Log.d("이름은",tabLayout.getTabAt(0).getText().toString());
+        String name = tabLayout.getTabAt(0).getText().toString();
+
+        if(viewPager.getCurrentItem()==0){
+            if(name.contains("(")){
+                name = name.substring(0,name.indexOf("("));
+            }
+            MyNotificationListener.tabCountCover.get(position).put(name,0);
+
         }
     }
 
@@ -237,6 +242,11 @@ public class PopupWindow extends AppCompatActivity {
                             finish();
                             return;
                         }
+
+                        int position = viewPager.getCurrentItem();
+                        tab_list = tabUpdate();
+                        tabLayout.removeAllTabs();
+                        tabSetting();
 
                         adapter.notifyDataSetChanged();
                         Toast.makeText(getApplicationContext(),"history is deleted.",Toast.LENGTH_LONG).show();

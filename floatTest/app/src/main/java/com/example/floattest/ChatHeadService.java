@@ -31,6 +31,7 @@ import com.example.library.FloatingViewManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -181,7 +182,13 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
             floatView.setTag(name);
             hashMap.put(name,getPackageManager().getApplicationLabel(packInfoList.get(i).applicationInfo).toString());
             hashMap.put(name+"position",i+"");
-            badgeList.get(i).setNumber(countList.get(i));
+            int number = 0;
+            Iterator<String> keys = MyNotificationListener.tabCountCover.get(i).keySet().iterator();
+            while( keys.hasNext() ){
+                String key = keys.next();
+                number += (int)MyNotificationListener.tabCountCover.get(i).get(key);
+            }
+            badgeList.get(i).setNumber(number);
 
             floatView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -348,7 +355,15 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
                 Array2String.setStringArrayPref(context,SETTINGS_PLAYER_JSON,DBlist);
                 for(int i=0;i<packInfoList.size();i++){
                     if(packInfoList.get(i).packageName.replaceAll("\\.", "").equals(message)){
-                        countList.set(i,countList.get(i)+1);
+
+                        int number = 0;
+                        Iterator<String> keys = MyNotificationListener.tabCountCover.get(i).keySet().iterator();
+                        while( keys.hasNext() ){
+                            String key = keys.next();
+                            number += (int)MyNotificationListener.tabCountCover.get(i).get(key);
+                        }
+
+                        countList.set(i,number);
                         try{
                             badgeList.get(i).setNumber(countList.get(i));
                         }catch(Exception e){
@@ -371,7 +386,13 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
         public void onReceive(Context context, Intent intent) {
             for(int i=0;i<packInfoList.size();i++){
                 if(packInfoList.get(i).packageName.replaceAll("\\.", "").equals(intent.getStringExtra("packname"))){
-                    countList.set(i,0);
+                    int number = 0;
+                    Iterator<String> keys = MyNotificationListener.tabCountCover.get(i).keySet().iterator();
+                    while( keys.hasNext() ){
+                        String key = keys.next();
+                        number += (int)MyNotificationListener.tabCountCover.get(i).get(key);
+                    }
+                    countList.set(i,number);
                     badgeList.get(i).setNumber(countList.get(i));
                 }
             }
