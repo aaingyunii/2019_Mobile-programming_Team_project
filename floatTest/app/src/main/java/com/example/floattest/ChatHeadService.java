@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -195,18 +196,20 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
                     ArrayList<String> DBlist = Array2String.getStringArrayPref(context, SETTINGS_PLAYER_JSON);
                     String tag = view.getTag().toString();
                     if (DBlist.contains(tag)) {
+                        //delete view
+                        for (int i = 0; i < floatList.size(); i++) {
+                            windowManager.removeViewImmediate(floatList.get(i));
+
+                        }
+
+
+
                         Intent intent = new Intent(context, PopupWindow.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("packname", tag);
                         intent.putExtra("appname", hashMap.get(tag));
                         intent.putExtra("packposition", hashMap.get(tag + "position"));
                         startActivity(intent);
-
-                        //delete view
-                        for (int i = 0; i < floatList.size(); i++) {
-                            windowManager.removeViewImmediate(floatList.get(i));
-
-                        }
                     } else {
                         Toast.makeText(context, "no message", Toast.LENGTH_SHORT).show();
                     }
@@ -238,18 +241,26 @@ public class ChatHeadService extends Service implements FloatingViewListener, Vi
             @Override
             public void onClick(View view) {
 
-                //notification badge
-                int count = 0;
-                for (int i = 0; i < packInfoList.size(); i++) {
-                    count += countList.get(i);
-                }
-                iconView.setVisibility(View.VISIBLE);
-                iconView.setClickable(true);
-                mBadge.setNumber(count);
-                for (int i = 0; i < floatList.size(); i++) {
-                    windowManager.removeViewImmediate(floatList.get(i));
+                try {
 
-                }
+                    for (int i = 0; i < floatList.size(); i++) {
+                        ((WindowManager) getApplicationContext().getSystemService(Service.WINDOW_SERVICE)).removeViewImmediate(floatList.get(i));
+                        //windowManager.removeViewImmediate(floatList.get(i));
+                    }
+
+                    //notification badge
+                    int count = 0;
+                    for (int i = 0; i < packInfoList.size(); i++) {
+                        count += countList.get(i);
+                    }
+                    iconView.setVisibility(View.VISIBLE);
+                    iconView.setClickable(true);
+                    mBadge.setNumber(count);
+
+
+                }catch (Exception e){Log.d("exception",e.toString()); };
+
+
             }
         });
 
