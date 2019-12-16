@@ -1,0 +1,88 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.showfloating"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="14"
+8-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+10    <!-- top-view permission -->
+11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- Foreground Service permission(API level 28 or higher) -->
+11-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:5:5-78
+11-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:5:22-75
+12    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+12-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:6:5-77
+12-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:6:22-74
+13
+14    <application
+14-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:8:5-39:19
+15        android:allowBackup="true"
+15-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:9:9-35
+16        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+16-->[androidx.core:core:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\897a8014c36b26ed5a6640d764205faa\core-1.1.0\AndroidManifest.xml:24:18-86
+17        android:debuggable="true"
+18        android:icon="@mipmap/ic_cloud"
+18-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:10:9-40
+19        android:label="@string/app_name"
+19-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:11:9-41
+20        android:roundIcon="@mipmap/ic_cloud_round"
+20-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:12:9-51
+21        android:supportsRtl="true"
+21-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:13:9-35
+22        android:testOnly="true"
+23        android:theme="@style/AppTheme" >
+23-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:14:9-40
+24        <activity android:name="com.example.showfloating.MessengerListActivity" />
+24-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:15:9-68
+24-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:15:19-56
+25        <activity
+25-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:16:9-25:20
+26            android:name="com.example.showfloating.MainActivity"
+26-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:17:13-41
+27            android:label="@string/app_name"
+27-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:18:13-45
+28            android:screenOrientation="portrait" >
+28-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:19:13-49
+29            <intent-filter>
+29-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:20:13-24:29
+30                <action android:name="android.intent.action.MAIN" />
+30-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:21:17-69
+30-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:21:25-66
+31
+32                <category android:name="android.intent.category.LAUNCHER" />
+32-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:23:17-77
+32-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:23:27-74
+33            </intent-filter>
+34        </activity> <!-- demo screen -->
+35        <activity
+35-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:26:9-30:82
+36            android:name="com.example.showfloating.DeleteActionActivity"
+36-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:27:13-49
+37            android:excludeFromRecents="true"
+37-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:28:13-46
+38            android:launchMode="singleInstance"
+38-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:29:13-48
+39            android:taskAffinity="jp.co.recruit.floatingview.ChatHeadActivity" /> <!-- Demo Viewing Service -->
+39-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:30:13-79
+40        <service
+40-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:31:9-34:75
+41            android:name="com.example.showfloating.service.ChatHeadService"
+41-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:32:13-52
+42            android:exported="false"
+42-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:33:13-37
+43            android:permission="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- PopupWindow for chatting situation -->
+43-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:34:13-72
+44        <service
+44-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:35:9-38:75
+45            android:name="com.example.showfloating.PopupWindow"
+45-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:36:13-40
+46            android:enabled="true"
+46-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:37:13-35
+47            android:permission="android.permission.SYSTEM_ALERT_WINDOW" />
+47-->C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:38:13-72
+48    </application>
+49
+50</manifest>

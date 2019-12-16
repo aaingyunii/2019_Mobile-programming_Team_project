@@ -1,0 +1,224 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:2:1-41:12
+MERGED from [androidx.legacy:legacy-preference-v14:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\5493cd5ee74449efd8b0b230838bf70f\legacy-preference-v14-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [:lib] C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\lib\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-13:12
+MERGED from [com.google.android.material:material:1.1.0-alpha10] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\1280fd9948075432cad1197b4bd0729d\material-1.1.0-alpha10\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\56a97b73de3f8770c638b4ef57ee0402\constraintlayout-1.1.3\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.preference:preference:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\60937a7d28a83b48875df9c64353c900\preference-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\acd6ab9f6f920f223b09d6b50405bed9\appcompat-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\5f9b5a2afeb598d5554ada8eb7453997\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-beta01] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\7d8508cc1f95258f9df99dab30e9032d\coordinatorlayout-1.1.0-beta01\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.0.1] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\2721bc2671e0ff1982d2b7aa647ff52a\transition-1.0.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0-beta03] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\a0b33279a7c49e6ecd1c34801b457eca\viewpager2-1.0.0-beta03\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\6d9c2ce66849ade25f3a515ed45e3a74\dynamicanimation-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c1be5d1c02d60fee2e3374c94321e8db\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\67b54bf939eb98f95fa158e8d7723b21\appcompat-resources-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\e19b60daa06b539aef988926e2d93888\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\69487117e84b8635be4a212ed5dda5cb\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-beta01] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\93809224e5459597d87ae793be5dc1c3\recyclerview-1.1.0-beta01\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\131b42b6ddcfb2f00147510d14edccad\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\830a2297453b7a0ba7bcbaa3dd58acdf\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c7a1282e80f61a18fec392779a238bbf\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c0469ca4de92c9e0bf31c797e49daec0\activity-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\d337aec694ca19bc124f36274d2bb9b9\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\d5eed9fe655baebcf12d41e6233b9370\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\897a8014c36b26ed5a6640d764205faa\core-1.1.0\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\f5ebbd22843ca3f4318896ab62c6f342\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\695021b5c68ef47630b5cd65115998fa\versionedparcelable-1.1.0\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\3353ab51b23d7ce3930e396fccbb5212\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\188c17b4ec7b85b64949e0b90d126e1c\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\25ea34ddd15509334cff2dc39f1d5a05\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\cb99fa574f7665af8691b694086bb147\lifecycle-runtime-2.1.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\8773b0f2e1f27cfe7a7c73e5ccce08d9\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c0e3c61870e0c670d152c6b7c9f6abd1\savedstate-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\9f3a08c1c3dc6d00b437244c8b979207\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\8652a7f4290626337dc62617c2639f32\lifecycle-livedata-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\97c786cf8079b97cb1b9c9055e87d785\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\9929b5e638be9900e63e8fb851328833\core-runtime-2.0.0\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:2:1-41:12
+	package
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:3:5-39
+		INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:2:1-41:12
+		INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:2:1-41:12
+		INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.SYSTEM_ALERT_WINDOW
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:5:5-78
+	android:name
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:5:22-75
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:6:5-77
+	android:name
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:6:22-74
+application
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:8:5-39:19
+MERGED from [com.google.android.material:material:1.1.0-alpha10] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\1280fd9948075432cad1197b4bd0729d\material-1.1.0-alpha10\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.1.0-alpha10] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\1280fd9948075432cad1197b4bd0729d\material-1.1.0-alpha10\AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\56a97b73de3f8770c638b4ef57ee0402\constraintlayout-1.1.3\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\56a97b73de3f8770c638b4ef57ee0402\constraintlayout-1.1.3\AndroidManifest.xml:9:5-20
+MERGED from [androidx.core:core:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\897a8014c36b26ed5a6640d764205faa\core-1.1.0\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\897a8014c36b26ed5a6640d764205faa\core-1.1.0\AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\695021b5c68ef47630b5cd65115998fa\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\695021b5c68ef47630b5cd65115998fa\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\897a8014c36b26ed5a6640d764205faa\core-1.1.0\AndroidManifest.xml:24:18-86
+	android:supportsRtl
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:13:9-35
+	android:label
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:11:9-41
+	android:roundIcon
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:12:9-51
+	android:icon
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:10:9-40
+	android:allowBackup
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:9:9-35
+	android:theme
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:14:9-40
+activity#com.example.showfloating.MessengerListActivity
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:15:9-68
+	android:name
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:15:19-56
+activity#com.example.showfloating.MainActivity
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:16:9-25:20
+	android:screenOrientation
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:19:13-49
+	android:label
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:18:13-45
+	android:name
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:17:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:20:13-24:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:21:17-69
+	android:name
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:21:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:23:17-77
+	android:name
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:23:27-74
+activity#com.example.showfloating.DeleteActionActivity
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:26:9-30:82
+	android:excludeFromRecents
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:28:13-46
+	android:launchMode
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:29:13-48
+	android:taskAffinity
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:30:13-79
+	android:name
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:27:13-49
+service#com.example.showfloating.service.ChatHeadService
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:31:9-34:75
+	android:exported
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:33:13-37
+	android:permission
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:34:13-72
+	android:name
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:32:13-52
+service#com.example.showfloating.PopupWindow
+ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:35:9-38:75
+	android:enabled
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:37:13-35
+	android:permission
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:38:13-72
+	android:name
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml:36:13-40
+uses-sdk
+INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+MERGED from [androidx.legacy:legacy-preference-v14:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\5493cd5ee74449efd8b0b230838bf70f\legacy-preference-v14-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-preference-v14:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\5493cd5ee74449efd8b0b230838bf70f\legacy-preference-v14-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [:lib] C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\lib\build\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-11:68
+MERGED from [:lib] C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\lib\build\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-11:68
+MERGED from [com.google.android.material:material:1.1.0-alpha10] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\1280fd9948075432cad1197b4bd0729d\material-1.1.0-alpha10\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.1.0-alpha10] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\1280fd9948075432cad1197b4bd0729d\material-1.1.0-alpha10\AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\56a97b73de3f8770c638b4ef57ee0402\constraintlayout-1.1.3\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\56a97b73de3f8770c638b4ef57ee0402\constraintlayout-1.1.3\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.preference:preference:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\60937a7d28a83b48875df9c64353c900\preference-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.preference:preference:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\60937a7d28a83b48875df9c64353c900\preference-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\acd6ab9f6f920f223b09d6b50405bed9\appcompat-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\acd6ab9f6f920f223b09d6b50405bed9\appcompat-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\5f9b5a2afeb598d5554ada8eb7453997\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\5f9b5a2afeb598d5554ada8eb7453997\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-beta01] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\7d8508cc1f95258f9df99dab30e9032d\coordinatorlayout-1.1.0-beta01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-beta01] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\7d8508cc1f95258f9df99dab30e9032d\coordinatorlayout-1.1.0-beta01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.0.1] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\2721bc2671e0ff1982d2b7aa647ff52a\transition-1.0.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.1] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\2721bc2671e0ff1982d2b7aa647ff52a\transition-1.0.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager2:viewpager2:1.0.0-beta03] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\a0b33279a7c49e6ecd1c34801b457eca\viewpager2-1.0.0-beta03\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0-beta03] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\a0b33279a7c49e6ecd1c34801b457eca\viewpager2-1.0.0-beta03\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\6d9c2ce66849ade25f3a515ed45e3a74\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\6d9c2ce66849ade25f3a515ed45e3a74\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c1be5d1c02d60fee2e3374c94321e8db\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c1be5d1c02d60fee2e3374c94321e8db\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\67b54bf939eb98f95fa158e8d7723b21\appcompat-resources-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\67b54bf939eb98f95fa158e8d7723b21\appcompat-resources-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\e19b60daa06b539aef988926e2d93888\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\e19b60daa06b539aef988926e2d93888\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\69487117e84b8635be4a212ed5dda5cb\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\69487117e84b8635be4a212ed5dda5cb\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-beta01] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\93809224e5459597d87ae793be5dc1c3\recyclerview-1.1.0-beta01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-beta01] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\93809224e5459597d87ae793be5dc1c3\recyclerview-1.1.0-beta01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\131b42b6ddcfb2f00147510d14edccad\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\131b42b6ddcfb2f00147510d14edccad\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\830a2297453b7a0ba7bcbaa3dd58acdf\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\830a2297453b7a0ba7bcbaa3dd58acdf\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c7a1282e80f61a18fec392779a238bbf\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c7a1282e80f61a18fec392779a238bbf\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c0469ca4de92c9e0bf31c797e49daec0\activity-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c0469ca4de92c9e0bf31c797e49daec0\activity-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\d337aec694ca19bc124f36274d2bb9b9\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\d337aec694ca19bc124f36274d2bb9b9\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\d5eed9fe655baebcf12d41e6233b9370\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\d5eed9fe655baebcf12d41e6233b9370\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\897a8014c36b26ed5a6640d764205faa\core-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\897a8014c36b26ed5a6640d764205faa\core-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\f5ebbd22843ca3f4318896ab62c6f342\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\f5ebbd22843ca3f4318896ab62c6f342\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\695021b5c68ef47630b5cd65115998fa\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\695021b5c68ef47630b5cd65115998fa\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\3353ab51b23d7ce3930e396fccbb5212\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\3353ab51b23d7ce3930e396fccbb5212\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\188c17b4ec7b85b64949e0b90d126e1c\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\188c17b4ec7b85b64949e0b90d126e1c\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\25ea34ddd15509334cff2dc39f1d5a05\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\25ea34ddd15509334cff2dc39f1d5a05\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\cb99fa574f7665af8691b694086bb147\lifecycle-runtime-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\cb99fa574f7665af8691b694086bb147\lifecycle-runtime-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\8773b0f2e1f27cfe7a7c73e5ccce08d9\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\8773b0f2e1f27cfe7a7c73e5ccce08d9\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c0e3c61870e0c670d152c6b7c9f6abd1\savedstate-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\c0e3c61870e0c670d152c6b7c9f6abd1\savedstate-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\9f3a08c1c3dc6d00b437244c8b979207\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\9f3a08c1c3dc6d00b437244c8b979207\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\8652a7f4290626337dc62617c2639f32\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\8652a7f4290626337dc62617c2639f32\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\97c786cf8079b97cb1b9c9055e87d785\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\97c786cf8079b97cb1b9c9055e87d785\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\9929b5e638be9900e63e8fb851328833\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\in-gyunAhn\.gradle\caches\transforms-2\files-2.1\9929b5e638be9900e63e8fb851328833\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
+INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+	tools:overrideLibrary
+		ADDED from [:lib] C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\lib\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:9-65
+	android:targetSdkVersion
+		INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\in-gyunAhn\Documents\GitHub\ITService\ShowFloating\app\src\main\AndroidManifest.xml

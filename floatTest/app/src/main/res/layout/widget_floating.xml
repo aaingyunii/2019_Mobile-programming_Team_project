@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/floatView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingRight="8dp"
+        android:src="@drawable/ic_add_black_24dp"
+        android:visibility="visible"
+        />
+    <com.example.floattest.NotificationBadge
+        android:id="@+id/badge"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:nbTextSize="10dp"
+        android:layout_toRightOf="@id/floatView"
+        android:layout_alignTop="@id/floatView"
+        android:layout_marginLeft="-26dp"
+        app:nbMaxTextLength="2"/>
+</RelativeLayout>
+
+

@@ -1,0 +1,4 @@
+#Tue Nov 19 22:42:33 KST 2019
+base.0=C\:\\Users\\in-gyunAhn\\Documents\\GitHub\\ITService\\ShowFloating\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
